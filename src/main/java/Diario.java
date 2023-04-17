@@ -29,7 +29,7 @@ public class Diario extends Evento{
             Si todabia quedan repeticiones o no se llego a la fecha limite que siga
         */
         //  finicial 12      16
-        for (int i = 0; i < super.cantidadRepeticiones ; i++){ // -> FALTA TEST !!!!!!!!!
+        for (int i = 0; i < super.cantidadRepeticiones ; i++){ // -> FALTA TEST !!!!!!!!!e
 
             if (i > 0){
                 aux_fInicial = aux_fFinal.plusDays(intervaloDeDias * i).withHour(super.fechaInicio.getHour());
