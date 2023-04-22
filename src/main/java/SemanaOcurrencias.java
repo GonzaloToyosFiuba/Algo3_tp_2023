@@ -61,4 +61,9 @@ public class SemanaOcurrencias extends Repeticion {
         */
         return fechas;
     }
+
+    @Override
+    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual, LocalDateTime fechaInicial, LocalDateTime fechaFinal, ArrayList<Alarma> alarmas) {
+        return null;
+    }
 }

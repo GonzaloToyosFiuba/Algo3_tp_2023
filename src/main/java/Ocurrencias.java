@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/*
 public class Ocurrencias extends Evento{
     public Ocurrencias(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
         super(id, descripcion, titulo, tipoRepeticion, fechaInicio, fechaFinal);
@@ -17,3 +18,4 @@ public class Ocurrencias extends Evento{
         return tipoRepeticion.obtenerRepeticionesEntre(f1, f2, fechaInicio, fechaFinal);
     }
 }
+ */

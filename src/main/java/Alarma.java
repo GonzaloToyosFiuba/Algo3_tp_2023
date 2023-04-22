@@ -29,6 +29,10 @@ public class Alarma {
         return tipoAlarma;
     }
 
+    public boolean esRepetible(){
+        return this.repetible;
+    }
+
     public void setTipo(TipoAlarma tipo) {
         this.tipoAlarma = tipo;
     }

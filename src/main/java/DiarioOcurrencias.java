@@ -38,24 +38,33 @@ public class DiarioOcurrencias extends Repeticion{
         Duration duracion;
 
         for(Alarma alarma:alarmas){
-            aux_fAlarma = alarma.getHorarioFechaDisparo();
-            duracion = Duration.between( alarma.getHorarioFechaDisparo(), fechaFinal);
-            for (int i = 0; i < repeticionesMax ; i++){ // -> FALTA TEST !!!!!!!!!e
+            if (alarma.esRepetible()){
+                aux_fAlarma = alarma.getHorarioFechaDisparo();
+                duracion = Duration.between( alarma.getHorarioFechaDisparo(), fechaFinal);
+                for (int i = 0; i < repeticionesMax ; i++){ // -> FALTA TEST !!!!!!!!!e
 
-                if ( i > 0){
-                    aux_fAlarma = aux_fFinal.plusDays(intervalo).withHour(alarma.getHorarioFechaDisparo().getHour()).withMinute(alarma.getHorarioFechaDisparo().getMinute());
-                    aux_fFinal = aux_fAlarma.plus(duracion);
+                    if ( i > 0){
+                        aux_fAlarma = aux_fFinal.plusDays(intervalo).withHour(alarma.getHorarioFechaDisparo().getHour()).withMinute(alarma.getHorarioFechaDisparo().getMinute());
+                        aux_fFinal = aux_fAlarma.plus(duracion);
+                    }
+
+                    if (horarioActual.compareTo(aux_fAlarma) <= 0){
+                        Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(), true);
+                        alarmasAux.add(alarmaEnvio);
+                        aux_fFinal = fechaFinal;
+                        break;
+                    }
+
                 }
-
-                if (horarioActual.compareTo(aux_fAlarma) <= 0){
-                    alarmasAux.add(alarma);
-                    break;
-                }
-
+            } else if (horarioActual.compareTo(alarma.getHorarioFechaDisparo()) <= 0){
+                Alarma alarmaEnvio = new Alarma(alarma.getHorarioFechaDisparo(), alarma.getTipo(), false);
+                alarmasAux.add(alarmaEnvio);
             }
+
         }
         return alarmasAux;
     }
+    /*
     public static void main(String[] args) {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 19, 56);
@@ -66,8 +75,17 @@ public class DiarioOcurrencias extends Repeticion{
 
         Repeticion repe = new DiarioOcurrencias(2, 10);
 
-        Evento e = new Ocurrencias(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
 
+        e.agregarAlarmaRepetible(30,TipoAlarma.CORREO);
+        e.agregarAlarmaRepetible(45,TipoAlarma.NOTIFICACION);
+        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 5, 20, 00),TipoAlarma.SONIDO);
+
+        ArrayList<Alarma> alarmitas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 5, 20, 00));
+
+        System.out.println(alarmitas.get(0).getHorarioFechaDisparo());
+        System.out.println(alarmitas.get(1).getHorarioFechaDisparo());
+        System.out.println(alarmitas.get(2).getHorarioFechaDisparo() + "\n"+ "\n");
 
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
@@ -78,5 +96,5 @@ public class DiarioOcurrencias extends Repeticion{
         LocalDateTime f = LocalDateTime.MAX;
         System.out.println(f);
 
-    }
+    }*/
 }
