@@ -68,7 +68,7 @@ public class DiarioOcurrencias extends Repeticion{
 
         Evento e = new Ocurrencias(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
 
-        
+
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         for (LocalDateTime fecha : fechas) {

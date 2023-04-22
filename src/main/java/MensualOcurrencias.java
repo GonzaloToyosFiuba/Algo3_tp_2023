@@ -31,7 +31,7 @@ public class MensualOcurrencias extends Repeticion{
         return null;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 19, 56);
 
@@ -53,5 +53,5 @@ public class MensualOcurrencias extends Repeticion{
         LocalDateTime f = LocalDateTime.MAX;
         System.out.println(f);
 
-    }
+    }*/
 }
