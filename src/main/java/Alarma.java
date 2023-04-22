@@ -3,24 +3,22 @@ import java.time.temporal.ChronoUnit;
 
 public class Alarma {
     private LocalDateTime horarioFechaDisparo;
-    public static enum  TipoAlarma{
-        NOTIFICACION,
-        SONIDO,
-        CORREO
-    }
-    private TipoAlarma tipo;
-    public Alarma(LocalDateTime horarioFechaDisparo, TipoAlarma tipo) {
+    private TipoAlarma tipoAlarma;
+
+    private boolean repetible;
+    public Alarma(LocalDateTime horarioFechaDisparo, TipoAlarma tipo, boolean repetible) {
         this.horarioFechaDisparo = horarioFechaDisparo;
-        this.tipo = tipo;
+        this.tipoAlarma = tipo;
+        this.repetible = repetible;
     }
 
-    /*
-        PRE: Se le envia la hora y fecha de disparo
-        POST: Se le setea dicha fecha y hora a la alarma y devuelve un true
-        */
-    public boolean setAlarma(LocalDateTime disparo){
-        this.horarioFechaDisparo =  disparo;
-        return true;
+    public boolean disparar(LocalDateTime fechaActual){
+        boolean seDispara = false;
+        if (this.horarioFechaDisparo.compareTo(fechaActual.truncatedTo(ChronoUnit.MINUTES)) == 0){
+            tipoAlarma.dipararAlarma();
+            seDispara = true;
+        }
+        return seDispara;
     }
 
     public LocalDateTime getHorarioFechaDisparo() {
@@ -28,22 +26,14 @@ public class Alarma {
     }
 
     public TipoAlarma getTipo() {
-        return tipo;
+        return tipoAlarma;
     }
 
     public void setTipo(TipoAlarma tipo) {
-        this.tipo = tipo;
+        this.tipoAlarma = tipo;
     }
-
-    /*
-            PRE: Se le ingresa la hora actual según ubicación en el mundo
-            POST: Devuelve true en caso de que la fecha
-        */
-    public boolean disparar(LocalDateTime fechaActual){
-        boolean seDispara = false;
-        if (this.horarioFechaDisparo.compareTo(fechaActual.truncatedTo(ChronoUnit.MINUTES)) == 0){
-            seDispara = true;
-        }
-        return seDispara;
+    public boolean setAlarma(LocalDateTime disparo){
+        this.horarioFechaDisparo =  disparo;
+        return true;
     }
 }

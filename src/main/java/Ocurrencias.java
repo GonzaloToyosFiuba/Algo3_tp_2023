@@ -6,6 +6,11 @@ public class Ocurrencias extends Evento{
         super(id, descripcion, titulo, tipoRepeticion, fechaInicio, fechaFinal);
     }
 
+    @Override
+    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual) {
+        return tipoRepeticion.obtenerProximaAlarma(horarioActual, fechaInicio, fechaFinal , this.alarmas);
+    }
+
     public ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2){
         //LocalDateTime f1 = LocalDateTime.of(2017,Month.FEBRUARY,3,6,30,40,50000);
 

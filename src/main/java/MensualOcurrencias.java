@@ -26,15 +26,20 @@ public class MensualOcurrencias extends Repeticion{
         return fechas;
     }
 
-    /*public static void main(String[] args) {
+    @Override
+    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual, LocalDateTime fechaInicial, LocalDateTime fechaFinal, ArrayList<Alarma> alarmas) {
+        return null;
+    }
+
+    public static void main(String[] args) {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
-        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 5, 5, 56);
+        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 19, 56);
 
-        LocalDateTime f1 = LocalDateTime.of(2022, 5, 1, 18, 56);
-        LocalDateTime f2 = LocalDateTime.of(2022, 12, 10, 18, 55);
+        LocalDateTime f1 = LocalDateTime.of(2023, 5, 1, 18, 56);
+        LocalDateTime f2 = LocalDateTime.of(2023, 12, 10, 18, 55);
 
 
-        Repeticion repe = new MensualOcurrencias(2, 10);
+        Repeticion repe = new DiarioOcurrencias(2, 10);
 
         Evento e = new Ocurrencias(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
 
@@ -48,5 +53,5 @@ public class MensualOcurrencias extends Repeticion{
         LocalDateTime f = LocalDateTime.MAX;
         System.out.println(f);
 
-    }*/
+    }
 }
