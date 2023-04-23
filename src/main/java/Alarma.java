@@ -1,5 +1,6 @@
 import java.time.*;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 public class Alarma implements Comparable{
     private LocalDateTime horarioFechaDisparo;
@@ -51,4 +52,16 @@ public class Alarma implements Comparable{
         return this.horarioFechaDisparo.compareTo( ((Alarma)o).getHorarioFechaDisparo() );
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Alarma alarma = (Alarma) o;
+        return repetible == alarma.repetible && Objects.equals(horarioFechaDisparo, alarma.horarioFechaDisparo) && tipoAlarma == alarma.tipoAlarma;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(horarioFechaDisparo, tipoAlarma, repetible);
+    }
 }

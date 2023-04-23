@@ -24,12 +24,20 @@ public class Tarea {
     }
 
     public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
-        Alarma alarmaMinima = Collections.min(this.alarmas);
+        //Alarma alarmaMinima = Collections.min(this.alarmas); // 5pm yo busco los mayor o igual a 5pm mas cercano
+        ArrayList<Alarma> alarmasAux = new ArrayList<>();
+
+        for (Alarma alarma:this.alarmas) { // Esto para buscar solo alarmas que todavia no ocurrieron
+            if(alarma.getHorarioFechaDisparo().compareTo(horarioActual) >= 0){
+                alarmasAux.add(alarma);
+            }
+        }
+        Alarma alarmaMinima = Collections.min(alarmasAux);
         ArrayList<Alarma> alarmasRetorno = new ArrayList<>();
 
-        for (Alarma a:this.alarmas) {
-            if(a.compareTo(alarmaMinima) == 0 && a.compareTo(horarioActual) <= 0){
-                alarmasRetorno.add(a);
+        for (Alarma alarma:alarmasAux) { // si hay alarmas repetidas
+            if(alarma.compareTo(alarmaMinima) == 0){
+                alarmasRetorno.add(alarma);
             }
         }
 
