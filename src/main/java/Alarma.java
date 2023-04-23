@@ -1,7 +1,7 @@
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 
-public class Alarma {
+public class Alarma implements Comparable{
     private LocalDateTime horarioFechaDisparo;
     private TipoAlarma tipoAlarma;
 
@@ -10,6 +10,11 @@ public class Alarma {
         this.horarioFechaDisparo = horarioFechaDisparo;
         this.tipoAlarma = tipo;
         this.repetible = repetible;
+    }
+
+    public Alarma(LocalDateTime horarioFechaDisparo, TipoAlarma tipo) {
+        this.horarioFechaDisparo = horarioFechaDisparo;
+        this.tipoAlarma = tipo;
     }
 
     public boolean disparar(LocalDateTime fechaActual){
@@ -40,4 +45,10 @@ public class Alarma {
         this.horarioFechaDisparo =  disparo;
         return true;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.horarioFechaDisparo.compareTo( ((Alarma)o).getHorarioFechaDisparo() );
+    }
+
 }

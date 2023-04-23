@@ -1,6 +1,8 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 
 public class DiarioOcurrencias extends Repeticion{
     private int intervalo, repeticionesMax;
@@ -14,9 +16,9 @@ public class DiarioOcurrencias extends Repeticion{
         ArrayList<LocalDateTime> fechas = new ArrayList<LocalDateTime>();
         LocalDateTime aux_fInicial = fechaInicio;
         LocalDateTime aux_fFinal = fechaFinal;
-        Duration duracion = Duration.between(fechaInicio, fechaFinal);// fini 12 ffinal 14 -> 17
+        Duration duracion = Duration.between(fechaInicio, fechaFinal);
 
-        for (int i = 0; i < repeticionesMax ; i++){ // -> FALTA TEST !!!!!!!!!e
+        for (int i = 0; i < repeticionesMax ; i++){
 
             if (i > 0){
                 aux_fInicial = aux_fFinal.plusDays(intervalo).withHour(fechaInicio.getHour()).withMinute(fechaInicio.getMinute());
@@ -29,10 +31,9 @@ public class DiarioOcurrencias extends Repeticion{
         }
         return fechas;
     }
-
     @Override
-    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual, LocalDateTime fechaInicial, LocalDateTime fechaFinal, ArrayList<Alarma> alarmas) {
-        ArrayList<Alarma> alarmasAux = new ArrayList<Alarma>();
+    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual, LocalDateTime fechaInicio, LocalDateTime fechaFinal, ArrayList<Alarma> alarmas) {
+        ArrayList<Alarma> alarmasAux = new ArrayList<>();
         LocalDateTime aux_fAlarma;
         LocalDateTime aux_fFinal = fechaFinal;
         Duration duracion;
@@ -41,9 +42,10 @@ public class DiarioOcurrencias extends Repeticion{
             if (alarma.esRepetible()){
                 aux_fAlarma = alarma.getHorarioFechaDisparo();
                 duracion = Duration.between( alarma.getHorarioFechaDisparo(), fechaFinal);
-                for (int i = 0; i < repeticionesMax ; i++){ // -> FALTA TEST !!!!!!!!!e
+                aux_fFinal = fechaFinal;
+                for (int i = 0; i < repeticionesMax ; i++){
 
-                    if ( i > 0){
+                    if (i > 0){
                         aux_fAlarma = aux_fFinal.plusDays(intervalo).withHour(alarma.getHorarioFechaDisparo().getHour()).withMinute(alarma.getHorarioFechaDisparo().getMinute());
                         aux_fFinal = aux_fAlarma.plus(duracion);
                     }
@@ -51,7 +53,6 @@ public class DiarioOcurrencias extends Repeticion{
                     if (horarioActual.compareTo(aux_fAlarma) <= 0){
                         Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(), true);
                         alarmasAux.add(alarmaEnvio);
-                        aux_fFinal = fechaFinal;
                         break;
                     }
 
@@ -60,14 +61,23 @@ public class DiarioOcurrencias extends Repeticion{
                 Alarma alarmaEnvio = new Alarma(alarma.getHorarioFechaDisparo(), alarma.getTipo(), false);
                 alarmasAux.add(alarmaEnvio);
             }
-
         }
-        return alarmasAux;
+
+        Alarma alarmaMinima = Collections.min(alarmasAux);
+        ArrayList<Alarma> alarmasRetorno = new ArrayList<>();
+        for (Alarma a:alarmasAux) {
+            if(a.compareTo(alarmaMinima) == 0){
+                alarmasRetorno.add(a);
+            }
+        }
+
+
+        return alarmasRetorno;
     }
-    /*
-    public static void main(String[] args) {
+
+    /*public static void main(String[] args) {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
-        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 19, 56);
+        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         LocalDateTime f1 = LocalDateTime.of(2023, 5, 1, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2023, 12, 10, 18, 55);
@@ -77,24 +87,31 @@ public class DiarioOcurrencias extends Repeticion{
 
         Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
 
-        e.agregarAlarmaRepetible(30,TipoAlarma.CORREO);
+        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);
+        e.agregarAlarmaRepetible(36,TipoAlarma.CORREO);
         e.agregarAlarmaRepetible(45,TipoAlarma.NOTIFICACION);
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 5, 20, 00),TipoAlarma.SONIDO);
+        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);
 
-        ArrayList<Alarma> alarmitas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 5, 20, 00));
 
-        System.out.println(alarmitas.get(0).getHorarioFechaDisparo());
-        System.out.println(alarmitas.get(1).getHorarioFechaDisparo());
-        System.out.println(alarmitas.get(2).getHorarioFechaDisparo() + "\n"+ "\n");
+        ArrayList<Alarma> alarmitas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        for (Alarma a:alarmitas) {
+            System.out.println(a.getHorarioFechaDisparo().format(formato));
+        }
+
+        Alarma alarmaMinima = Collections.min(alarmitas);
+        System.out.println(alarmaMinima.getHorarioFechaDisparo().format(formato));
+
+        System.out.println("\nFechas");
 
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         for (LocalDateTime fecha : fechas) {
-            System.out.println(fecha);
+            System.out.println(fecha.format(formato));
         }
-
-        LocalDateTime f = LocalDateTime.MAX;
-        System.out.println(f);
 
     }*/
 }

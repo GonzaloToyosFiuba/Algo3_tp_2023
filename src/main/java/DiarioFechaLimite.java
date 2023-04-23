@@ -16,9 +16,9 @@ public class DiarioFechaLimite extends Repeticion{
         ArrayList<LocalDateTime> fechas = new ArrayList<LocalDateTime>();
         LocalDateTime aux_fInicial = fechaInicio;
         LocalDateTime aux_fFinal = fechaFinal;
-        Duration duracion = Duration.between(fechaInicio, fechaFinal);// fini 12 ffinal 14 -> 17
+        Duration duracion = Duration.between(fechaInicio, fechaFinal);
 
-        for (int i = 0; (fechaLimite.compareTo(aux_fInicial) >= 0 && f2.compareTo(aux_fInicial) >= 0)  ; i++){ // -> FALTA TEST !!!!!!!!!e
+        for (int i = 0; (fechaLimite.compareTo(aux_fInicial) >= 0 && f2.compareTo(aux_fInicial) >= 0)  ; i++){
 
             if (i > 0){
                 aux_fInicial = aux_fFinal.plusDays(intervalo).withHour(fechaInicio.getHour()).withMinute(fechaInicio.getMinute());
@@ -36,7 +36,8 @@ public class DiarioFechaLimite extends Repeticion{
     public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual, LocalDateTime fechaInicial, LocalDateTime fechaFinal, ArrayList<Alarma> alarmas) {
         return null;
     }
-    public static void main(String[] args) {
+
+    /*public static void main(String[] args) {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 19, 56);
 
@@ -58,5 +59,5 @@ public class DiarioFechaLimite extends Repeticion{
         LocalDateTime f = LocalDateTime.MAX;
         System.out.println(f);
 
-    }
+    }*/
 }

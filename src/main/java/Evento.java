@@ -29,17 +29,17 @@ public   class Evento {
         alarmas.add(nuevaAlarma);
     }
 
-    public void agregarAlarmaUnica(LocalDateTime fechaDisparo,TipoAlarma tipo){
+    public void agregarAlarmaUnica(LocalDateTime fechaDisparo, TipoAlarma tipo){
         // crea una alarma que la hora de disparado dada y si tipo, en la parte repeticion es False.
         Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, false);
         alarmas.add(nuevaAlarma);
     }
 
-    public  ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
+    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
         return tipoRepeticion.obtenerProximaAlarma(horarioActual, fechaInicio, fechaFinal , this.alarmas);
     }
 
-    public  ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2){
+    public ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2){
         return tipoRepeticion.obtenerRepeticionesEntre(f1, f2, fechaInicio, fechaFinal);
     };
 }
