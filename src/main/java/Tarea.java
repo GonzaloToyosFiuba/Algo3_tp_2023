@@ -32,12 +32,16 @@ public class Tarea {
                 alarmasAux.add(alarma);
             }
         }
-        Alarma alarmaMinima = Collections.min(alarmasAux);
+
         ArrayList<Alarma> alarmasRetorno = new ArrayList<>();
 
-        for (Alarma alarma:alarmasAux) { // si hay alarmas repetidas
-            if(alarma.compareTo(alarmaMinima) == 0){
-                alarmasRetorno.add(alarma);
+        if (!alarmasAux.isEmpty()){
+            Alarma alarmaMinima = Collections.min(alarmasAux);
+
+            for (Alarma alarma:alarmasAux) { // si hay alarmas repetidas
+                if(alarma.compareTo(alarmaMinima) == 0){
+                    alarmasRetorno.add(alarma);
+                }
             }
         }
 
