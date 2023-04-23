@@ -4,15 +4,15 @@ import java.util.Collections;
 
 public class Tarea {
     private final int id;
-    private String nombre, descripcion;
+    private String titulo, descripcion;
     private boolean completado;
     private LocalDateTime fechaVencimiento;
     private ArrayList<Alarma> alarmas;
     private boolean diaCompleto;
 
-    public Tarea(int id, String nombre, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto) {
+    public Tarea(int id, String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto) {
         this.id = id;
-        this.nombre = nombre;
+        this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaVencimiento = fechaVencimiento;
         this.diaCompleto = diaCompleto;
@@ -57,5 +57,9 @@ public class Tarea {
     public void agregarAlarma(LocalDateTime fechaDisparo, TipoAlarma tipo){
         Alarma alarma = new Alarma(fechaDisparo, tipo);
         this.alarmas.add(alarma);
+    }
+
+    public int getId(){
+        return this.id;
     }
 }

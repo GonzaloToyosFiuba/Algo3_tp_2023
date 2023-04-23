@@ -22,6 +22,10 @@ public   class Evento {
         this.alarmas = new ArrayList<Alarma>();
     }
 
+    public int getId(){
+      return this.id;
+    }
+
     public void  agregarAlarmaRepetible(int minutosAntes, TipoAlarma tipo){
         // crea una alarma mandando la fecha original del eveto menos los minutos antes y con el tipo , en la parte repetible es true
         LocalDateTime fechaDisparo = fechaInicio.minusMinutes(minutosAntes);

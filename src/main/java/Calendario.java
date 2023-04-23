@@ -7,14 +7,41 @@ public class Calendario {
     private ArrayList<Alarma> alarmasProximas;
 
     public Calendario() {
-        this.eventos = new ArrayList<Evento>();
-        this.tareas = new ArrayList<Tarea>();
-        this.alarmasProximas = new ArrayList<Alarma>();
+        this.eventos = new ArrayList<>();
+        this.tareas = new ArrayList<>();
+        this.alarmasProximas = new ArrayList<>();
     }
 
-    /* public void crearEvento(LocalDateTime fechaInicio, LocalDateTime fechaFinal, int cantidadRepeticiones, TipoRepeticion tipoRepe){
-       // Evento nuevoEvento = new (fechaInicio, fechaFinal, tipoRepe, cantidadRepeticiones);
-
+    public void agregarEvento(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+        Evento nuevoEvento = new Evento(id, descripcion, titulo , tipoRepeticion, fechaInicio, fechaFinal);
+        eventos.add(nuevoEvento);
     }
-    */
+
+    public  void agregarTarea(int id, String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto){
+        Tarea nuevaTarea = new Tarea(id, titulo, descripcion, fechaVencimiento, diaCompleto);
+        tareas.add(nuevaTarea);
+    }
+
+    public Evento buscarEvento(int id){
+        Evento eventoBuscado = null;
+
+        for(Evento evento:eventos){
+            if ( id == evento.getId()){
+                eventoBuscado = evento;
+                break;
+            }
+        }
+        return eventoBuscado;
+    }
+
+    public  Tarea buscarTarea(int id){
+        Tarea tareaBuscada = null;
+
+        for (Tarea tarea:tareas){
+            if (id == tarea.getId()){
+                tareaBuscada = tarea;
+            }
+        }
+        return tareaBuscada;
+    }
 }
