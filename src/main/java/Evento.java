@@ -14,7 +14,7 @@ public   class Evento {
 
     protected ArrayList<Alarma> alarmas;
 
-    private int contadorIdAlamas;
+    private int contadorIdAlarmas;
 
     public Evento(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
         this.id = id;
@@ -23,7 +23,7 @@ public   class Evento {
         this.tipoRepeticion = tipoRepeticion;
         this.fechaFinal = fechaFinal;
         this.fechaInicio = fechaInicio;
-        this.contadorIdAlamas = 0;
+        this.contadorIdAlarmas = 0;
         this.alarmas = new ArrayList<Alarma>();
     }
 
@@ -34,16 +34,16 @@ public   class Evento {
     public void  agregarAlarmaRepetible(int minutosAntes, TipoAlarma tipo){
         // crea una alarma mandando la fecha original del eveto menos los minutos antes y con el tipo , en la parte repetible es true
         LocalDateTime fechaDisparo = fechaInicio.minusMinutes(minutosAntes);
-        Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo,this.contadorIdAlamas);
+        Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, true, this.contadorIdAlarmas);
         alarmas.add(nuevaAlarma);
-        this.contadorIdAlamas++;
+        this.contadorIdAlarmas++;
     }
 
     public void agregarAlarmaUnica(LocalDateTime fechaDisparo, TipoAlarma tipo){
         // crea una alarma que la hora de disparado dada y si tipo, en la parte repeticion es False.
-        Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, this.contadorIdAlamas);
+        Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, this.contadorIdAlarmas);
         alarmas.add(nuevaAlarma);
-        this.contadorIdAlamas++;
+        this.contadorIdAlarmas++;
     }
 
     public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
@@ -68,7 +68,7 @@ public   class Evento {
     public void editarEvento(String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
         if (fechaInicio != this.fechaInicio){ // Esto es momentaneo , hay que hacer que las alarmas se pueda reconfigurar respecto a un cambio de fecha
             alarmas.clear();
-            this.contadorIdAlamas = 0;
+            this.contadorIdAlarmas = 0;
         }
         this.descripcion = descripcion;
         this.titulo = titulo;

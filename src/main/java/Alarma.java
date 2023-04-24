@@ -63,7 +63,7 @@ public class Alarma implements Comparable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Alarma alarma = (Alarma) o;
-        return id == alarma.id && repetible == alarma.repetible && Objects.equals(horarioFechaDisparo, alarma.horarioFechaDisparo) && tipoAlarma == alarma.tipoAlarma;
+        return id == alarma.id && Objects.equals(horarioFechaDisparo, alarma.horarioFechaDisparo) && tipoAlarma == alarma.tipoAlarma;
     }
 
     @Override

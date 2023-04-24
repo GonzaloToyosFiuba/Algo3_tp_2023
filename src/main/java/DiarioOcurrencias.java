@@ -77,7 +77,7 @@ public class DiarioOcurrencias extends Repeticion{
         return alarmasRetorno;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
@@ -115,5 +115,5 @@ public class DiarioOcurrencias extends Repeticion{
             System.out.println(fecha.format(formato));
         }
 
-    }
+    }*/
 }
