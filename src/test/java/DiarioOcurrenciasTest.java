@@ -123,7 +123,7 @@ public class DiarioOcurrenciasTest {
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
 
         ArrayList<Alarma> alarmasEsperadas = new ArrayList<>();
-        Alarma alarmaEsperada = new Alarma(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO);
+        Alarma alarmaEsperada = new Alarma(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO,0);
         alarmasEsperadas.add(alarmaEsperada);
 
         //assert

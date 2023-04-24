@@ -51,14 +51,14 @@ public class DiarioOcurrencias extends Repeticion{
                     }
 
                     if (horarioActual.compareTo(aux_fAlarma) <= 0){
-                        Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(), true);
+                        Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(),true, alarma.getId());
                         alarmasAux.add(alarmaEnvio);
                         break;
                     }
 
                 }
             } else if (horarioActual.compareTo(alarma.getHorarioFechaDisparo()) <= 0){
-                Alarma alarmaEnvio = new Alarma(alarma.getHorarioFechaDisparo(), alarma.getTipo(), false);
+                Alarma alarmaEnvio = new Alarma(alarma.getHorarioFechaDisparo(), alarma.getTipo(), false,alarma.getId());
                 alarmasAux.add(alarmaEnvio);
             }
         }

@@ -1,14 +1,16 @@
+import java.security.spec.ECField;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Calendario {
-    private ArrayList<Evento> eventos;
-    private ArrayList<Tarea> tareas;
+    private HashMap<Integer,Evento> eventos;
+    private HashMap<Integer,Tarea> tareas;
     private ArrayList<Alarma> alarmasProximas;
 
     public Calendario() {
-        this.eventos = new ArrayList<>();
-        this.tareas = new ArrayList<>();
+        this.eventos = new HashMap<>();
+        this.tareas = new HashMap<>();
         this.alarmasProximas = new ArrayList<>();
     }
 
@@ -17,36 +19,27 @@ public class Calendario {
             fechaInicio = fechaInicio.withHour(0).withMinute(0);
             fechaFinal = fechaFinal.withHour(23).withMinute(59);
         }
-
         Evento nuevoEvento = new Evento(id, descripcion, titulo , tipoRepeticion, fechaInicio, fechaFinal);
-        eventos.add(nuevoEvento);
+        eventos.put(id,nuevoEvento);
     }
 
     public  void agregarTarea(int id, String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto){
         Tarea nuevaTarea = new Tarea(id, titulo, descripcion, fechaVencimiento, diaCompleto);
-        tareas.add(nuevaTarea);
+        tareas.put(id,nuevaTarea);
     }
 
     public Evento buscarEvento(int id){
-        Evento eventoBuscado = null;
-
-        for(Evento evento:eventos){
-            if ( id == evento.getId()){
-                eventoBuscado = evento;
-                break;
-            }
-        }
-        return eventoBuscado;
+        return this.eventos.get(id);
     }
 
     public  Tarea buscarTarea(int id){
-        Tarea tareaBuscada = null;
+        return this.tareas.get(id);
+    }
 
-        for (Tarea tarea:tareas){
-            if (id == tarea.getId()){
-                tareaBuscada = tarea;
-            }
-        }
-        return tareaBuscada;
+    public void eliminarEvento(int id){
+        this.eventos.remove(id);
+    }
+    public void eliminarTarea(int id){
+        this.tareas.remove(id);
     }
 }

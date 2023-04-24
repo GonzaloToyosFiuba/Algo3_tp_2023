@@ -10,7 +10,10 @@ public   class Evento {
     protected LocalDateTime fechaInicio;
 
     protected LocalDateTime fechaFinal;
+
     protected ArrayList<Alarma> alarmas;
+
+    private int contadorIdAlamas;
 
     public Evento(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
         this.id = id;
@@ -19,6 +22,7 @@ public   class Evento {
         this.tipoRepeticion = tipoRepeticion;
         this.fechaFinal = fechaFinal;
         this.fechaInicio = fechaInicio;
+        this.contadorIdAlamas = 0;
         this.alarmas = new ArrayList<Alarma>();
     }
 
@@ -29,14 +33,16 @@ public   class Evento {
     public void  agregarAlarmaRepetible(int minutosAntes, TipoAlarma tipo){
         // crea una alarma mandando la fecha original del eveto menos los minutos antes y con el tipo , en la parte repetible es true
         LocalDateTime fechaDisparo = fechaInicio.minusMinutes(minutosAntes);
-        Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, true);
+        Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo,this.contadorIdAlamas);
         alarmas.add(nuevaAlarma);
+        this.contadorIdAlamas++;
     }
 
     public void agregarAlarmaUnica(LocalDateTime fechaDisparo, TipoAlarma tipo){
         // crea una alarma que la hora de disparado dada y si tipo, en la parte repeticion es False.
-        Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, false);
+        Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, this.contadorIdAlamas);
         alarmas.add(nuevaAlarma);
+        this.contadorIdAlamas++;
     }
 
     public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
@@ -45,5 +51,16 @@ public   class Evento {
 
     public ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2){
         return tipoRepeticion.obtenerRepeticionesEntre(f1, f2, fechaInicio, fechaFinal);
-    };
+    }
+    public void eliminarAlarma(int id){
+        int posicion = 0;
+
+        for(Alarma alarma:this.alarmas){
+            if (alarma.getId() == id){
+                alarmas.remove(posicion);
+                break;
+            }
+            posicion++;
+        }
+    }
 }

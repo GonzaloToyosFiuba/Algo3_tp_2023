@@ -1,3 +1,3 @@
 public interface Disparable {
-    public void dipararAlarma();
+    public String dipararAlarma();
 }

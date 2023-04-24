@@ -1,20 +1,20 @@
 public enum TipoAlarma implements Disparable {
     NOTIFICACION{
         @Override
-        public void dipararAlarma() {
-            //envio notificacion
+        public String dipararAlarma() {
+            return "Enviando Notificacion";
         }
     },
     CORREO{
         @Override
-        public void dipararAlarma() {
-            // envio correo
+        public String dipararAlarma() {
+            return "Enviando Correo";
         }
     },
     SONIDO{
         @Override
-        public void dipararAlarma() {
-            //envio sonido
+        public String dipararAlarma() {
+            return  "Enviando Sonido";
         }
     };
 

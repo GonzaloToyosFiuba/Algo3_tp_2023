@@ -10,6 +10,8 @@ public class Tarea {
     private ArrayList<Alarma> alarmas;
     private boolean diaCompleto;
 
+    private int contadorIdAlamas;
+
     public Tarea(int id, String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto) {
         this.id = id;
         this.titulo = titulo;
@@ -17,6 +19,7 @@ public class Tarea {
         this.fechaVencimiento = fechaVencimiento;
         this.diaCompleto = diaCompleto;
         this.alarmas = new ArrayList<Alarma>();
+        this.contadorIdAlamas = 0;
     }
 
     public void completar(){
@@ -50,13 +53,27 @@ public class Tarea {
 
     public void agregarAlarma(int minutosAntes, TipoAlarma tipo){
         LocalDateTime fechaDisparo = fechaVencimiento.minusMinutes(minutosAntes);
-        Alarma alarma = new Alarma(fechaDisparo, tipo);
+        Alarma alarma = new Alarma(fechaDisparo, tipo,this.contadorIdAlamas);
         this.alarmas.add(alarma);
+        this.contadorIdAlamas++;
     }
 
     public void agregarAlarma(LocalDateTime fechaDisparo, TipoAlarma tipo){
-        Alarma alarma = new Alarma(fechaDisparo, tipo);
+        Alarma alarma = new Alarma(fechaDisparo, tipo, this.contadorIdAlamas);
         this.alarmas.add(alarma);
+        this.contadorIdAlamas++;
+    }
+
+    public void eliminarAlarma(int id){
+        int posicion = 0;
+
+        for(Alarma alarma:this.alarmas){
+            if (alarma.getId() == id){
+                alarmas.remove(posicion);
+                break;
+            }
+            posicion++;
+        }
     }
 
     public int getId(){
