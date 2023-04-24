@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public   class Evento {
     protected int id;
@@ -62,5 +63,18 @@ public   class Evento {
             }
             posicion++;
         }
+    }
+
+    public void editarEvento(String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+        if (fechaInicio != this.fechaInicio){ // Esto es momentaneo , hay que hacer que las alarmas se pueda reconfigurar respecto a un cambio de fecha
+            alarmas.clear();
+            this.contadorIdAlamas = 0;
+        }
+        this.descripcion = descripcion;
+        this.titulo = titulo;
+        this.tipoRepeticion = tipoRepeticion;
+        this.fechaFinal = fechaFinal;
+        this.fechaInicio = fechaInicio;
+
     }
 }
