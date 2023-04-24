@@ -12,7 +12,12 @@ public class Calendario {
         this.alarmasProximas = new ArrayList<>();
     }
 
-    public void agregarEvento(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+    public void agregarEvento(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal, boolean diaCompleto){
+        if(diaCompleto){
+            fechaInicio = fechaInicio.withHour(0).withMinute(0);
+            fechaFinal = fechaFinal.withHour(23).withMinute(59);
+        }
+
         Evento nuevoEvento = new Evento(id, descripcion, titulo , tipoRepeticion, fechaInicio, fechaFinal);
         eventos.add(nuevoEvento);
     }

@@ -13,7 +13,7 @@ public class DiarioOcurrencias extends Repeticion{
     }
 
     public ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
-        ArrayList<LocalDateTime> fechas = new ArrayList<LocalDateTime>();
+        ArrayList<LocalDateTime> fechas = new ArrayList<>();
         LocalDateTime aux_fInicial = fechaInicio;
         LocalDateTime aux_fFinal = fechaFinal;
         Duration duracion = Duration.between(fechaInicio, fechaFinal);
@@ -63,19 +63,21 @@ public class DiarioOcurrencias extends Repeticion{
             }
         }
 
-        Alarma alarmaMinima = Collections.min(alarmasAux);
         ArrayList<Alarma> alarmasRetorno = new ArrayList<>();
-        for (Alarma a:alarmasAux) {
-            if(a.compareTo(alarmaMinima) == 0){
-                alarmasRetorno.add(a);
+
+        if(!alarmasAux.isEmpty()){
+            Alarma alarmaMinima = Collections.min(alarmasAux);
+            for (Alarma a:alarmasAux) {
+                if(a.compareTo(alarmaMinima) == 0){
+                    alarmasRetorno.add(a);
+                }
             }
         }
-
 
         return alarmasRetorno;
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
@@ -113,5 +115,5 @@ public class DiarioOcurrencias extends Repeticion{
             System.out.println(fecha.format(formato));
         }
 
-    }*/
+    }
 }
