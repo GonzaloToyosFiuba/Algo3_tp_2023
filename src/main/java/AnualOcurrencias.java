@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class AnualOcurrencias extends Repeticion{
+public class AnualOcurrencias implements Repeticion{
     private int intervalo, repeticionesMax;
 
     public AnualOcurrencias(int intervalo, int repeticionesMax) {

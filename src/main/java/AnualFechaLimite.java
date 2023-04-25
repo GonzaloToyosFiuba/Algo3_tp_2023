@@ -2,7 +2,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class AnualFechaLimite extends Repeticion{
+public class AnualFechaLimite implements Repeticion{
     private int intervalo;
     private LocalDateTime fechaLimite;
 

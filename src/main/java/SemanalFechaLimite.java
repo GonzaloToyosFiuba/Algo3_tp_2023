@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
-public class SemanalFechaLimite extends Repeticion{
+public class SemanalFechaLimite implements Repeticion{
     private ArrayList<DayOfWeek> diasSemana;
     private LocalDateTime fechaLimite;
 

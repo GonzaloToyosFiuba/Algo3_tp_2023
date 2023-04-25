@@ -75,7 +75,16 @@ public class Tarea {
             posicion++;
         }
     }
-
+    public void editarTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto){
+        if (fechaVencimiento != this.fechaVencimiento){ // Esto es momentaneo , hay que hacer que las alarmas se pueda reconfigurar respecto a un cambio de fecha
+            alarmas.clear();
+            this.contadorIdAlamas = 0;
+        }
+        this.descripcion = descripcion;
+        this.titulo = titulo;
+        this.fechaVencimiento = fechaVencimiento;
+        this.diaCompleto = diaCompleto;
+    }
     public int getId(){
         return this.id;
     }

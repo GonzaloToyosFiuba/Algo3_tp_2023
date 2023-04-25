@@ -2,7 +2,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class DiarioFechaLimite extends Repeticion{
+public class DiarioFechaLimite implements Repeticion{
     private int intervalo;
     private LocalDateTime fechaLimite;
 
@@ -36,28 +36,4 @@ public class DiarioFechaLimite extends Repeticion{
     public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual, LocalDateTime fechaInicial, LocalDateTime fechaFinal, ArrayList<Alarma> alarmas) {
         return null;
     }
-
-    /*public static void main(String[] args) {
-        LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
-        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 19, 56);
-
-        LocalDateTime f1 = LocalDateTime.of(2023, 5, 1, 18, 56);
-        LocalDateTime f2 = LocalDateTime.of(2023, 10, 25, 18, 56);
-
-
-        Repeticion repe = new DiarioFechaLimite(2, LocalDateTime.MAX);
-
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
-
-
-        ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
-
-        for (LocalDateTime fecha : fechas) {
-            System.out.println(fecha);
-        }
-
-        LocalDateTime f = LocalDateTime.MAX;
-        System.out.println(f);
-
-    }*/
 }

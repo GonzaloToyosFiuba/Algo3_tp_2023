@@ -49,4 +49,7 @@ public class Calendario {
         }
         this.eventos.get(id).editarEvento(descripcion, titulo, tipoRepeticion, fechaInicio, fechaFinal);
     }
+    public void EditarTarea(int id,String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto){
+        this.tareas.get(id).editarTarea(titulo,descripcion, fechaVencimiento, diaCompleto);
+    }
 }

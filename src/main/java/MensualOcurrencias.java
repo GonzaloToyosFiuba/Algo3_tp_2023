@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MensualOcurrencias extends Repeticion{
+public class MensualOcurrencias implements Repeticion{
     private int intervalo, repeticionesMax;
 
     public MensualOcurrencias(int intervalo, int repeticionesMax) {
