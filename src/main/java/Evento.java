@@ -2,11 +2,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public   class Evento {
+public  abstract class Evento {
     protected int id;
     protected String descripcion;
     protected String titulo;
-    protected Repeticion tipoRepeticion;
 
     protected LocalDateTime fechaInicio;
 
@@ -14,17 +13,18 @@ public   class Evento {
 
     protected ArrayList<Alarma> alarmas;
 
+    protected TipoFrecuencia tipoFrecuencia;
     private int contadorIdAlarmas;
 
-    public Evento(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
+    public Evento(int id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia) {
         this.id = id;
         this.descripcion = descripcion;
         this.titulo = titulo;
-        this.tipoRepeticion = tipoRepeticion;
         this.fechaFinal = fechaFinal;
         this.fechaInicio = fechaInicio;
         this.contadorIdAlarmas = 0;
         this.alarmas = new ArrayList<Alarma>();
+        this.tipoFrecuencia = tipoFrecuencia;
     }
 
     public int getId(){
@@ -46,13 +46,9 @@ public   class Evento {
         this.contadorIdAlarmas++;
     }
 
-    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
-        return tipoRepeticion.obtenerProximaAlarma(horarioActual, fechaInicio, fechaFinal , this.alarmas);
-    }
+    public abstract ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual);
 
-    public ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2){
-        return tipoRepeticion.obtenerRepeticionesEntre(f1, f2, fechaInicio, fechaFinal);
-    }
+    public abstract ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2);
     public void eliminarAlarma(int id){
         int posicion = 0;
 
@@ -72,7 +68,7 @@ public   class Evento {
         }
         this.descripcion = descripcion;
         this.titulo = titulo;
-        this.tipoRepeticion = tipoRepeticion;
+       // this.tipoRepeticion = tipoRepeticion;
         this.fechaFinal = fechaFinal;
         this.fechaInicio = fechaInicio;
 

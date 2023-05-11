@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class DiarioFechaLimiteTest {
+
     @Test
     public void TestObtenerRepeticionesEntreEnEventoDeFechalimiteConLimiteAlcanzado() {
         // Cuando f2 > fechaLimite

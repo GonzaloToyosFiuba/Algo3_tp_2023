@@ -14,7 +14,7 @@ public class Calendario {
         this.alarmasProximas = new ArrayList<>();
     }
 
-    public void agregarEvento(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal, boolean diaCompleto){
+   /* public void agregarEvento(int id, String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal, boolean diaCompleto){
         if(diaCompleto){
             fechaInicio = fechaInicio.withHour(0).withMinute(0);
             fechaFinal = fechaFinal.withHour(23).withMinute(59);
@@ -22,7 +22,7 @@ public class Calendario {
         Evento nuevoEvento = new Evento(id, descripcion, titulo , tipoRepeticion, fechaInicio, fechaFinal);
         eventos.put(id,nuevoEvento);
     }
-
+   */
     public  void agregarTarea(int id, String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto){
         Tarea nuevaTarea = new Tarea(id, titulo, descripcion, fechaVencimiento, diaCompleto);
         tareas.put(id,nuevaTarea);
