@@ -15,10 +15,10 @@ public class DiarioOcurrenciasTest {
         LocalDateTime f1 = LocalDateTime.of(2023, 5, 1, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
-        Repeticion repe = new DiarioOcurrencias(2, 10);
+        TipoFrecuencia tipo = new Diaria(2);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -43,10 +43,10 @@ public class DiarioOcurrenciasTest {
         LocalDateTime f1 = LocalDateTime.of(2023, 5, 1, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
-        Repeticion repe = new DiarioOcurrencias(2, 2);
+        TipoFrecuencia tipo = new Diaria(2);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -70,9 +70,10 @@ public class DiarioOcurrenciasTest {
         LocalDateTime f2 = LocalDateTime.of(2024, 5, 10, 18, 55);
 
         Repeticion repe = new DiarioOcurrencias(2, 2);
+        TipoFrecuencia tipo = new Diaria(2);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -90,10 +91,10 @@ public class DiarioOcurrenciasTest {
         LocalDateTime f1 = LocalDateTime.of(2023, 5, 7, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
-        Repeticion repe = new DiarioOcurrencias(2, 10);
+        TipoFrecuencia tipo = new Diaria(2);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -114,11 +115,11 @@ public class DiarioOcurrenciasTest {
         LocalDateTime f1 = LocalDateTime.of(2023, 5, 7, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
-        Repeticion repe = new DiarioOcurrencias(2, 10);
+        TipoFrecuencia tipo = new Diaria(2);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
-        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
 

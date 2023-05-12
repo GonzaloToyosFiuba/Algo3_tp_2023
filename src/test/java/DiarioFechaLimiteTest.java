@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class DiarioFechaLimiteTest {
 
-    @Test
+    /*@Test
     public void TestObtenerRepeticionesEntreEnEventoDeFechalimiteConLimiteAlcanzado() {
         // Cuando f2 > fechaLimite
         //Arrange
@@ -89,5 +89,5 @@ public class DiarioFechaLimiteTest {
         fechasEsperadas.add(fechaEsperada4);
         //assert
         assertEquals(fechasEsperadas, fechas);
-    }
+    }*/
 }

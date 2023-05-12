@@ -14,10 +14,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime f1 = LocalDateTime.of(2023, 5, 1, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2024, 5, 10, 18, 55);
 
-        Repeticion repe = new AnualOcurrencias(1, 10);
+        TipoFrecuencia tipo = new Anual(1);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -40,10 +40,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime f1 = LocalDateTime.of(2023, 5, 1, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2024, 5, 10, 18, 55);
 
-        Repeticion repe = new AnualOcurrencias(1, 1);
+        TipoFrecuencia tipo = new Anual(1);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 1);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -64,10 +64,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime f1 = LocalDateTime.of(2023, 5, 1, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2023, 6, 10, 18, 55);
 
-        Repeticion repe = new AnualOcurrencias(2, 3);
+        TipoFrecuencia tipo = new Anual(2);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -85,10 +85,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime f1 = LocalDateTime.of(2025, 5, 1, 18, 56);
         LocalDateTime f2 = LocalDateTime.of(2025, 5, 10, 18, 55);
 
-        Repeticion repe = new AnualOcurrencias(1, 3);
+        TipoFrecuencia tipo = new Anual(1);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -106,10 +106,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
-        Repeticion repe = new AnualOcurrencias(1, 3);
+        TipoFrecuencia tipo = new Anual(1);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
@@ -128,10 +128,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
-        Repeticion repe = new AnualOcurrencias(1, 2);
+        TipoFrecuencia tipo = new Anual(1);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
@@ -150,10 +150,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
-        Repeticion repe = new AnualOcurrencias(1, 2);
+        TipoFrecuencia tipo = new Anual(1);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);//id = 1
 
@@ -173,10 +173,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
-        Repeticion repe = new AnualOcurrencias(1, 3);
+        TipoFrecuencia tipo = new Anual(1);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaRepetible(15, TipoAlarma.SONIDO);//id = 1
         e.agregarAlarmaRepetible(50, TipoAlarma.SONIDO);//id = 2
@@ -197,10 +197,10 @@ public class AnualOcurrenciasTest {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
-        Repeticion repe = new AnualOcurrencias(1, 3);
+        TipoFrecuencia tipo = new Anual(1);
 
         //Act
-        Evento e = new Evento(15, "Sacar al perro por la mañana", "Perro", repe, fInicio, fFinal);
+        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaRepetible(15, TipoAlarma.SONIDO);//id = 1
         e.agregarAlarmaRepetible(50, TipoAlarma.SONIDO);//id = 2
