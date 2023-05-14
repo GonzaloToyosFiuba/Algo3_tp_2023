@@ -60,4 +60,27 @@ public class FechaLimiteTest {
         //assert
         assertEquals(fechasEsperadas, fechas);
     }
+    @Test
+    public void TestObtenerProximaAlarmaUnicaFrecuenciaDiaria(){
+        //Arrange
+        LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
+        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
+        LocalDateTime fLimite = LocalDateTime.of(2023, 5, 20, 20, 56);
+
+        TipoFrecuencia tipo = new Diaria(2);
+
+        //Act
+        Evento evento = new FechaLimite(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo,fLimite);
+
+        evento.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO);
+
+        ArrayList<Alarma> alarmas = evento.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
+
+        ArrayList<Alarma> alarmasEsperadas = new ArrayList<>();
+        Alarma alarmaEsperada = new Alarma(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO,0);
+        alarmasEsperadas.add(alarmaEsperada);
+
+        //assert
+        assertEquals(alarmasEsperadas, alarmas);
+    }
 }
