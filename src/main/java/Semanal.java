@@ -1,6 +1,7 @@
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
 import java.time.format.DateTimeFormatter;
@@ -36,7 +37,7 @@ public class Semanal implements TipoFrecuencia {
     }
 
     public static void main(String[] args) {
-        TreeSet<DayOfWeek> diasArbol = new TreeSet<>();
+       /* TreeSet<DayOfWeek> diasArbol = new TreeSet<>();
 
         diasArbol.add(DayOfWeek.THURSDAY);
         diasArbol.add(DayOfWeek.MONDAY);
@@ -51,6 +52,19 @@ public class Semanal implements TipoFrecuencia {
         for (int i = 0; i < 20; i++){
             System.out.println( diaI.format(formatter) );
             diaI = s.obtenerProximoDia(diaI);
+        }*/
+        TipoFrecuencia tipoFrecuencia = new Diaria(10);
+        Evento evento = new FechaLimite(8, "PASEAR", "NADA", LocalDateTime.of(2023, 5, 1, 00, 10), LocalDateTime.of(2023, 5, 1, 19, 56), tipoFrecuencia, LocalDateTime.of(2023, 5, 2, 19, 56));
+        ArrayList<LocalDateTime> fechas = evento.obtenerRepeticionesEntre(LocalDateTime.of(2023, 4, 1, 18, 56), LocalDateTime.of(2023, 5, 12, 18, 56));
+
+        for (var fechitas : fechas) {
+            System.out.println(fechitas);
+        }
+        evento.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);
+        ArrayList<Alarma> alarmita = evento.obtenerProximaAlarma(LocalDateTime.of(2023, 5, 30, 23, 40));
+        System.out.println("ALARMA");
+        for (var alarma : alarmita) {
+            System.out.println(alarma.getHorarioFechaDisparo());
         }
     }
 }
