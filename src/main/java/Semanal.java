@@ -1,17 +1,18 @@
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TreeSet;
+import java.time.format.DateTimeFormatter;
 
 public class Semanal implements TipoFrecuencia {
     private int intervalo;
     private DayOfWeek[] dias;
 
-    public Semanal(int intervalo, DayOfWeek[] dias) {
-        Arrays.sort(dias);
-        this.dias = dias;
+    public Semanal(int intervalo, TreeSet<DayOfWeek> dias) {
+        DayOfWeek[] diasArray = dias.toArray(new DayOfWeek[dias.size()]);
+        Arrays.sort(diasArray);
+        this.dias = diasArray;
         this.intervalo = intervalo;
     }
     @Override
@@ -19,27 +20,37 @@ public class Semanal implements TipoFrecuencia {
         DayOfWeek diaActual = dia.getDayOfWeek();
         int i = 0;
 
-        while (diaActual.compareTo(dias[i]) != 0 && i < dias.length){
+        while (diaActual.compareTo(dias[i]) != 0 && i < dias.length){//hay que buscar en que posicion esta el dia que se mando
             i++;
         }
 
-        DayOfWeek diaDeLaSemanaSiguiente;
+        LocalDateTime diaRetorno;
 
-        if(i == dias.length-1){
-            diaDeLaSemanaSiguiente = dias[dias.length];
-        } else {
-            diaDeLaSemanaSiguiente = dias[i + 1];
+        if(i == dias.length-1){//si mando el ultimo de los dias de repeticion se da el primero y se pasa a la semana segun el intervalo
+            diaRetorno = dia.with( TemporalAdjusters.next(dias[0]) ).plusWeeks(intervalo - 1);
+        } else {//si no se da el siguiente normal de la misma semana
+            diaRetorno = dia.with( TemporalAdjusters.next(dias[i + 1]) );
         }
 
-        return dia.with(TemporalAdjusters.next(diaDeLaSemanaSiguiente));
+        return diaRetorno;
     }
 
     public static void main(String[] args) {
-        DayOfWeek[] days = {DayOfWeek.MONDAY, DayOfWeek.FRIDAY, DayOfWeek.SUNDAY, DayOfWeek.THURSDAY};
-        Semanal s = new Semanal(4, days);
+        TreeSet<DayOfWeek> diasArbol = new TreeSet<>();
 
-        System.out.println( s.obtenerProximoDia(LocalDateTime.of(2023, 5, 1, 00, 10)) );
+        diasArbol.add(DayOfWeek.THURSDAY);
+        diasArbol.add(DayOfWeek.MONDAY);
+        diasArbol.add(DayOfWeek.SUNDAY);
+        diasArbol.add(DayOfWeek.FRIDAY);
 
-        System.out.println( s.obtenerProximoDia(LocalDateTime.of(2023, 5, 4, 00, 10)) );
+        Semanal s = new Semanal(2, diasArbol);
+
+        LocalDateTime diaI = LocalDateTime.of(2023, 5, 1, 00, 10);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE/dd/MMMM HH:mm");
+        for (int i = 0; i < 20; i++){
+            System.out.println( diaI.format(formatter) );
+            diaI = s.obtenerProximoDia(diaI);
+        }
     }
 }

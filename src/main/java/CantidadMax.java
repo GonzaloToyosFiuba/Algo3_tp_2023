@@ -72,20 +72,4 @@ public class CantidadMax extends Evento{
 
         return alarmasRetorno;
     }
-
-    public static void main(String[] args) {
-        TipoFrecuencia tipoFrecuencia = new Diaria(2);
-        Evento evento = new CantidadMax(8,"PASEAR","NADA",LocalDateTime.of(2023, 5, 1, 00, 10),LocalDateTime.of(2023, 5, 1, 19, 56),tipoFrecuencia,5);
-        ArrayList<LocalDateTime> fechas = evento.obtenerRepeticionesEntre(LocalDateTime.of(2023, 4, 1, 18, 56),LocalDateTime.of(2023, 5, 12, 18, 56));
-
-        for (var fechitas:fechas){
-            System.out.println(fechitas);
-        }
-        evento.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);
-        ArrayList<Alarma> alarmita = evento.obtenerProximaAlarma(LocalDateTime.of(2023, 4, 1, 15, 56));
-        System.out.println("ALARMA");
-        for (var alarma:alarmita){
-            System.out.println(alarma.getHorarioFechaDisparo());
-        }
-    }
 }
