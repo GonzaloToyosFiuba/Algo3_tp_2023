@@ -34,17 +34,17 @@ public class CantidadMax extends Evento{
         LocalDateTime aux_fAlarma = fechaInicio;
 
         for (Alarma alarma:this.alarmas) {
-
             if (alarma.esRepetible()){
                 aux_fAlarma = alarma.getHorarioFechaDisparo();
-
+                // aux_finicio = fecha inicio;
                 for (int i = 0; i < repeticionesMax ; i++){
 
                     if (i > 0){
                         aux_fAlarma = tipoFrecuencia.obtenerProximoDia(aux_fAlarma);
-                        //aux_fAlarma = fechaInicio.plusMonths(intervalo * i).withHour(alarma.getHorarioFechaDisparo().getHour()).withMinute(alarma.getHorarioFechaDisparo().getMinute());
-                    }
+                        // aux_fInicio  = tipoFrecuencia.obtenerProximoDia(aux_finicio);
 
+                    }
+                    // aux_alarma = = auxfInicio.minusMinutes(minutosAntes->me da  la alarma);
                     if (horarioActual.compareTo(aux_fAlarma) <= 0){
                         Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(), true, alarma.getId()); // VER COMO HACER EN PROTOTYPE
                         alarmasAux.add(alarmaEnvio);

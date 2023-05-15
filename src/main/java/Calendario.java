@@ -42,12 +42,12 @@ public class Calendario {
     public void eliminarTarea(int id){
         this.tareas.remove(id);
     }
-    public void EditarEvento(int id,String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal, boolean diaCompleto){
+    public void EditarEvento(int id,String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, boolean diaCompleto){
         if(diaCompleto){
             fechaInicio = fechaInicio.withHour(0).withMinute(0);
             fechaFinal = fechaFinal.withHour(23).withMinute(59);
         }
-        this.eventos.get(id).editarEvento(descripcion, titulo, tipoRepeticion, fechaInicio, fechaFinal);
+        this.eventos.get(id).editarEvento(descripcion, titulo, fechaInicio, fechaFinal);
     }
     public void EditarTarea(int id,String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto){
         this.tareas.get(id).editarTarea(titulo,descripcion, fechaVencimiento, diaCompleto);

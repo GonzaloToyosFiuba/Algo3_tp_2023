@@ -61,7 +61,7 @@ public  abstract class Evento {
         }
     }
 
-    public void editarEvento(String descripcion, String titulo, Repeticion tipoRepeticion, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+    public void editarEvento(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
         if (fechaInicio != this.fechaInicio){ // Esto es momentaneo , hay que hacer que las alarmas se pueda reconfigurar respecto a un cambio de fecha
             alarmas.clear();
             this.contadorIdAlarmas = 0;
