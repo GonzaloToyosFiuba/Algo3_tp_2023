@@ -2,6 +2,7 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +12,8 @@ public class TareaTest {
     public void TestObtenerAlarmaProxima(){
         // Arrange
         LocalDateTime fVencimiento = LocalDateTime.of(2023, 5, 4, 5, 50);
-        Tarea tarea = new Tarea(12,"PERRO","sacar a pasear", fVencimiento,false);
+        UUID id = UUID.randomUUID();
+        Tarea tarea = new Tarea(id,"PERRO","sacar a pasear", fVencimiento,false);
         tarea.agregarAlarma(30,TipoAlarma.NOTIFICACION);
 
         //act
@@ -28,7 +30,8 @@ public class TareaTest {
     public void TestObtenerAlarmaProximaFija(){
         // Arrange
         LocalDateTime fVencimiento = LocalDateTime.of(2023, 5, 4, 5, 50);
-        Tarea tarea = new Tarea(12,"PERRO","sacar a pasear", fVencimiento,false);
+        UUID id = UUID.randomUUID();
+        Tarea tarea = new Tarea(id,"PERRO","sacar a pasear", fVencimiento,false);
         tarea.agregarAlarma(LocalDateTime.of(2023, 5, 4, 5, 40), TipoAlarma.SONIDO);
 
         //act
@@ -45,7 +48,8 @@ public class TareaTest {
     public void TestObtenerAlarmaProximaFijaYVariable(){
         // Arrange
         LocalDateTime fVencimiento = LocalDateTime.of(2023, 5, 4, 5, 50);
-        Tarea tarea = new Tarea(12,"PERRO","sacar a pasear", fVencimiento,false);
+        UUID id = UUID.randomUUID();
+        Tarea tarea = new Tarea(id,"PERRO","sacar a pasear", fVencimiento,false);
         tarea.agregarAlarma(LocalDateTime.of(2023, 5, 4, 5, 40), TipoAlarma.SONIDO); // id = 0
         tarea.agregarAlarma(30, TipoAlarma.SONIDO); // id = 1
 
@@ -63,7 +67,8 @@ public class TareaTest {
     public void TestObtenerAlarmaProximaConVariasAlarmas(){
         // Arrange
         LocalDateTime fVencimiento = LocalDateTime.of(2023, 5, 4, 5, 50);
-        Tarea tarea = new Tarea(12,"PERRO","sacar a pasear", fVencimiento,false);
+        UUID id = UUID.randomUUID();
+        Tarea tarea = new Tarea(id,"PERRO","sacar a pasear", fVencimiento,false);
         tarea.agregarAlarma(LocalDateTime.of(2023, 5, 4, 5, 40), TipoAlarma.SONIDO); // id = 0
         tarea.agregarAlarma(LocalDateTime.of(2023, 4, 4, 5, 40), TipoAlarma.SONIDO);//  id = 1
         tarea.agregarAlarma(30, TipoAlarma.SONIDO); // id = 2
@@ -83,7 +88,8 @@ public class TareaTest {
     public void TestObtenerAlarmaProximaConFechaActualPosterior(){
         // Arrange
         LocalDateTime fVencimiento = LocalDateTime.of(2023, 5, 4, 5, 50);
-        Tarea tarea = new Tarea(12,"PERRO","sacar a pasear", fVencimiento,false);
+        UUID id = UUID.randomUUID();
+        Tarea tarea = new Tarea(id,"PERRO","sacar a pasear", fVencimiento,false);
         tarea.agregarAlarma(LocalDateTime.of(2023, 5, 4, 5, 40), TipoAlarma.SONIDO);
         tarea.agregarAlarma(20, TipoAlarma.SONIDO);
 

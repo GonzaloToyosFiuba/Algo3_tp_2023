@@ -1,9 +1,10 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public  abstract class Evento {
-    protected int id;
+    protected UUID id;
     protected String descripcion;
     protected String titulo;
 
@@ -14,9 +15,11 @@ public  abstract class Evento {
     protected ArrayList<Alarma> alarmas;
 
     protected TipoFrecuencia tipoFrecuencia;
+
+    private boolean diaCompleto;
     private int contadorIdAlarmas;
 
-    public Evento(int id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia) {
+    public Evento(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia,boolean diaCompleto) {
         this.id = id;
         this.descripcion = descripcion;
         this.titulo = titulo;
@@ -25,9 +28,10 @@ public  abstract class Evento {
         this.contadorIdAlarmas = 0;
         this.alarmas = new ArrayList<Alarma>();
         this.tipoFrecuencia = tipoFrecuencia;
+        this.diaCompleto = diaCompleto;
     }
 
-    public int getId(){
+    public UUID getId(){
       return this.id;
     }
 
@@ -44,6 +48,10 @@ public  abstract class Evento {
         Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, this.contadorIdAlarmas);
         alarmas.add(nuevaAlarma);
         this.contadorIdAlarmas++;
+    }
+
+    public boolean esDiaCompleto(){
+        return diaCompleto;
     }
 
     public abstract ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual);

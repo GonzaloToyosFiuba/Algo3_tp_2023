@@ -2,12 +2,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
 public class CantidadMax extends Evento{
 
     int repeticionesMax;
-    public CantidadMax(int id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, int repeticionesMax) {
-        super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia);
+    public CantidadMax(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, int repeticionesMax, boolean diaCompleto) {
+        super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia,diaCompleto);
         this.repeticionesMax = repeticionesMax;
     }
 

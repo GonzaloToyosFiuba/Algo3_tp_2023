@@ -2,12 +2,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
 public class FechaLimite extends Evento{
 
     private LocalDateTime fechaLimite;
-    public FechaLimite(int id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, LocalDateTime fechaLimite) {
-        super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia);
+    public FechaLimite(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, LocalDateTime fechaLimite, boolean diaCompleto) {
+        super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, diaCompleto);
         this.fechaLimite = fechaLimite;
     }
 

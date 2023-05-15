@@ -2,10 +2,12 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
 public class FechaLimiteTest {
+
     //PRUEBAS CON FRECUENCIA DIARIA
     @Test
     public void TestObtenerRepeticionesEntreEnEventoDeUnDiaFrecuenciaDiaria(){
@@ -17,10 +19,11 @@ public class FechaLimiteTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Diaria(2);
+        UUID id = UUID.randomUUID();
 
         //Act
         LocalDateTime fechaLimite = LocalDateTime.of(2023, 5, 15, 18, 56);
-        FechaLimite e = new FechaLimite(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, fechaLimite);
+        FechaLimite e = new FechaLimite(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, fechaLimite,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -46,10 +49,11 @@ public class FechaLimiteTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Diaria(2);
+        UUID id = UUID.randomUUID();
 
         //Act
         LocalDateTime fechaLimite = LocalDateTime.of(2023, 5, 5, 18, 56);
-        FechaLimite e = new FechaLimite(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, fechaLimite);
+        FechaLimite e = new FechaLimite(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, fechaLimite,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -68,9 +72,10 @@ public class FechaLimiteTest {
         LocalDateTime fLimite = LocalDateTime.of(2023, 5, 20, 20, 56);
 
         TipoFrecuencia tipo = new Diaria(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        Evento evento = new FechaLimite(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo,fLimite);
+        Evento evento = new FechaLimite(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo,fLimite,false);
 
         evento.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO);
 

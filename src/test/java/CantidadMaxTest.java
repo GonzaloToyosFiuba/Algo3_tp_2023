@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.TreeSet;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,9 +20,9 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Diaria(2);
-
+        UUID id = UUID.randomUUID();
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -47,9 +48,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Diaria(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -73,9 +75,9 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2024, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Diaria(2);
-
+        UUID id = UUID.randomUUID();
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -94,9 +96,9 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Diaria(2);
-
+        UUID id = UUID.randomUUID();
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -115,9 +117,9 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Diaria(2);
-
+        UUID id = UUID.randomUUID();
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
@@ -141,9 +143,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 8, 10, 18, 55);
 
         TipoFrecuencia tipo = new Mensual(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -167,9 +170,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 8, 10, 18, 55);
 
         TipoFrecuencia tipo = new Mensual(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 1);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 1,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -191,9 +195,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2024, 8, 10, 18, 55);
 
         TipoFrecuencia tipo = new Mensual(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3, false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -212,9 +217,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 8, 10, 18, 55);
 
         TipoFrecuencia tipo = new Mensual(1);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3, false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -235,9 +241,10 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Mensual(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
@@ -257,9 +264,9 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 4, 56);
 
         TipoFrecuencia tipo = new Mensual(2);
-
+        UUID id = UUID.randomUUID();
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 3, 18, 15));
@@ -279,9 +286,10 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Mensual(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);//id = 1
 
@@ -302,9 +310,10 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Mensual(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaRepetible(15, TipoAlarma.SONIDO);//id = 1
         e.agregarAlarmaRepetible(50, TipoAlarma.SONIDO);//id = 2
@@ -326,9 +335,10 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Mensual(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaRepetible(15, TipoAlarma.SONIDO);//id = 1
         e.agregarAlarmaRepetible(50, TipoAlarma.SONIDO);//id = 2
@@ -354,9 +364,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2024, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Anual(1);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -380,9 +391,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2024, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Anual(1);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 1);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 1,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -404,9 +416,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2023, 6, 10, 18, 55);
 
         TipoFrecuencia tipo = new Anual(2);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -425,9 +438,10 @@ public class CantidadMaxTest {
         LocalDateTime f2 = LocalDateTime.of(2025, 5, 10, 18, 55);
 
         TipoFrecuencia tipo = new Anual(1);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3, false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -446,9 +460,10 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Anual(1);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3,false);
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
@@ -468,9 +483,10 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Anual(1);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
@@ -490,9 +506,9 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Anual(1);
-
+        UUID id = UUID.randomUUID();
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);//id = 1
 
@@ -513,9 +529,10 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Anual(1);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaRepetible(15, TipoAlarma.SONIDO);//id = 1
         e.agregarAlarmaRepetible(50, TipoAlarma.SONIDO);//id = 2
@@ -537,9 +554,10 @@ public class CantidadMaxTest {
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
         TipoFrecuencia tipo = new Anual(1);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaRepetible(15, TipoAlarma.SONIDO);//id = 1
         e.agregarAlarmaRepetible(50, TipoAlarma.SONIDO);//id = 2
@@ -571,9 +589,9 @@ public class CantidadMaxTest {
         dias.add(DayOfWeek.SUNDAY);
         dias.add(DayOfWeek.FRIDAY);
         TipoFrecuencia tipo = new Semanal(1, dias);
-
+        UUID id = UUID.randomUUID();
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -606,9 +624,10 @@ public class CantidadMaxTest {
         dias.add(DayOfWeek.SUNDAY);
         dias.add(DayOfWeek.FRIDAY);
         TipoFrecuencia tipo = new Semanal(1, dias);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 1);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 1,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -636,9 +655,10 @@ public class CantidadMaxTest {
         dias.add(DayOfWeek.SUNDAY);
         dias.add(DayOfWeek.FRIDAY);
         TipoFrecuencia tipo = new Semanal(1, dias);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -661,9 +681,10 @@ public class CantidadMaxTest {
         dias.add(DayOfWeek.THURSDAY);
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipo = new Semanal(1, dias);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -691,9 +712,10 @@ public class CantidadMaxTest {
         dias.add(DayOfWeek.THURSDAY);
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipo = new Semanal(2, dias);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 5);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 5,false);
         ArrayList<LocalDateTime> fechas = e.obtenerRepeticionesEntre(f1, f2);
 
         ArrayList<LocalDateTime> fechasEsperadas = new ArrayList<>();
@@ -722,9 +744,10 @@ public class CantidadMaxTest {
         dias.add(DayOfWeek.THURSDAY);
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipo = new Semanal(1, dias);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 3,false);
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20),TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
@@ -748,9 +771,10 @@ public class CantidadMaxTest {
         dias.add(DayOfWeek.THURSDAY);
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipo = new Semanal(1, dias);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);
 
         ArrayList<Alarma> alarmas = e.obtenerProximaAlarma( LocalDateTime.of(2023, 5, 4, 18, 15));
@@ -774,9 +798,10 @@ public class CantidadMaxTest {
         dias.add(DayOfWeek.THURSDAY);
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipo = new Semanal(1, dias);
+        UUID id = UUID.randomUUID();
 
         //Act
-        CantidadMax e = new CantidadMax(15, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2);
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 2,false);
         e.agregarAlarmaRepetible(30, TipoAlarma.SONIDO);//id = 0
         e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 10, 18, 20),TipoAlarma.SONIDO);//id = 1
 
@@ -789,4 +814,5 @@ public class CantidadMaxTest {
         //assert
         assertEquals(alarmasEsperadas, alarmas);
     }
+
 }
