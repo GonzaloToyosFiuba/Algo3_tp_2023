@@ -1,24 +1,25 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
-public class MensualOcurrencias implements Repeticion{
-    private int intervalo, repeticionesMax;
+public class CantidadMax extends Evento{
 
-    public MensualOcurrencias(int intervalo, int repeticionesMax) {
-        this.intervalo = intervalo;
+    int repeticionesMax;
+    public CantidadMax(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, int repeticionesMax, boolean diaCompleto) {
+        super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia,diaCompleto);
         this.repeticionesMax = repeticionesMax;
     }
 
-    public ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2, LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+    @Override
+    public ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2) {
         ArrayList<LocalDateTime> fechas = new ArrayList<LocalDateTime>();
         LocalDateTime aux_fInicial = fechaInicio;
 
         for (int i = 0; i < repeticionesMax ; i++){
             if (i > 0){
-                aux_fInicial = fechaInicio.plusMonths(intervalo * i).withHour(fechaInicio.getHour()).withMinute(fechaInicio.getMinute());
+                aux_fInicial = tipoFrecuencia.obtenerProximoDia(aux_fInicial);
             }
 
             if (f1.compareTo(aux_fInicial) <= 0 && f2.compareTo(aux_fInicial) >= 0 ){
@@ -29,23 +30,24 @@ public class MensualOcurrencias implements Repeticion{
     }
 
     @Override
-    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual, LocalDateTime fechaInicio, LocalDateTime fechaFinal, ArrayList<Alarma> alarmas) {
+    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
         ArrayList<Alarma> alarmasAux = new ArrayList<>();
         LocalDateTime aux_fAlarma = fechaInicio;
 
-        for (Alarma alarma:alarmas) {
-
+        for (Alarma alarma:this.alarmas) {
             if (alarma.esRepetible()){
                 aux_fAlarma = alarma.getHorarioFechaDisparo();
-
+                // aux_finicio = fecha inicio;
                 for (int i = 0; i < repeticionesMax ; i++){
 
                     if (i > 0){
-                        aux_fAlarma = fechaInicio.plusMonths(intervalo * i).withHour(alarma.getHorarioFechaDisparo().getHour()).withMinute(alarma.getHorarioFechaDisparo().getMinute());
-                    }
+                        aux_fAlarma = tipoFrecuencia.obtenerProximoDia(aux_fAlarma);
+                        // aux_fInicio  = tipoFrecuencia.obtenerProximoDia(aux_finicio);
 
+                    }
+                    // aux_alarma = = auxfInicio.minusMinutes(minutosAntes->me da  la alarma);
                     if (horarioActual.compareTo(aux_fAlarma) <= 0){
-                        Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(), true, alarma.getId());
+                        Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(), true, alarma.getId()); // VER COMO HACER EN PROTOTYPE
                         alarmasAux.add(alarmaEnvio);
                         break;
                     }

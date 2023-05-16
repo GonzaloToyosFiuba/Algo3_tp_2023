@@ -1,9 +1,10 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
 public class Tarea {
-    private final int id;
+    private final UUID id;
     private String titulo, descripcion;
     private boolean completado;
     private LocalDateTime fechaVencimiento;
@@ -12,7 +13,7 @@ public class Tarea {
 
     private int contadorIdAlamas;
 
-    public Tarea(int id, String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto) {
+    public Tarea(UUID id, String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -64,6 +65,9 @@ public class Tarea {
         this.contadorIdAlamas++;
     }
 
+    public boolean esDiaCompleto(){
+        return diaCompleto;
+    }
     public void eliminarAlarma(int id){
         int posicion = 0;
 
@@ -85,7 +89,7 @@ public class Tarea {
         this.fechaVencimiento = fechaVencimiento;
         this.diaCompleto = diaCompleto;
     }
-    public int getId(){
+    public UUID getId(){
         return this.id;
     }
 }
