@@ -1,6 +1,9 @@
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 
 public class Diaria implements TipoFrecuencia{
+    @JsonProperty("intervalo")
     int intervalo;
 
     public Diaria(int intervalo) {

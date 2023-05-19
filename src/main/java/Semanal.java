@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
@@ -7,6 +9,7 @@ import java.util.TreeSet;
 import java.time.format.DateTimeFormatter;
 
 public class Semanal implements TipoFrecuencia {
+    @JsonProperty("intervalo")
     private int intervalo;
     private DayOfWeek[] dias;
 
