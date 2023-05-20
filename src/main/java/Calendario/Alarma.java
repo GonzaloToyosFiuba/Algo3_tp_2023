@@ -1,3 +1,5 @@
+package Calendario;
+
 import CustomSerializers.LocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

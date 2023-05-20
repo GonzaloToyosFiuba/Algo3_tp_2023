@@ -1,3 +1,7 @@
+import Calendario.Alarma;
+import Calendario.Evento;
+import Calendario.FechaLimite;
+import Calendario.TipoAlarma;
 import Frecuencias.Diaria;
 import Frecuencias.TipoFrecuencia;
 import org.junit.Test;

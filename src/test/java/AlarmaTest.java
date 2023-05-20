@@ -1,4 +1,5 @@
-import org.junit.Before;
+import Calendario.Alarma;
+import Calendario.TipoAlarma;
 import org.junit.Test;
 
 import java.time.*;
@@ -9,33 +10,33 @@ public class AlarmaTest {
     @Before
     public void TestConstructor(){
         LocalDateTime fecha = LocalDateTime.now();
-        Alarma alarma = new Alarma(fecha,TipoAlarma.NOTIFICACION);
+        Calendario.Alarma alarma = new Calendario.Alarma(fecha,Calendario.TipoAlarma.NOTIFICACION);
 
-        assertEquals(TipoAlarma.NOTIFICACION, alarma.getTipo());
+        assertEquals(Calendario.TipoAlarma.NOTIFICACION, alarma.getTipo());
 
         assertEquals(fecha, alarma.getHorarioFechaDisparo());
     }
 
     @Test
     public void TestSetAlarma(){
-        Alarma alarma = new Alarma(LocalDateTime.of(2023,4,10,18,38),TipoAlarma.NOTIFICACION);
+        Calendario.Alarma alarma = new Calendario.Alarma(LocalDateTime.of(2023,4,10,18,38),Calendario.TipoAlarma.NOTIFICACION);
         LocalDateTime fechaAlarma = LocalDateTime.of(2023,4,10,18,37);
         assertTrue(alarma.setAlarma(fechaAlarma));
     }
 
     @Test
     public void TestSetTipo() {
-        Alarma alarma = new Alarma(LocalDateTime.of(2023,4,10,18,37),TipoAlarma.CORREO);
+        Calendario.Alarma alarma = new Calendario.Alarma(LocalDateTime.of(2023,4,10,18,37),Calendario.TipoAlarma.CORREO);
 
-        alarma.setTipo(TipoAlarma.NOTIFICACION);
+        alarma.setTipo(Calendario.TipoAlarma.NOTIFICACION);
         //
-        assertEquals(TipoAlarma.NOTIFICACION, alarma.getTipo());
+        assertEquals(Calendario.TipoAlarma.NOTIFICACION, alarma.getTipo());
     }
 
     @Test
     public  void TestDisparo(){
         //Arrange
-        Alarma alarma = new Alarma(LocalDateTime.of(2023,4,10,18,37), TipoAlarma.CORREO);
+        Calendario.Alarma alarma = new Calendario.Alarma(LocalDateTime.of(2023,4,10,18,37), Calendario.TipoAlarma.CORREO);
         LocalDateTime fechaActual = LocalDateTime.of(2023,4,10,18,37,5);
         //
         boolean disparoBien = alarma.disparar(fechaActual);

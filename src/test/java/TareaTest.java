@@ -1,3 +1,6 @@
+import Calendario.Alarma;
+import Calendario.Tarea;
+import Calendario.TipoAlarma;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

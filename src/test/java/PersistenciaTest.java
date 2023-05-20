@@ -1,9 +1,11 @@
+import Calendario.*;
 import Frecuencias.Diaria;
 import Frecuencias.Mensual;
 import Frecuencias.Semanal;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
 import java.time.DayOfWeek;
@@ -106,6 +108,34 @@ public class PersistenciaTest {
 
         try {
             String serializacionObtenida =  objectMapper.writeValueAsString(e);
+            System.out.println(serializacionObtenida);
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Test
+    public void persistenciaCalendario(){
+        Calendario c = new Calendario();
+        LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
+        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
+        LocalDateTime fLimite = LocalDateTime.of(2023, 7, 4, 20, 56);
+
+        TipoFrecuencia tipo = new Mensual(4);
+
+        TreeSet<DayOfWeek> dias = new TreeSet<>();
+        dias.add(DayOfWeek.THURSDAY);
+        dias.add(DayOfWeek.MONDAY);
+        TipoFrecuencia tipo2 = new Semanal(1, dias);
+
+        c.agregarTarea("Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32) , true);
+        c.agregarTarea("Perro", "Pasear a Lio", LocalDateTime.of(2024, 5, 1, 18, 32) , false);
+        c.agregarEventoFechaLimite("Sacar al perro por la mañana", "Perro", fInicio, fFinal, fLimite, tipo,false);
+        c.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 3, tipo2,false);
+
+        //objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        try {
+            String serializacionObtenida =  objectMapper.writeValueAsString(c);
             System.out.println(serializacionObtenida);
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();

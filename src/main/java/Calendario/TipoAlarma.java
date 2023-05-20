@@ -1,3 +1,5 @@
+package Calendario;
+
 public enum TipoAlarma implements Disparable {
     NOTIFICACION{
         @Override

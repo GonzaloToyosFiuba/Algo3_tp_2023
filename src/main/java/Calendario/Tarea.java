@@ -1,13 +1,16 @@
+package Calendario;
+
 import CustomSerializers.LocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
-public class Tarea {
+public class Tarea implements Serializable {
     @JsonProperty("id")
     private final UUID id;
     @JsonProperty("titulo")

@@ -1,12 +1,13 @@
+package Calendario;
+
 import CustomSerializers.LocalDateTimeSerializer;
-import Frecuencias.Diaria;
-import Frecuencias.Semanal;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -17,10 +18,10 @@ import java.util.UUID;
         property = "tipoEvento"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = Diaria.class, name = "cantidadMax"),
-        @JsonSubTypes.Type(value = Semanal.class, name = "fechaLimite"),
+        @JsonSubTypes.Type(value = CantidadMax.class, name = "cantidadMax"),
+        @JsonSubTypes.Type(value = FechaLimite.class, name = "fechaLimite"),
 })
-public  abstract class Evento {
+public abstract class Evento implements Serializable {
     @JsonProperty("id")
     protected UUID id;
     @JsonProperty("descripcion")
@@ -53,7 +54,7 @@ public  abstract class Evento {
     }
 
     public UUID getId(){
-      return this.id;
+        return this.id;
     }
 
     public void  agregarAlarmaRepetible(int minutosAntes, TipoAlarma tipo){
