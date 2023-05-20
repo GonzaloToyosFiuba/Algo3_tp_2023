@@ -1,3 +1,5 @@
+import Frecuencias.Diaria;
+import Frecuencias.TipoFrecuencia;
 import org.junit.Test;
 
 import java.time.LocalDateTime;

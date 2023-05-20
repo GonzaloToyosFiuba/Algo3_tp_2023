@@ -1,3 +1,6 @@
+package Frecuencias;
+
+import Frecuencias.Diaria;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 

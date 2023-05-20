@@ -1,11 +1,14 @@
-import java.time.Duration;
+import CustomSerializers.LocalDateTimeSerializer;
+import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
 public class FechaLimite extends Evento{
-
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime fechaLimite;
     public FechaLimite(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, LocalDateTime fechaLimite, boolean diaCompleto) {
         super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, diaCompleto);

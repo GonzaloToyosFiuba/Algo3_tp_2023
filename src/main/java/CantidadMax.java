@@ -1,14 +1,16 @@
-import java.time.Duration;
+import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
 public class CantidadMax extends Evento{
-
+    @JsonProperty("repeticionesMax")
     int repeticionesMax;
     public CantidadMax(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, int repeticionesMax, boolean diaCompleto) {
-        super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia,diaCompleto);
+        super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, diaCompleto);
         this.repeticionesMax = repeticionesMax;
     }
 

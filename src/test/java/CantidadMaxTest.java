@@ -1,3 +1,4 @@
+import Frecuencias.*;
 import org.junit.Test;
 
 import java.time.DayOfWeek;

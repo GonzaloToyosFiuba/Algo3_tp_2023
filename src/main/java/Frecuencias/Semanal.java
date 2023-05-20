@@ -1,21 +1,22 @@
+package Frecuencias;
+
+import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.TreeSet;
-import java.time.format.DateTimeFormatter;
 
 public class Semanal implements TipoFrecuencia {
     @JsonProperty("intervalo")
     private int intervalo;
+
+    @JsonProperty("dias")
     private DayOfWeek[] dias;
 
     public Semanal(int intervalo, TreeSet<DayOfWeek> dias) {
-        DayOfWeek[] diasArray = dias.toArray(new DayOfWeek[dias.size()]);
-        this.dias = diasArray;
+        this.dias = dias.toArray(new DayOfWeek[dias.size()]);
         this.intervalo = intervalo;
     }
     @Override

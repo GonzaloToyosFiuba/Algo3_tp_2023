@@ -1,17 +1,29 @@
+import CustomSerializers.LocalDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
 public class Tarea {
+    @JsonProperty("id")
     private final UUID id;
-    private String titulo, descripcion;
-    private boolean completado;
+    @JsonProperty("titulo")
+    private String titulo;
+    @JsonProperty("descripcion")
+    private String descripcion;
+    @JsonProperty("completada")
+    private boolean completada;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime fechaVencimiento;
+    @JsonProperty("alarmas")
     private ArrayList<Alarma> alarmas;
+    @JsonProperty("diaCompleto")
     private boolean diaCompleto;
-
-    private int contadorIdAlamas;
+    @JsonProperty("contadorIdAlarmas")
+    private int contadorIdAlarmas;
 
     public Tarea(UUID id, String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto) {
         this.id = id;
@@ -20,15 +32,14 @@ public class Tarea {
         this.fechaVencimiento = fechaVencimiento;
         this.diaCompleto = diaCompleto;
         this.alarmas = new ArrayList<Alarma>();
-        this.contadorIdAlamas = 0;
+        this.contadorIdAlarmas = 0;
     }
 
     public void completar(){
-        this.completado = true;
+        this.completada = true;
     }
 
     public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
-        //Alarma alarmaMinima = Collections.min(this.alarmas); // 5pm yo busco los mayor o igual a 5pm mas cercano
         ArrayList<Alarma> alarmasAux = new ArrayList<>();
 
         for (Alarma alarma:this.alarmas) { // Esto para buscar solo alarmas que todavia no ocurrieron
@@ -54,15 +65,15 @@ public class Tarea {
 
     public void agregarAlarma(int minutosAntes, TipoAlarma tipo){
         LocalDateTime fechaDisparo = fechaVencimiento.minusMinutes(minutosAntes);
-        Alarma alarma = new Alarma(fechaDisparo, tipo,this.contadorIdAlamas);
+        Alarma alarma = new Alarma(fechaDisparo, tipo, this.contadorIdAlarmas);
         this.alarmas.add(alarma);
-        this.contadorIdAlamas++;
+        this.contadorIdAlarmas++;
     }
 
     public void agregarAlarma(LocalDateTime fechaDisparo, TipoAlarma tipo){
-        Alarma alarma = new Alarma(fechaDisparo, tipo, this.contadorIdAlamas);
+        Alarma alarma = new Alarma(fechaDisparo, tipo, this.contadorIdAlarmas);
         this.alarmas.add(alarma);
-        this.contadorIdAlamas++;
+        this.contadorIdAlarmas++;
     }
 
     public boolean esDiaCompleto(){
@@ -82,7 +93,7 @@ public class Tarea {
     public void editarTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto){
         if (fechaVencimiento != this.fechaVencimiento){ // Esto es momentaneo , hay que hacer que las alarmas se pueda reconfigurar respecto a un cambio de fecha
             alarmas.clear();
-            this.contadorIdAlamas = 0;
+            this.contadorIdAlarmas = 0;
         }
         this.descripcion = descripcion;
         this.titulo = titulo;

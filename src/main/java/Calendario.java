@@ -1,6 +1,6 @@
-import java.security.spec.ECField;
+import Frecuencias.TipoFrecuencia;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
@@ -26,7 +26,7 @@ public class Calendario {
         ids.add(id);
         return  id;
     }
-    public void agregarEventoCantMax( String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal,int repeticionesMax, TipoFrecuencia tipoFrecuencia, boolean diaCompleto){
+    public void agregarEventoCantMax(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, int repeticionesMax, TipoFrecuencia tipoFrecuencia, boolean diaCompleto){
         /*if(diaCompleto){
             fechaInicio = fechaInicio.withHour(0).withMinute(0);
             fechaFinal = fechaFinal.withHour(23).withMinute(59);
@@ -55,7 +55,7 @@ public class Calendario {
         return this.eventos.get(id);
     }
 
-    public  Tarea buscarTarea(UUID id){
+    public Tarea buscarTarea(UUID id){
         return this.tareas.get(id);
     }
 

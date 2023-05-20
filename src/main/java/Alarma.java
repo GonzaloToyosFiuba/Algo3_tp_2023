@@ -1,11 +1,20 @@
+import CustomSerializers.LocalDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Alarma implements Comparable{
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime horarioFechaDisparo;
+    @JsonProperty("tipoAlarma")
     private TipoAlarma tipoAlarma;
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("repetible")
     private boolean repetible;
     public Alarma(LocalDateTime horarioFechaDisparo, TipoAlarma tipo, boolean repetible, int id) {
         this.horarioFechaDisparo = horarioFechaDisparo;
@@ -23,7 +32,6 @@ public class Alarma implements Comparable{
     public String disparar(LocalDateTime fechaActual){
         String seDispara = "No se disparo";
         if (this.horarioFechaDisparo.compareTo(fechaActual.truncatedTo(ChronoUnit.MINUTES)) == 0){
-
             seDispara = tipoAlarma.dipararAlarma();;
         }
         return seDispara;
@@ -33,6 +41,7 @@ public class Alarma implements Comparable{
         return horarioFechaDisparo;
     }
 
+    @JsonIgnore
     public TipoAlarma getTipo() {
         return tipoAlarma;
     }
