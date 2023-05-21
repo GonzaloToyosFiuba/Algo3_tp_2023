@@ -1,6 +1,7 @@
 package Calendario;
 
 import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,21 @@ public class CantidadMax extends Evento{
     int repeticionesMax;
     public CantidadMax(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, int repeticionesMax, boolean diaCompleto) {
         super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, diaCompleto);
+        this.repeticionesMax = repeticionesMax;
+    }
+
+    @JsonCreator
+    private  CantidadMax (@JsonProperty("id") UUID id,
+                                 @JsonProperty("descripcion") String descripcion,
+                                 @JsonProperty("titulo") String titulo,
+                                 @JsonProperty("fechaInicio") LocalDateTime fechaInicio,
+                                 @JsonProperty("fechaFinal") LocalDateTime fechaFinal,
+                                 @JsonProperty("tipoFrecuencia") TipoFrecuencia tipoFrecuencia,
+                                 @JsonProperty("diaCompleto") boolean diaCompleto,
+                                 @JsonProperty("alarmas") ArrayList<Alarma> alarmas,
+                                 @JsonProperty("repeticionesMax") int repeticionesMax) {
+        super(id, descripcion, titulo, fechaInicio, fechaFinal,tipoFrecuencia, diaCompleto);
+        super.alarmas = alarmas;
         this.repeticionesMax = repeticionesMax;
     }
 

@@ -1,7 +1,11 @@
 package Calendario;
 
+import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
 import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
@@ -11,9 +15,25 @@ import java.util.UUID;
 
 public class FechaLimite extends Evento{
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime fechaLimite;
     public FechaLimite(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia, LocalDateTime fechaLimite, boolean diaCompleto) {
         super(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, diaCompleto);
+        this.fechaLimite = fechaLimite;
+    }
+
+    @JsonCreator
+    private  FechaLimite (@JsonProperty("id") UUID id,
+                          @JsonProperty("descripcion") String descripcion,
+                          @JsonProperty("titulo") String titulo,
+                          @JsonProperty("fechaInicio") LocalDateTime fechaInicio,
+                          @JsonProperty("fechaFinal") LocalDateTime fechaFinal,
+                          @JsonProperty("tipoFrecuencia") TipoFrecuencia tipoFrecuencia,
+                          @JsonProperty("diaCompleto") boolean diaCompleto,
+                          @JsonProperty("alarmas") ArrayList<Alarma> alarmas,
+                          @JsonProperty("repeticionesMax") LocalDateTime fechaLimite) {
+        super(id, descripcion, titulo, fechaInicio, fechaFinal,tipoFrecuencia, diaCompleto);
+        super.alarmas = alarmas;
         this.fechaLimite = fechaLimite;
     }
 

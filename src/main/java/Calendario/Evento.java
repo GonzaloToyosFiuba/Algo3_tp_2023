@@ -1,10 +1,12 @@
 package Calendario;
 
+import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
@@ -29,11 +31,14 @@ public abstract class Evento implements Serializable {
     @JsonProperty("titulo")
     protected String titulo;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     protected LocalDateTime fechaInicio;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     protected LocalDateTime fechaFinal;
     @JsonProperty("alarmas")
     protected ArrayList<Alarma> alarmas;
+    //@JsonDeserialize(using = TipoFrecuenciaDeserializer.class)
     @JsonProperty("tipoFrecuencia")
     protected TipoFrecuencia tipoFrecuencia;
     @JsonProperty("diaCompleto")
@@ -52,7 +57,6 @@ public abstract class Evento implements Serializable {
         this.tipoFrecuencia = tipoFrecuencia;
         this.diaCompleto = diaCompleto;
     }
-
     public UUID getId(){
         return this.id;
     }

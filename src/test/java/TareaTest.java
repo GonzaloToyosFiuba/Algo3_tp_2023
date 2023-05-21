@@ -103,5 +103,4 @@ public class TareaTest {
         //assert
         assertEquals(alarmasEsperadas, alarmasProximas);
     }
-// Prueba
 }

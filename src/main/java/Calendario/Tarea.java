@@ -1,7 +1,12 @@
 package Calendario;
 
+import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
+import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
@@ -20,6 +25,7 @@ public class Tarea implements Serializable {
     @JsonProperty("completada")
     private boolean completada;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime fechaVencimiento;
     @JsonProperty("alarmas")
     private ArrayList<Alarma> alarmas;
@@ -36,6 +42,23 @@ public class Tarea implements Serializable {
         this.diaCompleto = diaCompleto;
         this.alarmas = new ArrayList<Alarma>();
         this.contadorIdAlarmas = 0;
+    }
+
+    @JsonCreator
+    private  Tarea (      @JsonProperty("id") UUID id,
+                          @JsonProperty("descripcion") String descripcion,
+                          @JsonProperty("titulo") String titulo,
+                          @JsonProperty("fechaVencimiento") LocalDateTime fechaVencimiento,
+                          @JsonProperty("diaCompleto") boolean diaCompleto,
+                          @JsonProperty("contadorIdAlarma") int contadorIdAlarmas,
+                          @JsonProperty("alarmas") ArrayList<Alarma> alarmas) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaVencimiento = fechaVencimiento;
+        this.diaCompleto = diaCompleto;
+        this.alarmas = alarmas;
+        this.contadorIdAlarmas = contadorIdAlarmas;
     }
 
     public void completar(){

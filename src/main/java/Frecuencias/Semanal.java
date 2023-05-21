@@ -1,11 +1,13 @@
 package Frecuencias;
 
 import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Arrays;
 import java.util.TreeSet;
 
 public class Semanal implements TipoFrecuencia {
@@ -18,6 +20,12 @@ public class Semanal implements TipoFrecuencia {
     public Semanal(int intervalo, TreeSet<DayOfWeek> dias) {
         this.dias = dias.toArray(new DayOfWeek[dias.size()]);
         this.intervalo = intervalo;
+    }
+    @JsonCreator
+    private static Semanal create(@JsonProperty("intervalo") int intervalo, @JsonProperty("dias")DayOfWeek[] dias) {
+        TreeSet<DayOfWeek> diasTree = new TreeSet<>();
+        diasTree.addAll(Arrays.asList(dias));
+        return new Semanal(intervalo,diasTree);
     }
     @Override
     public LocalDateTime obtenerProximoDia(LocalDateTime dia) {

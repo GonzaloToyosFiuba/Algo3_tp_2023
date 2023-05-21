@@ -5,9 +5,10 @@ import Frecuencias.Semanal;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.TreeSet;
@@ -135,10 +136,67 @@ public class PersistenciaTest {
 
         //objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {
+
             String serializacionObtenida =  objectMapper.writeValueAsString(c);
             System.out.println(serializacionObtenida);
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    @Test
+    public void DeserializacionFrecuencia(){
+
+        try {
+            TipoFrecuencia miObjeto = objectMapper.readValue(new File("ejemplo.json"), TipoFrecuencia.class);
+
+            System.out.println(miObjeto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void DeserializacionAlarma(){
+
+        try {
+            Alarma miObjeto = objectMapper.readValue(new File("ejemplo.json"), Alarma.class);
+
+            System.out.println(miObjeto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void DeserializarEvento(){
+        try {
+            Evento miObjeto = objectMapper.readValue(new File("ejemplo.json"), Evento.class);
+
+            System.out.println(miObjeto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void DeserializarTarea(){
+        try {
+            Tarea miObjeto = objectMapper.readValue(new File("ejemplo.json"), Tarea.class);
+
+            System.out.println(miObjeto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void DeserializarCalendarios(){
+        try {
+            Calendario miObjeto = objectMapper.readValue(new File("ejemplo.json"), Calendario.class);
+
+            System.out.println(miObjeto);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

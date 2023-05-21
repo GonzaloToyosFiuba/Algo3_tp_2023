@@ -1,8 +1,12 @@
 package Calendario;
 
+import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
+import Frecuencias.Anual;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.*;
@@ -11,6 +15,7 @@ import java.util.Objects;
 
 public class Alarma implements Comparable{
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime horarioFechaDisparo;
     @JsonProperty("tipoAlarma")
     private TipoAlarma tipoAlarma;
@@ -29,6 +34,13 @@ public class Alarma implements Comparable{
         this.horarioFechaDisparo = horarioFechaDisparo;
         this.tipoAlarma = tipo;
         this.id = id;
+    }
+    @JsonCreator
+    private static Alarma create(@JsonProperty("horarioFechaDisparo") LocalDateTime horarioFechaDisparo,
+                                 @JsonProperty("tipo")TipoAlarma tipo,
+                                 @JsonProperty("repetible")boolean repetible,
+                                 @JsonProperty("id")int id) {
+        return new Alarma(horarioFechaDisparo, tipo, repetible, id);
     }
 
     public String disparar(LocalDateTime fechaActual){
