@@ -8,6 +8,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.TreeSet;
 
 public class Semanal implements TipoFrecuencia {
@@ -45,5 +46,13 @@ public class Semanal implements TipoFrecuencia {
         }
 
         return diaRetorno;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Semanal semanal = (Semanal) o;
+        return intervalo == semanal.intervalo && Arrays.equals(dias, semanal.dias);
     }
 }

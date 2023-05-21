@@ -3,19 +3,20 @@ package Calendario;
 import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
 import Frecuencias.TipoFrecuencia;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.sound.midi.Soundbank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.UUID;
 
-public class Tarea implements Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Tarea implements Serializable{
     @JsonProperty("id")
     private final UUID id;
     @JsonProperty("titulo")
@@ -45,13 +46,13 @@ public class Tarea implements Serializable {
     }
 
     @JsonCreator
-    private  Tarea (      @JsonProperty("id") UUID id,
-                          @JsonProperty("descripcion") String descripcion,
-                          @JsonProperty("titulo") String titulo,
-                          @JsonProperty("fechaVencimiento") LocalDateTime fechaVencimiento,
-                          @JsonProperty("diaCompleto") boolean diaCompleto,
-                          @JsonProperty("contadorIdAlarma") int contadorIdAlarmas,
-                          @JsonProperty("alarmas") ArrayList<Alarma> alarmas) {
+    private  Tarea (@JsonProperty("id") UUID id,
+                    @JsonProperty("descripcion") String descripcion,
+                    @JsonProperty("titulo") String titulo,
+                    @JsonProperty("fechaVencimiento") LocalDateTime fechaVencimiento,
+                    @JsonProperty("diaCompleto") boolean diaCompleto,
+                    @JsonProperty("contadorIdAlarma") int contadorIdAlarmas,
+                    @JsonProperty("alarmas") ArrayList<Alarma> alarmas) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -129,4 +130,26 @@ public class Tarea implements Serializable {
     public UUID getId(){
         return this.id;
     }
+
+    @JsonProperty("instancia")
+    private String getInstancia() {
+        return Tarea.class.getSimpleName();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tarea tarea = (Tarea) o;
+        return completada == tarea.completada &&
+               diaCompleto == tarea.diaCompleto &&
+               contadorIdAlarmas == tarea.contadorIdAlarmas &&
+               Objects.equals(id, tarea.id) &&
+               Objects.equals(titulo, tarea.titulo) &&
+               Objects.equals(descripcion, tarea.descripcion) &&
+               Objects.equals(fechaVencimiento, tarea.fechaVencimiento) &&
+               alarmas.containsAll(tarea.alarmas);
+    }
+
 }

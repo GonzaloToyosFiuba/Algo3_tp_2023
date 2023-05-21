@@ -1,7 +1,6 @@
 package Calendario;
 
-import CustomDeserializers.HashMapEventoDeserializer;
-import CustomDeserializers.HashMapTareaDeserializer;
+import CustomDeserializers.HashMapDeserializer;
 import CustomSerializers.HashMapSerializer;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -16,10 +15,10 @@ import java.util.UUID;
 
 public class Calendario {
     @JsonSerialize(using = HashMapSerializer.class)
-    @JsonDeserialize(using = HashMapEventoDeserializer.class)
+    @JsonDeserialize(using = HashMapDeserializer.class)
     private HashMap<UUID,Evento> eventos;
     @JsonSerialize(using = HashMapSerializer.class)
-    @JsonDeserialize(using = HashMapTareaDeserializer.class)
+    @JsonDeserialize(using = HashMapDeserializer.class)
     private HashMap<UUID,Tarea> tareas;
 
     public Calendario() {

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 @JsonTypeInfo(
@@ -42,9 +43,9 @@ public abstract class Evento implements Serializable {
     @JsonProperty("tipoFrecuencia")
     protected TipoFrecuencia tipoFrecuencia;
     @JsonProperty("diaCompleto")
-    private boolean diaCompleto;
+    protected boolean diaCompleto;
     @JsonProperty("contadorIdAlarmas")
-    private int contadorIdAlarmas;
+    protected int contadorIdAlarmas;
 
     public Evento(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia,boolean diaCompleto) {
         this.id = id;
@@ -104,6 +105,26 @@ public abstract class Evento implements Serializable {
         this.titulo = titulo;
         this.fechaFinal = fechaFinal;
         this.fechaInicio = fechaInicio;
+    }
 
+    @JsonProperty("instancia")
+    private String getInstancia() {
+        return Evento.class.getSimpleName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Evento evento = (Evento) o;
+        return diaCompleto == evento.diaCompleto &&
+               contadorIdAlarmas == evento.contadorIdAlarmas &&
+               Objects.equals(id, evento.id) &&
+               Objects.equals(descripcion, evento.descripcion) &&
+               Objects.equals(titulo, evento.titulo) &&
+               Objects.equals(fechaInicio, evento.fechaInicio) &&
+               Objects.equals(fechaFinal, evento.fechaFinal) &&
+               Objects.equals(tipoFrecuencia, evento.tipoFrecuencia) &&
+               alarmas.containsAll(evento.alarmas);
     }
 }

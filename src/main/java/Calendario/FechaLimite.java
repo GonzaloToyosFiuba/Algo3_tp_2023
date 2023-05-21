@@ -4,6 +4,7 @@ import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -11,9 +12,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.UUID;
 
-public class FechaLimite extends Evento{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class FechaLimite extends Evento implements Comparable{
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime fechaLimite;
@@ -31,7 +34,7 @@ public class FechaLimite extends Evento{
                           @JsonProperty("tipoFrecuencia") TipoFrecuencia tipoFrecuencia,
                           @JsonProperty("diaCompleto") boolean diaCompleto,
                           @JsonProperty("alarmas") ArrayList<Alarma> alarmas,
-                          @JsonProperty("repeticionesMax") LocalDateTime fechaLimite) {
+                          @JsonProperty("fechaLimite") LocalDateTime fechaLimite) {
         super(id, descripcion, titulo, fechaInicio, fechaFinal,tipoFrecuencia, diaCompleto);
         super.alarmas = alarmas;
         this.fechaLimite = fechaLimite;
@@ -98,4 +101,27 @@ public class FechaLimite extends Evento{
 
         return alarmasRetorno;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FechaLimite evento = (FechaLimite) o;
+        return diaCompleto == evento.diaCompleto &&
+               contadorIdAlarmas == evento.contadorIdAlarmas &&
+               Objects.equals(id, evento.id) &&
+               Objects.equals(descripcion, evento.descripcion) &&
+               Objects.equals(titulo, evento.titulo) &&
+               Objects.equals(fechaInicio, evento.fechaInicio) &&
+               Objects.equals(fechaFinal, evento.fechaFinal) &&
+               Objects.equals(tipoFrecuencia, evento.tipoFrecuencia) &&
+               alarmas.containsAll(evento.alarmas) &&
+               Objects.equals(fechaLimite, evento.fechaLimite);
+    }
+
 }

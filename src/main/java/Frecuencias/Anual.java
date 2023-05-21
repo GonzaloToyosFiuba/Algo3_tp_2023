@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Anual implements TipoFrecuencia {
     @JsonProperty("intervalo")
@@ -20,5 +21,13 @@ public class Anual implements TipoFrecuencia {
     @Override
     public LocalDateTime obtenerProximoDia(LocalDateTime dia) {
         return dia.plusYears(intervalo);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Anual anual = (Anual) o;
+        return intervalo == anual.intervalo;
     }
 }

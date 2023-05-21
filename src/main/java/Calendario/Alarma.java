@@ -2,7 +2,6 @@ package Calendario;
 
 import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
-import Frecuencias.Anual;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -86,7 +85,7 @@ public class Alarma implements Comparable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Alarma alarma = (Alarma) o;
-        return id == alarma.id && Objects.equals(horarioFechaDisparo, alarma.horarioFechaDisparo) && tipoAlarma == alarma.tipoAlarma;
+        return Objects.equals(horarioFechaDisparo, alarma.horarioFechaDisparo) && tipoAlarma == alarma.tipoAlarma;
     }
 
     @Override
