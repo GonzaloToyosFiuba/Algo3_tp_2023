@@ -112,19 +112,4 @@ public abstract class Evento implements Serializable {
         return Evento.class.getSimpleName();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Evento evento = (Evento) o;
-        return diaCompleto == evento.diaCompleto &&
-               contadorIdAlarmas == evento.contadorIdAlarmas &&
-               Objects.equals(id, evento.id) &&
-               Objects.equals(descripcion, evento.descripcion) &&
-               Objects.equals(titulo, evento.titulo) &&
-               Objects.equals(fechaInicio, evento.fechaInicio) &&
-               Objects.equals(fechaFinal, evento.fechaFinal) &&
-               Objects.equals(tipoFrecuencia, evento.tipoFrecuencia) &&
-               alarmas.containsAll(evento.alarmas);
-    }
 }
