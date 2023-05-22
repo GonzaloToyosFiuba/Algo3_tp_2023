@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 
@@ -124,5 +123,27 @@ public class Calendario {
         }
 
         return iguales;
+    }
+
+    private boolean compararHashMaps(HashMap<UUID, Object> hashMap1, HashMap<UUID, Object> hashMap2) {
+        if (hashMap1.size() != hashMap2.size()) {
+            return false;
+        }
+
+        for (Map.Entry<UUID, Object> entry : hashMap1.entrySet()) {
+            UUID key = entry.getKey();
+            Object valor = entry.getValue();
+
+            if (!hashMap2.containsKey(key)) {
+                return false;
+            }
+
+            Object busqueda = hashMap2.get(key);
+            if (!valor.equals(busqueda)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
