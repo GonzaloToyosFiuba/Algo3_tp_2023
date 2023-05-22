@@ -19,57 +19,67 @@ import static org.junit.Assert.*;
 public class PersistenciaTest {
     public static ObjectMapper objectMapper = new ObjectMapper();
     @Test
-    public void serializacionTipoFrecuencia(){
-        String serializacionEsperada = "{\"tipo\":\"diaria\",\"intervalo\":5}";
-        String serializacionObtenida = "";
+    public void serializacionYdeserializacionTipoFrecuencia(){
+        TipoFrecuencia tipoOriginal = new Diaria(5);
 
-        TipoFrecuencia tipo = new Diaria(5);
+        String serializacionObtenida = "";
+        TipoFrecuencia tipoDeserializado = null;
 
         try {
-            serializacionObtenida =  objectMapper.writeValueAsString(tipo);
+            serializacionObtenida =  objectMapper.writeValueAsString(tipoOriginal);
+            tipoDeserializado = objectMapper.readValue(serializacionObtenida, TipoFrecuencia.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        assertEquals(serializacionEsperada, serializacionObtenida);
+        assertEquals(tipoOriginal, tipoDeserializado);
     }
 
     @Test
-    public void serializacionTipoFrecuenciaConSemanal(){
-        String serializacionEsperada = "{\"tipo\":\"semanal\",\"intervalo\":1,\"dias\":[\"MONDAY\",\"THURSDAY\"]}";
-        String serializacionObtenida = "";
-
+    public void serializacionYdeserializacionTipoFrecuenciaConSemanal(){
         TreeSet<DayOfWeek> dias = new TreeSet<>();
 
         dias.add(DayOfWeek.THURSDAY);
         dias.add(DayOfWeek.MONDAY);
-        TipoFrecuencia tipo = new Semanal(1, dias);
+        TipoFrecuencia tipoOriginal = new Semanal(1, dias);
+
+        String serializacionObtenida = "";
+        TipoFrecuencia tipoDeserializado = null;
 
         try {
-            serializacionObtenida =  objectMapper.writeValueAsString(tipo);
+            serializacionObtenida =  objectMapper.writeValueAsString(tipoOriginal);
+            tipoDeserializado = objectMapper.readValue(serializacionObtenida, TipoFrecuencia.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        assertEquals(serializacionEsperada, serializacionObtenida);
+        assertEquals(tipoOriginal, tipoDeserializado);
     }
 
     @Test
-    public void persistenciaTarea(){
-        Tarea t = new Tarea(UUID.randomUUID(), "Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32) , true);
-        t.agregarAlarma(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
-        t.agregarAlarma(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
+    public void serializacionYdeserializacionTarea(){
+        UUID id = UUID.fromString("feeb03e4-7410-4215-978f-8ab0bcc39ceb");
+
+        Tarea tareaOriginal = new Tarea(id, "Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32) , true);
+        tareaOriginal.agregarAlarma(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
+        tareaOriginal.agregarAlarma(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
+
+        String serializacionObtenida = "";
+        Tarea tareaDeserializada = null;
 
         try {
-            String serializacionObtenida =  objectMapper.writeValueAsString(t);
-            System.out.println(serializacionObtenida);
+            serializacionObtenida =  objectMapper.writeValueAsString(tareaOriginal);
+            tareaDeserializada = objectMapper.readValue(serializacionObtenida, Tarea.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
+        assertEquals(tareaOriginal, tareaDeserializada);
     }
 
     @Test
-    public void persistenciaEventoCantidadMax(){
+    public void serializacionYdeserializacionEventoCantidadMax(){
+        UUID id = UUID.fromString("abcb03e4-1001-4215-978f-8ab0bcc39ceb");
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
 
@@ -78,129 +88,55 @@ public class PersistenciaTest {
         dias.add(DayOfWeek.THURSDAY);
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipo = new Semanal(2, dias);
-        UUID id = UUID.randomUUID();
 
-        Evento e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 5,false);
+        Evento eventoOriginal = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 5,false);
 
-        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
-        e.agregarAlarmaUnica(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
+        eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
+        eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
+
+        String serializacionObtenida =  "";
+        Evento eventoDeserializado = null;
 
         try {
-            String serializacionObtenida =  objectMapper.writeValueAsString(e);
-            System.out.println(serializacionObtenida);
+            serializacionObtenida =  objectMapper.writeValueAsString(eventoOriginal);
+            eventoDeserializado = objectMapper.readValue(serializacionObtenida, Evento.class);
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
         }
+
+        assertEquals(eventoOriginal, eventoDeserializado);
     }
 
     @Test
-    public void persistenciaEventoFechaLimite(){
-        LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
-        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
-        LocalDateTime fLimite = LocalDateTime.of(2023, 7, 4, 20, 56);
-
-        TipoFrecuencia tipo = new Mensual(4);
-        UUID id = UUID.randomUUID();
-
-        Evento e = new FechaLimite(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, fLimite,false);
-
-        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
-        e.agregarAlarmaUnica(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
-
-        try {
-            String serializacionObtenida =  objectMapper.writeValueAsString(e);
-            System.out.println(serializacionObtenida);
-        } catch (JsonProcessingException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    @Test
-    public void persistenciaCalendario(){
-        Calendario c = new Calendario();
+    public void serializacionYdeserializacionEventoFechaLimite(){
+        UUID id = UUID.fromString("abcb03e4-1001-4215-978f-8ab0bcc39ceb");
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
         LocalDateTime fLimite = LocalDateTime.of(2023, 7, 4, 20, 56);
 
         TipoFrecuencia tipo = new Mensual(4);
 
-        TreeSet<DayOfWeek> dias = new TreeSet<>();
-        dias.add(DayOfWeek.THURSDAY);
-        dias.add(DayOfWeek.MONDAY);
-        TipoFrecuencia tipo2 = new Semanal(1, dias);
+        Evento eventoOriginal = new FechaLimite(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, fLimite,false);
 
-        c.agregarTarea("Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32) , true);
-        c.agregarTarea("Perro", "Pasear a Lio", LocalDateTime.of(2024, 5, 1, 18, 32) , false);
-        c.agregarEventoFechaLimite("Sacar al perro por la mañana", "Perro", fInicio, fFinal, fLimite, tipo,false);
-        c.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 3, tipo2,false);
+        eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
+        eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
+
+        String serializacionObtenida = "";
+        Evento eventoDeserializado = null;
 
         try {
-            String serializacionObtenida =  objectMapper.writeValueAsString(c);
-            System.out.println(serializacionObtenida);
+            serializacionObtenida =  objectMapper.writeValueAsString(eventoOriginal);
+            eventoDeserializado = objectMapper.readValue(serializacionObtenida, Evento.class);
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
         }
+
+        assertEquals(eventoOriginal, eventoDeserializado);
     }
 
-  /*  @Test
-    public void DeserializacionFrecuencia(){
-
-        try {
-            TipoFrecuencia miObjeto = objectMapper.readValue(new File("ejemplo.json"), TipoFrecuencia.class);
-
-            System.out.println(miObjeto);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-   /* @Test
-    public void DeserializacionAlarma(){
-
-        try {
-            Alarma miObjeto = objectMapper.readValue(new File("ejemplo.json"), Alarma.class);
-
-            System.out.println(miObjeto);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    /*@Test
-    public void DeserializarEvento(){
-        try {
-            Evento miObjeto = objectMapper.readValue(new File("ejemplo.json"), Evento.class);
-
-            System.out.println(miObjeto);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-   /* @Test
-    public void DeserializarTarea(){
-        try {
-            Tarea miObjeto = objectMapper.readValue(new File("ejemplo.json"), Tarea.class);
-
-            System.out.println(miObjeto);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    /*@Test
-    public void DeserializarCalendario(){
-        try {
-            Calendario miObjeto = objectMapper.readValue(new File("ejemplo.json"), Calendario.class);
-
-            System.out.println(miObjeto);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     @Test
-    public void administradorJSON(){
-        Calendario c = new Calendario();
+    public void serializacionYdeserializacionCalendario(){
+        Calendario c1 = new Calendario();
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
         LocalDateTime fLimite = LocalDateTime.of(2023, 7, 4, 20, 56);
@@ -212,16 +148,18 @@ public class PersistenciaTest {
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipo2 = new Semanal(1, dias);
 
-        c.agregarTarea("Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32), true);
-        c.agregarTarea("Perro", "Pasear a Lio", LocalDateTime.of(2024, 5, 1, 18, 32), false);
-        c.agregarEventoFechaLimite("Sacar al perro por la mañana", "Perro", fInicio, fFinal, fLimite, tipo,false);
-        c.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 3, tipo2,false);
+        c1.agregarTarea("Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32) , true);
+        c1.agregarTarea("Perro", "Pasear a Lio", LocalDateTime.of(2024, 5, 1, 18, 32) , false);
+        c1.agregarEventoFechaLimite("Sacar al perro por la mañana", "Perro", fInicio, fFinal, fLimite, tipo,false);
+        c1.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 3, tipo2,false);
 
         AdministradorJSON admin = new AdministradorJSON();
 
-        admin.serializar(c);
+        admin.serializar(c1);
 
-        Calendario nuevo = admin.deserializar();
+        Calendario c2 = admin.deserializar();
+
+        assertEquals(c1, c2);
     }
 
 }

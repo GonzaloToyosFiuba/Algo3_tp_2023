@@ -90,36 +90,4 @@ public class EqualsTest {
 
         assertEquals(e1, e2);
     }
-
-    @Test
-    public void compararCalendario(){
-        Calendario c1 = new Calendario();
-        LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
-        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
-        LocalDateTime fLimite = LocalDateTime.of(2023, 7, 4, 20, 56);
-
-        TipoFrecuencia tipo = new Mensual(4);
-
-        TreeSet<DayOfWeek> dias = new TreeSet<>();
-        dias.add(DayOfWeek.THURSDAY);
-        dias.add(DayOfWeek.MONDAY);
-        TipoFrecuencia tipo2 = new Semanal(1, dias);
-
-        c1.agregarTarea("Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32) , true);
-        c1.agregarTarea("Perro", "Pasear a Lio", LocalDateTime.of(2024, 5, 1, 18, 32) , false);
-        c1.agregarEventoFechaLimite("Sacar al perro por la mañana", "Perro", fInicio, fFinal, fLimite, tipo,false);
-        c1.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 3, tipo2,false);
-
-        AdministradorJSON admin = new AdministradorJSON();
-
-        admin.serializar(c1);
-
-        Calendario c2 = admin.deserializar();
-
-        assertEquals(c1, c2);
-
-        c2.agregarEventoFechaLimite("Sacar al perro por la mañana", "Perro", fInicio, fFinal, fLimite, tipo,false);
-
-        assertNotEquals(c1, c2);
-    }
 }

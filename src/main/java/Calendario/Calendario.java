@@ -95,44 +95,17 @@ public class Calendario {
         if (o == null || getClass() != o.getClass()) return false;
         Calendario calen = (Calendario) o;
 
-        boolean iguales = true;
-
-        if(tareas.size() != calen.tareas.size()) return false;
-        if(eventos.size() != calen.eventos.size()) return false;
-
-        for (Map.Entry<UUID, Tarea> entry : tareas.entrySet()) {
-            UUID key = entry.getKey();
-            Tarea valor = entry.getValue();
-            Tarea busqueda = calen.tareas.get(key);
-            if(!tareas.containsKey(key) || !busqueda.equals(valor)){
-                iguales = false;
-                break;
-            }
-        }
-
-        if(!iguales) return false;
-
-        for (Map.Entry<UUID, Evento> entry : eventos.entrySet()) {
-            UUID key = entry.getKey();
-            Evento valor = entry.getValue();
-            Evento busqueda = calen.eventos.get(key);
-            if(!eventos.containsKey(key) || !busqueda.equals(valor)){
-                iguales = false;
-                break;
-            }
-        }
-
-        return iguales;
+        return compararHashMaps(tareas, calen.tareas) && compararHashMaps(eventos, calen.eventos);
     }
 
-    private boolean compararHashMaps(HashMap<UUID, Object> hashMap1, HashMap<UUID, Object> hashMap2) {
+    private <K, V> boolean compararHashMaps(HashMap<K, V> hashMap1, HashMap<K, V> hashMap2) {
         if (hashMap1.size() != hashMap2.size()) {
             return false;
         }
 
-        for (Map.Entry<UUID, Object> entry : hashMap1.entrySet()) {
-            UUID key = entry.getKey();
-            Object valor = entry.getValue();
+        for (Map.Entry<K, V> entry : hashMap1.entrySet()) {
+            K key = entry.getKey();
+            V valor = entry.getValue();
 
             if (!hashMap2.containsKey(key)) {
                 return false;

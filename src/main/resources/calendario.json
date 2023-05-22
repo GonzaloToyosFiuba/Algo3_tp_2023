@@ -1,23 +1,7 @@
 {
   "eventos" : [ {
-    "tipoEvento" : "fechaLimite",
-    "id" : "564d2373-92d9-427c-92f3-51650bca2a6f",
-    "descripcion" : "Sacar al perro por la mañana",
-    "titulo" : "Perro",
-    "fechaInicio" : "04/05/2023 18:56:00",
-    "fechaFinal" : "04/05/2023 20:56:00",
-    "tipoFrecuencia" : {
-      "tipo" : "mensual",
-      "intervalo" : 4
-    },
-    "diaCompleto" : false,
-    "alarmas" : [ ],
-    "fechaLimite" : "04/07/2023 20:56:00",
-    "contadorIdAlarmas" : 0,
-    "instancia" : "Evento"
-  }, {
     "tipoEvento" : "cantidadMax",
-    "id" : "36e28d22-6b27-4ce3-953a-cf122a6e04af",
+    "id" : "37fb7090-39bb-441d-9a1e-c4c5856ac8a4",
     "descripcion" : "Sacar al perro por la mañana",
     "titulo" : "Perro",
     "fechaInicio" : "04/05/2023 18:56:00",
@@ -32,9 +16,25 @@
     "repeticionesMax" : 3,
     "contadorIdAlarmas" : 0,
     "instancia" : "Evento"
+  }, {
+    "tipoEvento" : "fechaLimite",
+    "id" : "95003195-2c9b-40b8-aad1-bb48080e544f",
+    "descripcion" : "Sacar al perro por la mañana",
+    "titulo" : "Perro",
+    "fechaInicio" : "04/05/2023 18:56:00",
+    "fechaFinal" : "04/05/2023 20:56:00",
+    "tipoFrecuencia" : {
+      "tipo" : "mensual",
+      "intervalo" : 4
+    },
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "fechaLimite" : "04/07/2023 20:56:00",
+    "contadorIdAlarmas" : 0,
+    "instancia" : "Evento"
   } ],
   "tareas" : [ {
-    "id" : "b67c1062-eda5-4d70-931d-53a3cad69990",
+    "id" : "1b942bd9-98a1-4e92-bf69-4f3b578e1f04",
     "descripcion" : "Sacar basura",
     "titulo" : "Basura",
     "fechaVencimiento" : "21/05/2023 18:32:00",
@@ -44,7 +44,7 @@
     "contadorIdAlarmas" : 0,
     "instancia" : "Tarea"
   }, {
-    "id" : "5ea7164b-c3d2-42b6-875e-a52b36856764",
+    "id" : "9a72d6a8-2a6c-4b26-a609-e4982ab9a18f",
     "descripcion" : "Pasear a Lio",
     "titulo" : "Perro",
     "fechaVencimiento" : "01/05/2024 18:32:00",
