@@ -6,9 +6,9 @@ import Frecuencias.Semanal;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
+import java.io.*;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.TreeSet;
@@ -22,7 +22,7 @@ public class PersistenciaTest {
     public void serializacionYdeserializacionTipoFrecuencia(){
         TipoFrecuencia tipoOriginal = new Diaria(5);
 
-        String serializacionObtenida = "";
+        String serializacionObtenida;
         TipoFrecuencia tipoDeserializado = null;
 
         try {
@@ -43,7 +43,7 @@ public class PersistenciaTest {
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipoOriginal = new Semanal(1, dias);
 
-        String serializacionObtenida = "";
+        String serializacionObtenida;
         TipoFrecuencia tipoDeserializado = null;
 
         try {
@@ -64,7 +64,7 @@ public class PersistenciaTest {
         tareaOriginal.agregarAlarma(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
         tareaOriginal.agregarAlarma(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
 
-        String serializacionObtenida = "";
+        String serializacionObtenida;
         Tarea tareaDeserializada = null;
 
         try {
@@ -94,7 +94,7 @@ public class PersistenciaTest {
         eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
         eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
 
-        String serializacionObtenida =  "";
+        String serializacionObtenida;
         Evento eventoDeserializado = null;
 
         try {
@@ -121,7 +121,7 @@ public class PersistenciaTest {
         eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
         eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
 
-        String serializacionObtenida = "";
+        String serializacionObtenida;
         Evento eventoDeserializado = null;
 
         try {
@@ -135,7 +135,7 @@ public class PersistenciaTest {
     }
 
     @Test
-    public void serializacionYdeserializacionCalendario(){
+    public void serializacionYdeserializacionCalendario() {
         Calendario c1 = new Calendario();
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
@@ -155,9 +155,17 @@ public class PersistenciaTest {
 
         AdministradorJSON admin = new AdministradorJSON();
 
-        admin.serializar(c1);
-
-        Calendario c2 = admin.deserializar();
+        Writer w = new StringWriter();
+        Calendario c2 = null;
+        Reader r;
+        try {
+            admin.serializar(c1, w);
+            w.close();
+            r = new StringReader(w.toString());
+            c2 = admin.deserializar(r);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
 
         assertEquals(c1, c2);
     }

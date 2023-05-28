@@ -95,28 +95,6 @@ public class Calendario {
         if (o == null || getClass() != o.getClass()) return false;
         Calendario calen = (Calendario) o;
 
-        return compararHashMaps(tareas, calen.tareas) && compararHashMaps(eventos, calen.eventos);
-    }
-
-    private <K, V> boolean compararHashMaps(HashMap<K, V> hashMap1, HashMap<K, V> hashMap2) {
-        if (hashMap1.size() != hashMap2.size()) {
-            return false;
-        }
-
-        for (Map.Entry<K, V> entry : hashMap1.entrySet()) {
-            K key = entry.getKey();
-            V valor = entry.getValue();
-
-            if (!hashMap2.containsKey(key)) {
-                return false;
-            }
-
-            Object busqueda = hashMap2.get(key);
-            if (!valor.equals(busqueda)) {
-                return false;
-            }
-        }
-
-        return true;
+        return tareas.equals(calen.tareas) && eventos.equals(calen.eventos);
     }
 }

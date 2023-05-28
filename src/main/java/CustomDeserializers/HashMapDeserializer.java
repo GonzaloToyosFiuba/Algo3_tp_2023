@@ -1,5 +1,6 @@
 package CustomDeserializers;
 
+import Calendario.Agendable;
 import Calendario.Evento;
 import Calendario.Tarea;
 import com.fasterxml.jackson.core.JacksonException;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 
-public class HashMapDeserializer extends StdDeserializer<HashMap<UUID, Serializable>> {
+public class HashMapDeserializer extends StdDeserializer<HashMap<UUID, Agendable>> {
     protected HashMapDeserializer(Class<?> vc) {
         super(vc);
     }
@@ -25,23 +26,23 @@ public class HashMapDeserializer extends StdDeserializer<HashMap<UUID, Serializa
     }
 
     @Override
-    public HashMap<UUID, Serializable> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+    public HashMap<UUID, Agendable> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
         ObjectMapper objectMapper = (ObjectMapper) jsonParser.getCodec();
         JsonNode root = objectMapper.readTree(jsonParser);
 
-        HashMap<UUID, Serializable> serializableHashMap = new HashMap<>();
+        HashMap<UUID, Agendable> agendableHashMap = new HashMap<>();
 
         for (JsonNode personaNode : root) {
             String id = personaNode.get("id").asText();
 
-            if(personaNode.get("instancia").asText().equals("Evento")) {
-                Serializable nuevo = objectMapper.treeToValue(personaNode, Evento.class);
-                serializableHashMap.put(UUID.fromString(id), nuevo);
-            } else if (personaNode.get("instancia").asText().equals("Tarea")){
-                Serializable nuevo = objectMapper.treeToValue(personaNode, Tarea.class);
-                serializableHashMap.put(UUID.fromString(id), nuevo);
+            if(personaNode.get("tipoAgendable").asText().equals("Evento")) {
+                Agendable nuevo = objectMapper.treeToValue(personaNode, Evento.class);
+                agendableHashMap.put(UUID.fromString(id), nuevo);
+            } else if (personaNode.get("tipoAgendable").asText().equals("Tarea")){
+                Agendable nuevo = objectMapper.treeToValue(personaNode, Tarea.class);
+                agendableHashMap.put(UUID.fromString(id), nuevo);
             }
         }
-        return serializableHashMap;
+        return agendableHashMap;
     }
 }

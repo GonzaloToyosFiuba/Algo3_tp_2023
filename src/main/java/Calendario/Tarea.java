@@ -2,13 +2,10 @@ package Calendario;
 
 import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
-import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import javax.sound.midi.Soundbank;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +13,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Tarea implements Serializable{
+public class Tarea implements Agendable{
     @JsonProperty("id")
     private final UUID id;
     @JsonProperty("titulo")
@@ -41,7 +38,7 @@ public class Tarea implements Serializable{
         this.descripcion = descripcion;
         this.fechaVencimiento = fechaVencimiento;
         this.diaCompleto = diaCompleto;
-        this.alarmas = new ArrayList<Alarma>();
+        this.alarmas = new ArrayList<>();
         this.contadorIdAlarmas = 0;
     }
 
@@ -131,8 +128,8 @@ public class Tarea implements Serializable{
         return this.id;
     }
 
-    @JsonProperty("instancia")
-    private String getInstancia() {
+    @JsonProperty("tipoAgendable")
+    private String getTipoAgendable() {
         return Tarea.class.getSimpleName();
     }
 

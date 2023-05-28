@@ -9,10 +9,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 @JsonTypeInfo(
@@ -24,7 +22,7 @@ import java.util.UUID;
         @JsonSubTypes.Type(value = CantidadMax.class, name = "cantidadMax"),
         @JsonSubTypes.Type(value = FechaLimite.class, name = "fechaLimite"),
 })
-public abstract class Evento implements Serializable {
+public abstract class Evento implements Agendable {
     @JsonProperty("id")
     protected UUID id;
     @JsonProperty("descripcion")
@@ -54,7 +52,7 @@ public abstract class Evento implements Serializable {
         this.fechaFinal = fechaFinal;
         this.fechaInicio = fechaInicio;
         this.contadorIdAlarmas = 0;
-        this.alarmas = new ArrayList<Alarma>();
+        this.alarmas = new ArrayList<>();
         this.tipoFrecuencia = tipoFrecuencia;
         this.diaCompleto = diaCompleto;
     }
@@ -107,8 +105,8 @@ public abstract class Evento implements Serializable {
         this.fechaInicio = fechaInicio;
     }
 
-    @JsonProperty("instancia")
-    private String getInstancia() {
+    @JsonProperty("tipoAgendable")
+    private String getTipoAgendable() {
         return Evento.class.getSimpleName();
     }
 
