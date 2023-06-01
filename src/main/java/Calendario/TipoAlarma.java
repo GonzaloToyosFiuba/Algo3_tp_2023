@@ -1,3 +1,5 @@
+package Calendario;
+
 public enum TipoAlarma implements Disparable {
     NOTIFICACION{
         @Override
@@ -17,6 +19,4 @@ public enum TipoAlarma implements Disparable {
             return  "Enviando Sonido";
         }
     };
-
-
 }

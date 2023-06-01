@@ -1,23 +1,49 @@
+package Calendario;
+
+import CustomDeserializers.LocalDateTimeDeserializer;
+import CustomSerializers.LocalDateTimeSerializer;
+import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
-public  abstract class Evento {
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipoEvento"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CantidadMax.class, name = "cantidadMax"),
+        @JsonSubTypes.Type(value = FechaLimite.class, name = "fechaLimite"),
+})
+public abstract class Evento implements Agendable {
+    @JsonProperty("id")
     protected UUID id;
+    @JsonProperty("descripcion")
     protected String descripcion;
+    @JsonProperty("titulo")
     protected String titulo;
-
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     protected LocalDateTime fechaInicio;
-
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     protected LocalDateTime fechaFinal;
-
+    @JsonProperty("alarmas")
     protected ArrayList<Alarma> alarmas;
-
+    //@JsonDeserialize(using = TipoFrecuenciaDeserializer.class)
+    @JsonProperty("tipoFrecuencia")
     protected TipoFrecuencia tipoFrecuencia;
-
-    private boolean diaCompleto;
-    private int contadorIdAlarmas;
+    @JsonProperty("diaCompleto")
+    protected boolean diaCompleto;
+    @JsonProperty("contadorIdAlarmas")
+    protected int contadorIdAlarmas;
 
     public Evento(UUID id, String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, TipoFrecuencia tipoFrecuencia,boolean diaCompleto) {
         this.id = id;
@@ -26,13 +52,12 @@ public  abstract class Evento {
         this.fechaFinal = fechaFinal;
         this.fechaInicio = fechaInicio;
         this.contadorIdAlarmas = 0;
-        this.alarmas = new ArrayList<Alarma>();
+        this.alarmas = new ArrayList<>();
         this.tipoFrecuencia = tipoFrecuencia;
         this.diaCompleto = diaCompleto;
     }
-
     public UUID getId(){
-      return this.id;
+        return this.id;
     }
 
     public void  agregarAlarmaRepetible(int minutosAntes, TipoAlarma tipo){
@@ -76,9 +101,13 @@ public  abstract class Evento {
         }
         this.descripcion = descripcion;
         this.titulo = titulo;
-       // this.tipoRepeticion = tipoRepeticion;
         this.fechaFinal = fechaFinal;
         this.fechaInicio = fechaInicio;
-
     }
+
+    @JsonProperty("tipoAgendable")
+    private String getTipoAgendable() {
+        return Evento.class.getSimpleName();
+    }
+
 }

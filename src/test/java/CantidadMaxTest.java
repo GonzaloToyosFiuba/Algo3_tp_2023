@@ -1,3 +1,7 @@
+import Calendario.Alarma;
+import Calendario.CantidadMax;
+import Calendario.TipoAlarma;
+import Frecuencias.*;
 import org.junit.Test;
 
 import java.time.DayOfWeek;

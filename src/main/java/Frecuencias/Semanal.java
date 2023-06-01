@@ -1,19 +1,32 @@
+package Frecuencias;
+
+import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.TreeSet;
-import java.time.format.DateTimeFormatter;
 
 public class Semanal implements TipoFrecuencia {
+    @JsonProperty("intervalo")
     private int intervalo;
+
+    @JsonProperty("dias")
     private DayOfWeek[] dias;
 
     public Semanal(int intervalo, TreeSet<DayOfWeek> dias) {
-        DayOfWeek[] diasArray = dias.toArray(new DayOfWeek[dias.size()]);
-        this.dias = diasArray;
+        this.dias = dias.toArray(new DayOfWeek[dias.size()]);
         this.intervalo = intervalo;
+    }
+    @JsonCreator
+    private static Semanal create(@JsonProperty("intervalo") int intervalo, @JsonProperty("dias")DayOfWeek[] dias) {
+        TreeSet<DayOfWeek> diasTree = new TreeSet<>();
+        diasTree.addAll(Arrays.asList(dias));
+        return new Semanal(intervalo,diasTree);
     }
     @Override
     public LocalDateTime obtenerProximoDia(LocalDateTime dia) {
@@ -33,5 +46,13 @@ public class Semanal implements TipoFrecuencia {
         }
 
         return diaRetorno;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Semanal semanal = (Semanal) o;
+        return intervalo == semanal.intervalo && Arrays.equals(dias, semanal.dias);
     }
 }
