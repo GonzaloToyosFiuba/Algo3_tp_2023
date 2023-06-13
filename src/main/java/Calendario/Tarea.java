@@ -42,6 +42,10 @@ public class Tarea implements Agendable{
         this.contadorIdAlarmas = 0;
     }
 
+    public LocalDateTime getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
     @JsonCreator
     private  Tarea (@JsonProperty("id") UUID id,
                     @JsonProperty("descripcion") String descripcion,

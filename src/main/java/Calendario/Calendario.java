@@ -2,6 +2,7 @@ package Calendario;
 
 import CustomDeserializers.HashMapDeserializer;
 import CustomSerializers.HashMapSerializer;
+import Frecuencias.Diaria;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,9 +10,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 public class Calendario {
@@ -59,6 +62,44 @@ public class Calendario {
         UUID id = generarIdUnica();
         Tarea nuevaTarea = new Tarea(id, titulo, descripcion, fechaVencimiento, diaCompleto);
         tareas.put(id, nuevaTarea);
+    }
+
+    public ArrayList<RepresentacionAgendable> obtenerAgendables(LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+        ArrayList<RepresentacionAgendable> listaAgendables = new ArrayList<>();
+
+        eventos.forEach( (key, value) -> value.obtenerRepeticionesEntre(fechaInicio, fechaFinal)
+                                              .forEach(fecha -> listaAgendables.add(new RepresentacionAgendable(key, fecha, "Evento"))));
+
+        tareas.forEach( (key, value) -> {
+                  LocalDateTime fechaTarea = value.getFechaVencimiento();
+                  if (fechaTarea.isAfter(fechaInicio) && fechaTarea.isBefore(fechaFinal)){
+                      listaAgendables.add(new RepresentacionAgendable(key, value.getFechaVencimiento(), "Tarea"));
+                  }
+        } );
+
+        return listaAgendables.stream().sorted((r1, r2) -> r1.fecha().compareTo(r2.fecha())).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public static void main(String[] args) {
+        LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
+        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
+
+        LocalDateTime fFinalMuestra = LocalDateTime.of(2023, 6, 4, 20, 56);
+
+        TipoFrecuencia tipo = new Diaria(2);
+        TipoFrecuencia tipo1 = new Diaria(3);
+        UUID id = UUID.randomUUID();
+        //Act
+        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
+        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO);
+
+        Calendario c = new Calendario();
+        c.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 10, tipo, false);
+        c.agregarEventoCantMax("Sacar al gato por la mañana", "Gato", fInicio, fFinal, 5, tipo1, false);
+
+        c.agregarTarea("Tarea inglés", "Hacer la tarea", LocalDateTime.of(2023, 5, 25, 18, 56), true);
+
+        ArrayList<RepresentacionAgendable> repre = c.obtenerAgendables(fInicio, fFinalMuestra);
     }
 
     public Evento buscarEvento(UUID id) {
