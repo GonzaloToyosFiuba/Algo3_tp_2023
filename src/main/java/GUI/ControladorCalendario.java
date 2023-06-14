@@ -29,7 +29,7 @@ public class ControladorCalendario implements Initializable {
     public void mostarInfo(){
 
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
-        LocalDateTime fFinal = LocalDateTime.of(2023, 6, 4, 20, 56);
+        LocalDateTime fFinal = LocalDateTime.of(2023, 7, 4, 20, 56);
 
         ArrayList<RepresentacionAgendable> agendables = this.calendario.obtenerAgendables(fInicio, fFinal);
 
@@ -40,8 +40,10 @@ public class ControladorCalendario implements Initializable {
             RowConstraints row1 = new RowConstraints();
             row1.setPrefHeight(40);
 
-            Label titulo = null;
+            Label titulo;
             Label descripcion = null;
+            Label fechaInicio = null;
+            Label fechaFinal = null;
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yy"); // YYYY-MM-DD HH:MM:SS
 
             if (agendable.tipo().equals("Evento")){
@@ -50,19 +52,28 @@ public class ControladorCalendario implements Initializable {
                 titulo = new Label(e.getTitulo());
                 GridPane.setColumnIndex(titulo, 0);
                 GridPane.setRowIndex(titulo, rowIndex);
-                /* si se ve  pero hay que hay que ver el espacio que ocupa cada columna*/
-                descripcion = new Label(e.getDescripcion() + " " + agendable.fecha().format(formato)+ " " + agendable.fecha().plus(duracion).format(formato));
+                descripcion = new Label(e.getDescripcion());
+                fechaInicio = new Label(agendable.fecha().format(formato));
+                fechaFinal = new Label(agendable.fecha().plus(duracion).format(formato));
                 GridPane.setColumnIndex(descripcion, 1);
+                GridPane.setColumnIndex(fechaInicio, 2);
+                GridPane.setColumnIndex(fechaFinal, 3);
                 GridPane.setRowIndex(descripcion, rowIndex);
+                GridPane.setRowIndex(fechaInicio, rowIndex);
+                GridPane.setRowIndex(fechaFinal, rowIndex);
+
+                grillaTareas.getChildren().addAll(fechaFinal);
             } else {
                 Tarea e = calendario.buscarTarea(agendable.id());
                 titulo = new Label(e.getTitulo());
                 GridPane.setColumnIndex(titulo, 0);
                 GridPane.setRowIndex(titulo, rowIndex);
-
-                descripcion = new Label(e.getDescripcion() + " " + agendable.fecha().format(formato));
+                fechaInicio = new Label(agendable.fecha().format(formato));
+                GridPane.setColumnIndex(fechaInicio, 2);
+                descripcion = new Label(e.getDescripcion());
                 GridPane.setColumnIndex(descripcion, 1);
                 GridPane.setRowIndex(descripcion, rowIndex);
+                GridPane.setRowIndex(fechaInicio, rowIndex);
             }
 
 
@@ -82,7 +93,7 @@ public class ControladorCalendario implements Initializable {
             Insets margin2 = new Insets(0, 0, 0, 120);
             GridPane.setMargin(b3, margin2);
 
-            grillaTareas.getChildren().addAll(titulo, descripcion, b1, b2, b3);
+            grillaTareas.getChildren().addAll(titulo, descripcion, fechaInicio, b1, b2, b3);
 
             grillaTareas.getRowConstraints().add(row1);
             rowIndex++;
