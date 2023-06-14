@@ -3,12 +3,14 @@ package Calendario;
 import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
 import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -59,7 +61,18 @@ public abstract class Evento implements Agendable {
     public UUID getId(){
         return this.id;
     }
-
+    @JsonIgnore
+    public String getTitulo(){
+        return this.titulo;
+    }
+    @JsonIgnore
+    public String getDescripcion(){
+        return this.descripcion;
+    }
+    @JsonIgnore
+    public Duration duracionEvento(){
+        return Duration.between(fechaInicio,fechaFinal);
+    }
     public void  agregarAlarmaRepetible(int minutosAntes, TipoAlarma tipo){
         // crea una alarma mandando la fecha original del eveto menos los minutos antes y con el tipo , en la parte repetible es true
         LocalDateTime fechaDisparo = fechaInicio.minusMinutes(minutosAntes);

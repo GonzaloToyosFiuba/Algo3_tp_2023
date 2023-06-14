@@ -10,7 +10,9 @@ import javafx.scene.layout.*;
 import Calendario.*;
 
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -38,17 +40,31 @@ public class ControladorCalendario implements Initializable {
             RowConstraints row1 = new RowConstraints();
             row1.setPrefHeight(40);
 
+            Label titulo = null;
+            Label descripcion = null;
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yy"); // YYYY-MM-DD HH:MM:SS
+
             if (agendable.tipo().equals("Evento")){
                 Evento e = calendario.buscarEvento(agendable.id());
+                Duration duracion = e.duracionEvento();
+                titulo = new Label(e.getTitulo());
+                GridPane.setColumnIndex(titulo, 0);
+                GridPane.setRowIndex(titulo, rowIndex);
+                /* si se ve  pero hay que hay que ver el espacio que ocupa cada columna*/
+                descripcion = new Label(e.getDescripcion() + " " + agendable.fecha().format(formato)+ " " + agendable.fecha().plus(duracion).format(formato));
+                GridPane.setColumnIndex(descripcion, 1);
+                GridPane.setRowIndex(descripcion, rowIndex);
+            } else {
+                Tarea e = calendario.buscarTarea(agendable.id());
+                titulo = new Label(e.getTitulo());
+                GridPane.setColumnIndex(titulo, 0);
+                GridPane.setRowIndex(titulo, rowIndex);
+
+                descripcion = new Label(e.getDescripcion() + " " + agendable.fecha().format(formato));
+                GridPane.setColumnIndex(descripcion, 1);
+                GridPane.setRowIndex(descripcion, rowIndex);
             }
 
-            Label titulo = new Label(agendable.id().toString());
-            GridPane.setColumnIndex(titulo, 0);
-            GridPane.setRowIndex(titulo, rowIndex);
-
-            Label descripcion = new Label(agendable.fecha().toString());
-            GridPane.setColumnIndex(descripcion, 1);
-            GridPane.setRowIndex(descripcion, rowIndex);
 
             Button b1 = obtenerBotonVer();
             GridPane.setColumnIndex(b1, 4);

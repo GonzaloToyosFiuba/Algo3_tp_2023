@@ -67,6 +67,15 @@ public class Tarea implements Agendable{
         this.completada = true;
     }
 
+    @JsonIgnore
+    public String getTitulo(){
+        return this.titulo;
+    }
+    @JsonIgnore
+    public String getDescripcion(){
+        return this.descripcion;
+    }
+
     public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
         ArrayList<Alarma> alarmasAux = new ArrayList<>();
 
