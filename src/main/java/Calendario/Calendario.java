@@ -88,10 +88,7 @@ public class Calendario {
 
         TipoFrecuencia tipo = new Diaria(2);
         TipoFrecuencia tipo1 = new Diaria(3);
-        UUID id = UUID.randomUUID();
         //Act
-        CantidadMax e = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 10,false);
-        e.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 4, 18, 20), TipoAlarma.SONIDO);
 
         Calendario c = new Calendario();
         c.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 10, tipo, false);

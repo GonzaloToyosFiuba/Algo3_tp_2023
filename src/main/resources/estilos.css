@@ -1,0 +1,7 @@
+.boton-accion-lista{
+    -fx-min-width: 35px; /* Establece un ancho mínimo para el botón */
+    -fx-pref-width: 45px;
+    -fx-min-height: 35px; /* Establece una altura mínima para el botón */
+    -fx-background-radius: 5px; /* Establece el radio de los bordes del área de fondo */
+    -fx-border-radius: 5px;
+}
