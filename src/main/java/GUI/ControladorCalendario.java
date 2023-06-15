@@ -16,9 +16,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -27,6 +29,14 @@ public class ControladorCalendario implements Initializable {
     ScrollPane contenedorTareas;
 
     private Calendario calendario;
+
+    private enum intervalo{
+      DIA,
+      SEMANAL,
+      MENSUAL
+    };
+
+    private  intervalo IntevaloCalendario = intervalo.SEMANAL;
 
     public void setCalendario(Calendario calendario) {
         this.calendario = calendario;
@@ -37,7 +47,7 @@ public class ControladorCalendario implements Initializable {
         LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
         LocalDateTime fFinal = LocalDateTime.of(2023, 7, 4, 20, 56);
 
-        ArrayList<RepresentacionAgendable> agendables = this.calendario.obtenerAgendables(fInicio, fFinal);
+        ArrayList<RepresentacionAgendable> agendables = intevaloActividades(fInicio);
 
         grillaTareas.getChildren().clear();
 
@@ -202,4 +212,39 @@ public class ControladorCalendario implements Initializable {
         row1.setPrefHeight(35);
     }
 
+    private ArrayList<RepresentacionAgendable> motrarSemana(LocalDateTime fecha){
+        LocalDateTime primerDiaSemana = fecha.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDateTime ultimoDiaSemana = fecha.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+        //System.out.println(primerDiaSemana);
+        //System.out.println(ultimoDiaSemana);
+        return this.calendario.obtenerAgendables(primerDiaSemana,ultimoDiaSemana);
+    }
+
+    private  ArrayList<RepresentacionAgendable> mostrarDia(LocalDateTime fecha){
+        return this.calendario.obtenerAgendables(fecha,fecha);
+    }
+
+    private ArrayList<RepresentacionAgendable> mostraMes(LocalDateTime fecha){
+        LocalDateTime primerDiaMes = fecha.withDayOfMonth(1);
+        LocalDateTime ultimoDiaMes = fecha.with(TemporalAdjusters.lastDayOfMonth());
+        return this.calendario.obtenerAgendables(primerDiaMes,ultimoDiaMes);
+    }
+
+    private ArrayList<RepresentacionAgendable> intevaloActividades(LocalDateTime fecha){
+        ArrayList<RepresentacionAgendable> intevalo = null;
+        switch (IntevaloCalendario){
+            case DIA -> {
+                intevalo = mostrarDia(fecha);
+                //System.out.println("ACA");
+            }
+            case SEMANAL -> {
+                intevalo = motrarSemana(fecha);
+                //System.out.println("ACA");
+            }
+            case MENSUAL -> {
+                intevalo = mostraMes(fecha);
+            }
+        }
+        return intevalo;
+    }
 }
