@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="704.0" prefWidth="961.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControladorVentanaInfo">
+   <children>
+      <Pane fx:id="panel" layoutX="18.0" layoutY="25.0" prefHeight="507.0" prefWidth="407.0">
+         <children>
+            <Text layoutX="6.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TITULO" wrappingWidth="78.13671875">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Text layoutX="6.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripcion" wrappingWidth="142.13671875">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Label fx:id="titulo" layoutX="129.0" layoutY="28.0" prefHeight="17.0" prefWidth="223.0" text="Label">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label fx:id="descripcion" layoutX="129.0" layoutY="60.0" prefHeight="28.0" prefWidth="251.0" text="Label">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <VBox layoutX="425.0" layoutY="42.0" prefHeight="645.0" prefWidth="516.0">
+         <children>
+            <GridPane fx:id="grillaAlarmas" prefHeight="646.0" prefWidth="516.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

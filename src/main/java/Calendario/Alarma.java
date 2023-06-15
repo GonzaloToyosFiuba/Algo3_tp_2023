@@ -92,4 +92,5 @@ public class Alarma implements Comparable{
     public int hashCode() {
         return Objects.hash(horarioFechaDisparo, tipoAlarma, id, repetible);
     }
+
 }

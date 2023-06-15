@@ -7,10 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tarea implements Agendable{
@@ -40,6 +37,12 @@ public class Tarea implements Agendable{
         this.diaCompleto = diaCompleto;
         this.alarmas = new ArrayList<>();
         this.contadorIdAlarmas = 0;
+    }
+
+    public List<Alarma> obtenerAlarmasOrnedas(){
+        return alarmas.stream()
+                .sorted(Comparator.comparing(Alarma::getHorarioFechaDisparo))
+                .toList();
     }
 
     public LocalDateTime getFechaVencimiento() {

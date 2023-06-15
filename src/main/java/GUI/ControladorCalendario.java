@@ -1,14 +1,20 @@
 package GUI;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import Calendario.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -44,6 +50,7 @@ public class ControladorCalendario implements Initializable {
             Label descripcion = null;
             Label fechaInicio = null;
             Label fechaFinal = null;
+            Button b1;
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yy"); // YYYY-MM-DD HH:MM:SS
 
             if (agendable.tipo().equals("Evento")){
@@ -61,7 +68,7 @@ public class ControladorCalendario implements Initializable {
                 GridPane.setRowIndex(descripcion, rowIndex);
                 GridPane.setRowIndex(fechaInicio, rowIndex);
                 GridPane.setRowIndex(fechaFinal, rowIndex);
-
+                b1 = obtenerBotonVer(e, agendable);
                 grillaTareas.getChildren().addAll(fechaFinal);
             } else {
                 Tarea e = calendario.buscarTarea(agendable.id());
@@ -74,10 +81,9 @@ public class ControladorCalendario implements Initializable {
                 GridPane.setColumnIndex(descripcion, 1);
                 GridPane.setRowIndex(descripcion, rowIndex);
                 GridPane.setRowIndex(fechaInicio, rowIndex);
+                b1 = obtenerBotonVer(e, agendable);
             }
 
-
-            Button b1 = obtenerBotonVer();
             GridPane.setColumnIndex(b1, 4);
             GridPane.setRowIndex(b1, rowIndex);
 
@@ -100,7 +106,7 @@ public class ControladorCalendario implements Initializable {
         }
     }
 
-    Button obtenerBotonVer(){
+    Button obtenerBotonVer(Agendable agendable, RepresentacionAgendable repre){
         Image image = new Image("/ver.png");
 
         ImageView imageView = new ImageView(image);
@@ -110,6 +116,41 @@ public class ControladorCalendario implements Initializable {
         Button b1 = new Button();
         b1.getStyleClass().add("boton-accion-lista");
         b1.setGraphic(imageView);
+        b1.setOnAction(event ->{
+            try {
+                // Cargar el archivo FXML de la nueva ventana
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanaInfo.fxml"));
+                Parent root = loader.load();
+                //Controlador
+
+                ControladorVentanaInfo controladorVerInfo = loader.getController();
+                controladorVerInfo.setAgendable(agendable);
+                if (repre.tipo().equals("Tarea")){
+                    controladorVerInfo.mostrarInformacionTarea(repre.fecha());
+                } else if (repre.tipo().equals("Evento")) {
+
+                }
+
+
+                // Crear una nueva escena y mostrarla en una nueva ventana
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+
+                stage.setScene(scene);
+                // Configurar la modalidad de la nueva ventana para bloquear la ventana principal
+                stage.initModality(Modality.APPLICATION_MODAL);
+
+                // Mostrar la nueva ventana y bloquear la ejecución del código hasta que se cierre
+                stage.showAndWait();
+
+
+                //stage.show();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         return b1;
     }
 
