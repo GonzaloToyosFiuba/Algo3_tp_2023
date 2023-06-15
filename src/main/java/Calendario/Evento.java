@@ -58,6 +58,7 @@ public abstract class Evento implements Agendable {
         this.tipoFrecuencia = tipoFrecuencia;
         this.diaCompleto = diaCompleto;
     }
+    @JsonIgnore
     public UUID getId(){
         return this.id;
     }

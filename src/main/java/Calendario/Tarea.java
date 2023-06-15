@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tarea implements Agendable{
@@ -39,10 +40,10 @@ public class Tarea implements Agendable{
         this.contadorIdAlarmas = 0;
     }
 
-    public List<Alarma> obtenerAlarmasOrnedas(){
+    public ArrayList<Alarma> obtenerAlarmasOrdenadas(){
         return alarmas.stream()
                 .sorted(Comparator.comparing(Alarma::getHorarioFechaDisparo))
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public LocalDateTime getFechaVencimiento() {

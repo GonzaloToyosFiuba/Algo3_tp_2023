@@ -80,25 +80,6 @@ public class Calendario {
         return listaAgendables.stream().sorted((r1, r2) -> r1.fecha().compareTo(r2.fecha())).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public static void main(String[] args) {
-        LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
-        LocalDateTime fFinal = LocalDateTime.of(2023, 5, 4, 20, 56);
-
-        LocalDateTime fFinalMuestra = LocalDateTime.of(2023, 6, 4, 20, 56);
-
-        TipoFrecuencia tipo = new Diaria(2);
-        TipoFrecuencia tipo1 = new Diaria(3);
-        //Act
-
-        Calendario c = new Calendario();
-        c.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 10, tipo, false);
-        c.agregarEventoCantMax("Sacar al gato por la mañana", "Gato", fInicio, fFinal, 5, tipo1, false);
-
-        c.agregarTarea("Tarea inglés", "Hacer la tarea", LocalDateTime.of(2023, 5, 25, 18, 56), true);
-
-        ArrayList<RepresentacionAgendable> repre = c.obtenerAgendables(fInicio, fFinalMuestra);
-    }
-
     public Evento buscarEvento(UUID id) {
         return this.eventos.get(id);
     }

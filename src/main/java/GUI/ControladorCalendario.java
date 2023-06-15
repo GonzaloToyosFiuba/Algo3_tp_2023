@@ -45,13 +45,12 @@ public class ControladorCalendario implements Initializable {
         for (RepresentacionAgendable agendable : agendables){
             RowConstraints row1 = new RowConstraints();
             row1.setPrefHeight(40);
-
             Label titulo;
-            Label descripcion = null;
-            Label fechaInicio = null;
-            Label fechaFinal = null;
+            Label descripcion;
+            Label fechaInicio;
+            Label fechaFinal;
             Button b1;
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yy"); // YYYY-MM-DD HH:MM:SS
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm d/M/yy"); // YYYY-MM-DD HH:MM:SS
 
             if (agendable.tipo().equals("Evento")){
                 Evento e = calendario.buscarEvento(agendable.id());
