@@ -6,6 +6,7 @@ import Frecuencias.Semanal;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
 import java.io.*;
@@ -66,9 +67,9 @@ public class PersistenciaTest {
 
         String serializacionObtenida;
         Tarea tareaDeserializada = null;
-
         try {
             serializacionObtenida =  objectMapper.writeValueAsString(tareaOriginal);
+            System.out.println(serializacionObtenida);
             tareaDeserializada = objectMapper.readValue(serializacionObtenida, Tarea.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

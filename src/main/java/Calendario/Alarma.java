@@ -33,6 +33,7 @@ public class Alarma implements Comparable{
         this.horarioFechaDisparo = horarioFechaDisparo;
         this.tipoAlarma = tipo;
         this.id = id;
+        this.repetible = false;
     }
     @JsonCreator
     private static Alarma create(@JsonProperty("horarioFechaDisparo") LocalDateTime horarioFechaDisparo,
@@ -45,7 +46,7 @@ public class Alarma implements Comparable{
     public String disparar(LocalDateTime fechaActual){
         String seDispara = "No se disparo";
         if (this.horarioFechaDisparo.compareTo(fechaActual.truncatedTo(ChronoUnit.MINUTES)) == 0){
-            seDispara = tipoAlarma.dipararAlarma();;
+            seDispara = tipoAlarma.dipararAlarma();
         }
         return seDispara;
     }

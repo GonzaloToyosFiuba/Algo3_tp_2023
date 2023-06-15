@@ -134,18 +134,13 @@ public class ControladorCalendario implements Initializable {
                 // Crear una nueva escena y mostrarla en una nueva ventana
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
-
+                scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
                 stage.setScene(scene);
                 // Configurar la modalidad de la nueva ventana para bloquear la ventana principal
                 stage.initModality(Modality.APPLICATION_MODAL);
 
                 // Mostrar la nueva ventana y bloquear la ejecución del código hasta que se cierre
                 stage.showAndWait();
-
-
-                //stage.show();
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -207,4 +202,5 @@ public class ControladorCalendario implements Initializable {
         RowConstraints row1 = new RowConstraints();
         row1.setPrefHeight(35);
     }
+
 }
