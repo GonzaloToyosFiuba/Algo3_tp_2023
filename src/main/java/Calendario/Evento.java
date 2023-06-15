@@ -13,7 +13,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -58,9 +60,22 @@ public abstract class Evento implements Agendable {
         this.tipoFrecuencia = tipoFrecuencia;
         this.diaCompleto = diaCompleto;
     }
+    public ArrayList<Alarma> obtenerAlarmasOrdenadas(){
+        return alarmas.stream()
+                .sorted(Comparator.comparing(Alarma::getHorarioFechaDisparo))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
     @JsonIgnore
     public UUID getId(){
         return this.id;
+    }
+    @JsonIgnore
+    public TipoFrecuencia getTipoFrecuencia(){
+        return tipoFrecuencia;
+    }
+    @JsonIgnore
+    public LocalDateTime getFechaInicio(){
+        return this.fechaInicio;
     }
     @JsonIgnore
     public String getTitulo(){

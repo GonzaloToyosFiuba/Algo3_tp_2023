@@ -30,7 +30,7 @@ public class App extends Application {
             Image icon = new Image("icono_calendario.png");
             stage.getIcons().add(icon);
 
-            ArrayList<Tarea> tareas = new ArrayList<>();
+            //ArrayList<Tarea> tareas = new ArrayList<>();
 
             String actual = new File("").getAbsolutePath();
             String dir = actual + "\\calendario.json";

@@ -67,6 +67,50 @@ public class ControladorVentanaInfo implements Initializable {
         panel.getChildren().addAll(fecha,text);
     }
 
+    public void mostrarInformacionEvento(LocalDateTime fechaRecord){
+        Evento evento = (Evento) this.agendable;
+        titulo.setText(evento.getTitulo());
+        descripcion.setText(evento.getDescripcion());
+        //un apartado
+        Label fechaInico = new Label(fechaRecord.format(formato));
+        Text textIni = new Text("Fecha Inicio:");
+        textIni.setLayoutX(20);
+        textIni.setLayoutY(110);
+        fechaInico.setLayoutX(100);
+        fechaInico.setLayoutY(100);
+        //otro apartado
+        Duration duracion = evento.duracionEvento();
+        Label fechaFinal = new Label(fechaRecord.plus(duracion).format(formato));
+        Text textFin = new Text("Fecha Final:");
+        textFin.setLayoutX(20);
+        textFin.setLayoutY(150);
+        fechaFinal.setLayoutX(100);
+        fechaFinal.setLayoutY(140);
+        // otro apartado
+        Label repeticion = new Label(evento.getTipoFrecuencia().toString());
+        Text textRe = new Text("Repeticion:");
+        textRe.setLayoutX(20);
+        textRe.setLayoutY(180);
+        repeticion.setLayoutX(100);
+        repeticion.setLayoutY(170);
+
+
+        ArrayList<Alarma> alarmas = evento.obtenerAlarmasOrdenadas();
+        ObservableList<MuestraAlarma> data = FXCollections.observableArrayList();
+
+        for (Alarma alarma : alarmas){
+            if (alarma.esRepetible()){
+                Duration retroceso = Duration.between(evento.getFechaInicio(), alarma.getHorarioFechaDisparo());
+                data.add(new MuestraAlarma(fechaRecord.minus(retroceso).format(formato), alarma.getTipo().toString()));
+            } else {
+                data.add(new MuestraAlarma(alarma.getHorarioFechaDisparo().format(formato), alarma.getTipo().toString()));
+            }
+        }
+        tablaAlarmas.setItems(data);
+        panel.getChildren().addAll(fechaInico,textIni,fechaFinal,textFin,textRe,repeticion);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         columnaHorario.setCellValueFactory(new PropertyValueFactory<>("horario"));

@@ -127,9 +127,8 @@ public class ControladorCalendario implements Initializable {
                 if (repre.tipo().equals("Tarea")){
                     controladorVerInfo.mostrarInformacionTarea(repre.fecha());
                 } else if (repre.tipo().equals("Evento")) {
-
+                    controladorVerInfo.mostrarInformacionEvento(repre.fecha());
                 }
-
 
                 // Crear una nueva escena y mostrarla en una nueva ventana
                 Scene scene = new Scene(root);

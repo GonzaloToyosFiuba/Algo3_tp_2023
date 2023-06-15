@@ -31,4 +31,8 @@ public class Mensual implements TipoFrecuencia {
         Mensual mensual = (Mensual) o;
         return intervalo == mensual.intervalo;
     }
+    @Override
+    public String toString() {
+        return "Mensual";
+    }
 }
