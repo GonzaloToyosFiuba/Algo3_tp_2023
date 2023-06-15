@@ -4,36 +4,11 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="486.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControladorVentanaInfo">
+<AnchorPane prefHeight="435.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControladorVentanaInfo">
    <children>
-      <Pane fx:id="panel" layoutX="18.0" layoutY="25.0" prefHeight="321.0" prefWidth="407.0">
-         <children>
-            <Text layoutX="6.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TITULO" wrappingWidth="78.13671875">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <Text layoutX="6.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripcion" wrappingWidth="142.13671875">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <Label fx:id="titulo" layoutX="129.0" layoutY="28.0" prefHeight="17.0" prefWidth="223.0" text="Label">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
-            <Label fx:id="descripcion" layoutX="129.0" layoutY="60.0" prefHeight="28.0" prefWidth="251.0" text="Label">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
       <TableView fx:id="tablaAlarmas" layoutX="366.0" layoutY="44.0" prefHeight="280.0" prefWidth="350.0">
         <columns>
           <TableColumn fx:id="columnaHorario" prefWidth="175.0" text="Horario" />
@@ -45,5 +20,6 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <VBox fx:id="contenedorInfo" layoutX="14.0" layoutY="44.0" prefHeight="280.0" prefWidth="338.0" />
    </children>
 </AnchorPane>

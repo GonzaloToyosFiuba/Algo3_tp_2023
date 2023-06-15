@@ -6,7 +6,6 @@ import Frecuencias.Semanal;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
 import java.io.*;
@@ -93,18 +92,17 @@ public class PersistenciaTest {
         Evento eventoOriginal = new CantidadMax(id, "Sacar al perro por la mañana", "Perro", fInicio, fFinal, tipo, 5,false);
 
         eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2023, 5, 21, 18, 32), TipoAlarma.SONIDO);
+        eventoOriginal.agregarAlarmaRepetible(15, TipoAlarma.CORREO);
         eventoOriginal.agregarAlarmaUnica(LocalDateTime.of(2024, 5, 21, 18, 32), TipoAlarma.CORREO);
 
         String serializacionObtenida;
         Evento eventoDeserializado = null;
-
         try {
             serializacionObtenida =  objectMapper.writeValueAsString(eventoOriginal);
             eventoDeserializado = objectMapper.readValue(serializacionObtenida, Evento.class);
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
         }
-
         assertEquals(eventoOriginal, eventoDeserializado);
     }
 

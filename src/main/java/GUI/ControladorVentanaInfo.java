@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -22,11 +23,7 @@ import java.util.ResourceBundle;
 public class ControladorVentanaInfo implements Initializable {
     Agendable agendable;
     @FXML
-    Label titulo;
-    @FXML
-    Label descripcion;
-    @FXML
-    Pane panel;
+    VBox contenedorInfo;
 
     @FXML
     private TableView<MuestraAlarma> tablaAlarmas;
@@ -43,72 +40,55 @@ public class ControladorVentanaInfo implements Initializable {
 
     public void mostrarInformacionTarea(LocalDateTime fechaRecord){
         Tarea tarea = (Tarea) this.agendable;
-        titulo.setText(tarea.getTitulo());
-        descripcion.setText(tarea.getDescripcion());
-        Label fecha = new Label(fechaRecord.format(formato));
-        Text text = new Text("Fecha:");
-        text.setLayoutX(20);
-        text.setLayoutY(110);
-        fecha.setLayoutX(100);
-        fecha.setLayoutY(100);
+        contenedorInfo.setSpacing(10);
+        agregarLabel("Título: " + tarea.getTitulo(), "estilo-vacio");
+        agregarLabel("Descripción: " + tarea.getDescripcion(), "label-descripcion");
+        agregarLabel("Fecha: " + fechaRecord.format(formato), "estilo-vacio");
 
         ObservableList<MuestraAlarma> data = FXCollections.observableArrayList();
-
         ArrayList<Alarma> alarmas = tarea.obtenerAlarmasOrdenadas();
-        for (Alarma alarma : alarmas){
-            if (alarma.esRepetible()){
-                Duration retroceso = Duration.between(tarea.getFechaVencimiento(), alarma.getHorarioFechaDisparo());
-                data.add(new MuestraAlarma(fechaRecord.minus(retroceso).format(formato), alarma.getTipo().toString()));
-            } else {
-                data.add(new MuestraAlarma(alarma.getHorarioFechaDisparo().format(formato), alarma.getTipo().toString()));
-            }
-        }
+
+        cargarAlarmas(alarmas, data, tarea.getFechaVencimiento(), fechaRecord);
+
         tablaAlarmas.setItems(data);
-        panel.getChildren().addAll(fecha,text);
+    }
+
+    private void agregarLabel(String text, String claseEstilo) {
+        Label label = new Label(text);
+        label.setWrapText(true);
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.getStyleClass().add(claseEstilo);
+        contenedorInfo.getChildren().add(label);
     }
 
     public void mostrarInformacionEvento(LocalDateTime fechaRecord){
         Evento evento = (Evento) this.agendable;
-        titulo.setText(evento.getTitulo());
-        descripcion.setText(evento.getDescripcion());
-        //un apartado
-        Label fechaInico = new Label(fechaRecord.format(formato));
-        Text textIni = new Text("Fecha Inicio:");
-        textIni.setLayoutX(20);
-        textIni.setLayoutY(110);
-        fechaInico.setLayoutX(100);
-        fechaInico.setLayoutY(100);
-        //otro apartado
-        Duration duracion = evento.duracionEvento();
-        Label fechaFinal = new Label(fechaRecord.plus(duracion).format(formato));
-        Text textFin = new Text("Fecha Final:");
-        textFin.setLayoutX(20);
-        textFin.setLayoutY(150);
-        fechaFinal.setLayoutX(100);
-        fechaFinal.setLayoutY(140);
-        // otro apartado
-        Label repeticion = new Label(evento.getTipoFrecuencia().toString());
-        Text textRe = new Text("Repeticion:");
-        textRe.setLayoutX(20);
-        textRe.setLayoutY(180);
-        repeticion.setLayoutX(100);
-        repeticion.setLayoutY(170);
 
+        Duration duracion = evento.duracionEvento();
+
+        contenedorInfo.setSpacing(10);
+        agregarLabel("Título: " + evento.getTitulo(), "estilo-vacio");
+        agregarLabel("Descripción: " + evento.getDescripcion(), "estilo-vacio");
+        agregarLabel("Fecha inicio: " + fechaRecord.format(formato), "estilo-vacio");
+        agregarLabel("Fecha final: " + fechaRecord.plus(duracion).format(formato), "estilo-vacio");
+        agregarLabel("Repeticion: " + evento.getTipoFrecuencia().toString(), "estilo-vacio");
 
         ArrayList<Alarma> alarmas = evento.obtenerAlarmasOrdenadas();
-        ObservableList<MuestraAlarma> data = FXCollections.observableArrayList();
 
+        ObservableList<MuestraAlarma> data = FXCollections.observableArrayList();
+        cargarAlarmas(alarmas, data, evento.getFechaInicio(), fechaRecord);
+        tablaAlarmas.setItems(data);
+    }
+
+    private void cargarAlarmas(ArrayList<Alarma> alarmas, ObservableList<MuestraAlarma> data, LocalDateTime fechaOriginal, LocalDateTime fechaRecord){
         for (Alarma alarma : alarmas){
             if (alarma.esRepetible()){
-                Duration retroceso = Duration.between(evento.getFechaInicio(), alarma.getHorarioFechaDisparo());
+                Duration retroceso = Duration.between(fechaOriginal, alarma.getHorarioFechaDisparo());
                 data.add(new MuestraAlarma(fechaRecord.minus(retroceso).format(formato), alarma.getTipo().toString()));
             } else {
                 data.add(new MuestraAlarma(alarma.getHorarioFechaDisparo().format(formato), alarma.getTipo().toString()));
             }
         }
-        tablaAlarmas.setItems(data);
-        panel.getChildren().addAll(fechaInico,textIni,fechaFinal,textFin,textRe,repeticion);
-
     }
 
     @Override

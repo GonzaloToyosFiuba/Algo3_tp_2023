@@ -5,3 +5,11 @@
     -fx-background-radius: 5px; /* Establece el radio de los bordes del área de fondo */
     -fx-border-radius: 5px;
 }
+
+.label-descripcion {
+    -fx-max-height: Infinity;
+}
+
+.estilo-vacio{
+
+}
