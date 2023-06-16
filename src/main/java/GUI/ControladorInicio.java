@@ -26,7 +26,7 @@ public class ControladorInicio {
 
         ControladorCalendario controladorCalendario = loader.getController();
         controladorCalendario.setCalendario(calendario);
-        controladorCalendario.mostarInfo();
+        controladorCalendario.mostrarInfo();
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

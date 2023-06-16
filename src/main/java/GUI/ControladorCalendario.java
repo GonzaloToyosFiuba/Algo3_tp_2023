@@ -1,5 +1,6 @@
 package GUI;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,47 +21,42 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControladorCalendario implements Initializable {
     @FXML
-    ScrollPane contenedorTareas;
+    private RadioButton botonDia, botonSemana, botonMes;
 
     private Calendario calendario;
 
-    private enum intervalo{
+    private enum Intervalo{
       DIA,
       SEMANAL,
       MENSUAL
-    };
+    }
 
-    private  intervalo IntevaloCalendario = intervalo.SEMANAL;
+    private Intervalo intervaloCalendario;
+
+    private LocalDateTime fechaBaseCalendario;
 
     public void setCalendario(Calendario calendario) {
         this.calendario = calendario;
     }
 
-    public void mostarInfo(){
-
-        LocalDateTime fInicio = LocalDateTime.of(2023, 5, 4, 18, 56);
-        LocalDateTime fFinal = LocalDateTime.of(2023, 7, 4, 20, 56);
-
-        ArrayList<RepresentacionAgendable> agendables = intevaloActividades(fInicio);
-
+    public void mostrarInfo(){
+        ArrayList<RepresentacionAgendable> agendables = obtenerAgendables(this.fechaBaseCalendario);
         grillaTareas.getChildren().clear();
 
         int rowIndex = 0;
         for (RepresentacionAgendable agendable : agendables){
             RowConstraints row1 = new RowConstraints();
             row1.setPrefHeight(40);
-            Label titulo;
-            Label descripcion;
-            Label fechaInicio;
-            Label fechaFinal;
+            Label titulo, descripcion, fechaInicio, fechaFinal;
             Button b1;
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm d/M/yy"); // YYYY-MM-DD HH:MM:SS
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm d/M/yy");
 
             if (agendable.tipo().equals("Evento")){
                 Evento e = calendario.buscarEvento(agendable.id());
@@ -171,15 +167,13 @@ public class ControladorCalendario implements Initializable {
 
         if(agendable.tipo().equals("Evento")){
             b1.setOnAction(event -> {
-                System.out.println("Agendable: " + agendable.id());
                 c.eliminarEvento(agendable.id());
-                this.mostarInfo();
+                this.mostrarInfo();
             });
         } else {
             b1.setOnAction(event -> {
-                System.out.println("Agendable: " + agendable.id());
                 c.eliminarTarea(agendable.id());
-                this.mostarInfo();
+                this.mostrarInfo();
             });
         }
 
@@ -199,6 +193,42 @@ public class ControladorCalendario implements Initializable {
         return b1;
     }
 
+    public void setIntervalo(ActionEvent event){
+        this.fechaBaseCalendario = LocalDateTime.now();
+        if (botonDia.isSelected()){
+            intervaloCalendario = Intervalo.DIA;
+        } else if (botonSemana.isSelected()){
+            intervaloCalendario = Intervalo.SEMANAL;
+        } else {
+            intervaloCalendario = Intervalo.MENSUAL;
+        }
+        this.mostrarInfo();
+    }
+
+    public void siguienteIntervalo(){
+        if (botonDia.isSelected()){
+            this.fechaBaseCalendario = this.fechaBaseCalendario.plusDays(1);
+        } else if (botonSemana.isSelected()){
+            this.fechaBaseCalendario = this.fechaBaseCalendario.plusWeeks(1);
+        } else {
+            this.fechaBaseCalendario = this.fechaBaseCalendario.plusMonths(1);
+        }
+        this.mostrarInfo();
+    }
+
+    public void anteriorIntervalo(){
+        if (botonDia.isSelected()){
+            this.fechaBaseCalendario = this.fechaBaseCalendario.minusDays(1);
+        } else if (botonSemana.isSelected()){
+            this.fechaBaseCalendario = this.fechaBaseCalendario.minusWeeks(1);
+        } else {
+            this.fechaBaseCalendario = this.fechaBaseCalendario.minusMonths(1);
+        }
+        this.mostrarInfo();
+    }
+
+
+
     @FXML
     private GridPane grillaTareas;
 
@@ -210,41 +240,37 @@ public class ControladorCalendario implements Initializable {
 
         RowConstraints row1 = new RowConstraints();
         row1.setPrefHeight(35);
+
+        ToggleGroup group = new ToggleGroup();
+        botonDia.setToggleGroup(group);
+        botonMes.setToggleGroup(group);
+        botonSemana.setToggleGroup(group);
+
+        this.intervaloCalendario = Intervalo.DIA;
+        this.fechaBaseCalendario = LocalDateTime.now();
     }
 
-    private ArrayList<RepresentacionAgendable> motrarSemana(LocalDateTime fecha){
-        LocalDateTime primerDiaSemana = fecha.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        LocalDateTime ultimoDiaSemana = fecha.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
-        //System.out.println(primerDiaSemana);
-        //System.out.println(ultimoDiaSemana);
-        return this.calendario.obtenerAgendables(primerDiaSemana,ultimoDiaSemana);
+    private  ArrayList<RepresentacionAgendable> obtenerAgendablesDia(LocalDateTime fecha){
+        return this.calendario.obtenerAgendables(fecha.truncatedTo(ChronoUnit.DAYS), fecha.truncatedTo(ChronoUnit.DAYS).plusDays(1).minusNanos(1));
+    }
+    private ArrayList<RepresentacionAgendable> obtenerAgendablesSemana(LocalDateTime fecha){
+        LocalDateTime primerDiaSemana = fecha.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).truncatedTo(ChronoUnit.DAYS);
+        LocalDateTime ultimoDiaSemana = fecha.with(TemporalAdjusters.next(DayOfWeek.SUNDAY)).truncatedTo(ChronoUnit.DAYS).plusDays(1).minusNanos(1);
+        return this.calendario.obtenerAgendables(primerDiaSemana, ultimoDiaSemana);
+    }
+    private ArrayList<RepresentacionAgendable> obtenerAgendablesMes(LocalDateTime fecha){
+        LocalDateTime primerDiaMes = fecha.withDayOfMonth(1).truncatedTo(ChronoUnit.DAYS);
+        LocalDateTime ultimoDiaMes = fecha.with(TemporalAdjusters.lastDayOfMonth()).truncatedTo(ChronoUnit.DAYS).plusDays(1).minusNanos(1);
+        return this.calendario.obtenerAgendables(primerDiaMes, ultimoDiaMes);
     }
 
-    private  ArrayList<RepresentacionAgendable> mostrarDia(LocalDateTime fecha){
-        return this.calendario.obtenerAgendables(fecha,fecha);
-    }
-
-    private ArrayList<RepresentacionAgendable> mostraMes(LocalDateTime fecha){
-        LocalDateTime primerDiaMes = fecha.withDayOfMonth(1);
-        LocalDateTime ultimoDiaMes = fecha.with(TemporalAdjusters.lastDayOfMonth());
-        return this.calendario.obtenerAgendables(primerDiaMes,ultimoDiaMes);
-    }
-
-    private ArrayList<RepresentacionAgendable> intevaloActividades(LocalDateTime fecha){
-        ArrayList<RepresentacionAgendable> intevalo = null;
-        switch (IntevaloCalendario){
-            case DIA -> {
-                intevalo = mostrarDia(fecha);
-                //System.out.println("ACA");
-            }
-            case SEMANAL -> {
-                intevalo = motrarSemana(fecha);
-                //System.out.println("ACA");
-            }
-            case MENSUAL -> {
-                intevalo = mostraMes(fecha);
-            }
+    private ArrayList<RepresentacionAgendable> obtenerAgendables(LocalDateTime fecha){
+        ArrayList<RepresentacionAgendable> intervalo = null;
+        switch (this.intervaloCalendario){
+            case DIA -> intervalo = obtenerAgendablesDia(fecha);
+            case SEMANAL -> intervalo = obtenerAgendablesSemana(fecha);
+            case MENSUAL -> intervalo = obtenerAgendablesMes(fecha);
         }
-        return intevalo;
+        return intervalo;
     }
 }
