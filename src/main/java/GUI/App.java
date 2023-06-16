@@ -9,9 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import Calendario.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class App extends Application {
@@ -30,18 +28,7 @@ public class App extends Application {
             Image icon = new Image("icono_calendario.png");
             stage.getIcons().add(icon);
 
-            //ArrayList<Tarea> tareas = new ArrayList<>();
-
-            String actual = new File("").getAbsolutePath();
-            String dir = actual + "\\calendario.json";
-
-            File file = new File(dir);
-            FileReader reader = new FileReader(file);
-            BufferedReader br = new BufferedReader(reader);
-
-            AdministradorJSON admin = new AdministradorJSON();
-
-            Calendario c = admin.deserializar(br);
+            Calendario c = recibirInformacion();
 
             controller.setCalendario(c);
 
@@ -53,5 +40,22 @@ public class App extends Application {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private Calendario recibirInformacion() throws Exception {
+        String actual = new File("").getAbsolutePath();
+        String dir = actual + "\\calendario.json";
+
+        File file = new File(dir);
+        if (!file.exists()) {
+            file.createNewFile();
+        } else {
+            FileReader reader = new FileReader(file);
+            BufferedReader br = new BufferedReader(reader);
+            AdministradorJSON admin = new AdministradorJSON();
+            return admin.deserializar(br);
+        }
+
+        return new Calendario();
     }
 }

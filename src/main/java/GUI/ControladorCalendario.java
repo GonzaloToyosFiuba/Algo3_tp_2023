@@ -14,8 +14,12 @@ import javafx.scene.layout.*;
 import Calendario.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import Control.AdministradorJSON;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -109,6 +113,8 @@ public class ControladorCalendario implements Initializable {
             grillaTareas.getRowConstraints().add(row1);
             rowIndex++;
         }
+
+        this.escribirEnArchivo(this.calendario);
     }
 
     Button obtenerBotonVer(Agendable agendable, RepresentacionAgendable repre){
@@ -227,8 +233,6 @@ public class ControladorCalendario implements Initializable {
         this.mostrarInfo();
     }
 
-
-
     @FXML
     private GridPane grillaTareas;
 
@@ -272,5 +276,16 @@ public class ControladorCalendario implements Initializable {
             case MENSUAL -> intervalo = obtenerAgendablesMes(fecha);
         }
         return intervalo;
+    }
+
+    private void escribirEnArchivo(Calendario miCalendario) {
+        String actual = new File("").getAbsolutePath();
+        String dir = actual + "\\calendario.json";
+        AdministradorJSON admin = new AdministradorJSON();
+        try (Writer writer = new FileWriter(dir)) {
+            admin.serializar(miCalendario, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
