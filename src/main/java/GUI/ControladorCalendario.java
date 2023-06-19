@@ -142,16 +142,7 @@ public class ControladorCalendario implements Initializable {
                     controladorVerInfo.mostrarInformacionEvento(repre.fecha());
                 }
 
-                // Crear una nueva escena y mostrarla en una nueva ventana
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
-                stage.setScene(scene);
-                // Configurar la modalidad de la nueva ventana para bloquear la ventana principal
-                stage.initModality(Modality.APPLICATION_MODAL);
-
-                // Mostrar la nueva ventana y bloquear la ejecución del código hasta que se cierre
-                stage.showAndWait();
+                this.abrirNuevaVentana(root);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -236,6 +227,9 @@ public class ControladorCalendario implements Initializable {
     @FXML
     private GridPane grillaTareas;
 
+    @FXML
+    private ChoiceBox<String> selectorAgregar;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         grillaTareas.setPadding(new Insets(10));
@@ -252,6 +246,59 @@ public class ControladorCalendario implements Initializable {
 
         this.intervaloCalendario = Intervalo.DIA;
         this.fechaBaseCalendario = LocalDateTime.now();
+
+        String[] opciones = {"Agregar", "Nueva tarea","Nuevo evento"};
+        this.selectorAgregar.getItems().addAll(opciones);
+        this.selectorAgregar.setOnAction(this::agregarNuevoAgendable);
+
+        this.selectorAgregar.setValue("Agregar");
+    }
+
+    private void agregarNuevoAgendable(ActionEvent event){
+        String seleccion = selectorAgregar.getValue();
+
+        if (seleccion.equals("Nueva tarea")){
+            this.abrirVentanaAgregarTarea();
+        } else if (seleccion.equals("Nuevo evento")){
+            this.abrirVentanaAgregarEvento();
+        }
+        this.selectorAgregar.setValue("Agregar");
+    }
+
+    private void abrirVentanaAgregarTarea(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/agregarTarea.fxml"));
+            Parent root = loader.load();
+
+            ControladorAgregarTarea controladorAgregarTarea = loader.getController();
+            controladorAgregarTarea.setCalendario(this.calendario);
+            this.abrirNuevaVentana(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void abrirVentanaAgregarEvento(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/agregarEvento.fxml"));
+            Parent root = loader.load();
+
+            ControladorAgregarEvento controladorAgregarEvento = loader.getController();
+            controladorAgregarEvento.setCalendario(this.calendario);
+            this.abrirNuevaVentana(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void abrirNuevaVentana(Parent root){
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+        stage.setScene(scene);
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 
     private  ArrayList<RepresentacionAgendable> obtenerAgendablesDia(LocalDateTime fecha){
