@@ -1,37 +1,5 @@
 {
   "eventos" : [ {
-    "tipoEvento" : "cantidadMax",
-    "id" : "9b0f2f12-7029-4c18-abd7-62464bb880c1",
-    "descripcion" : "Sacar al perro por la mañana",
-    "titulo" : "Perro",
-    "fechaInicio" : "04/05/2023 07:56:00",
-    "fechaFinal" : "04/05/2023 08:56:00",
-    "tipoFrecuencia" : {
-      "tipo" : "semanal",
-      "intervalo" : 1,
-      "dias" : [ "MONDAY", "THURSDAY" ]
-    },
-    "diaCompleto" : false,
-    "alarmas" : [ {
-      "horarioFechaDisparo" : "21/05/2023 18:32:00",
-      "repetible" : false,
-      "id" : 0,
-      "tipoAlarma" : "SONIDO"
-    }, {
-      "horarioFechaDisparo" : "04/05/2023 18:41:00",
-      "repetible" : true,
-      "id" : 1,
-      "tipoAlarma" : "CORREO"
-    }, {
-      "horarioFechaDisparo" : "21/05/2024 18:32:00",
-      "repetible" : false,
-      "id" : 2,
-      "tipoAlarma" : "CORREO"
-    } ],
-    "repeticionesMax" : 15,
-    "contadorIdAlarmas" : 0,
-    "tipoAgendable" : "Evento"
-  }, {
     "tipoEvento" : "fechaLimite",
     "id" : "ddb7bae8-23d4-429b-839a-79e7997e6b3a",
     "descripcion" : "Sacar al perro por la tarde",
@@ -69,10 +37,80 @@
     "contadorIdAlarmas" : 0,
     "tipoAgendable" : "Tarea"
   }, {
+    "id" : "a8a65c45-38a2-433a-883f-b450450e9fd9",
+    "descripcion" : "12",
+    "titulo" : "12",
+    "fechaVencimiento" : "19/06/2023 18:02:00",
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "completada" : false,
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Tarea"
+  }, {
+    "id" : "97ae07e0-6083-46b7-b80f-9fecaacc1b16",
+    "descripcion" : "dasdasd",
+    "titulo" : "asd",
+    "fechaVencimiento" : "19/06/2023 00:00:00",
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "completada" : false,
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Tarea"
+  }, {
+    "id" : "4afce3b4-032e-4214-83c7-a094c00597e0",
+    "descripcion" : "tarea",
+    "titulo" : "mi nueva",
+    "fechaVencimiento" : "19/06/2023 00:00:00",
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "completada" : false,
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Tarea"
+  }, {
+    "id" : "8c25bbfe-071b-4246-b0a7-c8c9980fa5d1",
+    "descripcion" : "mi nueva tarea",
+    "titulo" : "esta es",
+    "fechaVencimiento" : "19/06/2023 00:00:00",
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "completada" : false,
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Tarea"
+  }, {
     "id" : "09e77c84-6983-4e5c-bc84-5097ef818b69",
     "descripcion" : "Pasear a Lio",
     "titulo" : "Perro",
     "fechaVencimiento" : "01/05/2024 18:32:00",
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "completada" : false,
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Tarea"
+  }, {
+    "id" : "f7697c30-556d-4728-93ef-6b7dcebdd2e4",
+    "descripcion" : "234234",
+    "titulo" : "23234234",
+    "fechaVencimiento" : "19/06/2023 23:59:00",
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "completada" : false,
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Tarea"
+  }, {
+    "id" : "fd819367-75e7-428c-8f8d-a1ae49dfadaf",
+    "descripcion" : "12",
+    "titulo" : "12",
+    "fechaVencimiento" : "19/06/2023 00:02:00",
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "completada" : false,
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Tarea"
+  }, {
+    "id" : "47f433b9-daef-4620-b54b-5456cff60c77",
+    "descripcion" : "23123",
+    "titulo" : "2",
+    "fechaVencimiento" : "19/06/2023 00:01:00",
     "diaCompleto" : false,
     "alarmas" : [ ],
     "completada" : false,

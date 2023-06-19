@@ -2,13 +2,17 @@ package GUI;
 
 import Calendario.Calendario;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ResourceBundle;
 
 
-public class ControladorAgregarTarea{
+public class ControladorAgregarTarea implements Initializable {
     private Calendario calendario;
 
     @FXML
@@ -19,13 +23,29 @@ public class ControladorAgregarTarea{
     private TextArea descripcion;
     @FXML
     private Label mensajeError;
+    @FXML
+    private Spinner<Integer> hora;
+    @FXML
+    private Spinner<Integer> minutos;
+    @FXML
+    private DatePicker fecha;
+    @FXML
+    private CheckBox diaCompleto;
 
     public void setCalendario(Calendario calendario) {
         this.calendario = calendario;
     }
 
     public void agregarTarea(){
-    this.validarEntradas();
+        if (this.validarEntradas()){
+            System.out.println(diaCompleto.isSelected());
+            this.calendario.agregarTarea(titulo.getText(),descripcion.getText(),desiganarfecha(),diaCompleto.isSelected());
+        }
+    }
+
+    private LocalDateTime desiganarfecha(){
+        LocalTime tiempo = LocalTime.of(hora.getValue(),minutos.getValue());
+        return LocalDateTime.of(this.fecha.getValue(),tiempo);
     }
 
     private boolean validarEntradas(){
@@ -39,5 +59,16 @@ public class ControladorAgregarTarea{
         }
 
         return true;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        SpinnerValueFactory<Integer> rangoHora = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0);
+        hora.setValueFactory(rangoHora);
+
+        SpinnerValueFactory<Integer> rangoMinutos = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0);
+        minutos.setValueFactory(rangoMinutos);
+
+        fecha.setValue(LocalDate.now());
     }
 }

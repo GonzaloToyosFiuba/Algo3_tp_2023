@@ -72,9 +72,12 @@ public class Calendario {
 
         tareas.forEach( (key, value) -> {
                   LocalDateTime fechaTarea = value.getFechaVencimiento();
-                  if (fechaTarea.isAfter(fechaInicio) && fechaTarea.isBefore(fechaFinal)){
+                  /*if (fechaTarea.isAfter(fechaInicio) && fechaTarea.isBefore(fechaFinal)){
                       listaAgendables.add(new RepresentacionAgendable(key, value.getFechaVencimiento(), "Tarea"));
-                  }
+                  }*/
+                    if (fechaInicio.compareTo(fechaTarea) <= 0 && fechaFinal.compareTo(fechaTarea) >= 0){
+                        listaAgendables.add(new RepresentacionAgendable(key, value.getFechaVencimiento(), "Tarea"));
+                    }
         } );
 
         return listaAgendables.stream().sorted((r1, r2) -> r1.fecha().compareTo(r2.fecha())).collect(Collectors.toCollection(ArrayList::new));

@@ -263,6 +263,7 @@ public class ControladorCalendario implements Initializable {
             this.abrirVentanaAgregarEvento();
         }
         this.selectorAgregar.setValue("Agregar");
+
     }
 
     private void abrirVentanaAgregarTarea(){
@@ -273,6 +274,7 @@ public class ControladorCalendario implements Initializable {
             ControladorAgregarTarea controladorAgregarTarea = loader.getController();
             controladorAgregarTarea.setCalendario(this.calendario);
             this.abrirNuevaVentana(root);
+            this.mostrarInfo();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -286,6 +288,7 @@ public class ControladorCalendario implements Initializable {
             ControladorAgregarEvento controladorAgregarEvento = loader.getController();
             controladorAgregarEvento.setCalendario(this.calendario);
             this.abrirNuevaVentana(root);
+            this.mostrarInfo();
         } catch (IOException e) {
             e.printStackTrace();
         }
