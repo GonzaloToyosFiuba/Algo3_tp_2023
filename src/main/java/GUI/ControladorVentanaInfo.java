@@ -81,10 +81,13 @@ public class ControladorVentanaInfo implements Initializable {
     private void cargarAlarmas(ArrayList<Alarma> alarmas, ObservableList<MuestraAlarma> data, LocalDateTime fechaOriginal, LocalDateTime fechaRecord){
         for (Alarma alarma : alarmas){
             if (alarma.esRepetible()){
-                Duration retroceso = Duration.between(fechaOriginal, alarma.getHorarioFechaDisparo());
+                Duration retroceso = Duration.between(alarma.getHorarioFechaDisparo(),fechaOriginal);
                 data.add(new MuestraAlarma(fechaRecord.minus(retroceso).format(formato), alarma.getTipo().toString()));
+                System.out.println(fechaRecord);
             } else {
-                data.add(new MuestraAlarma(alarma.getHorarioFechaDisparo().format(formato), alarma.getTipo().toString()));
+                if(fechaOriginal.compareTo(fechaRecord) == 0) {
+                    data.add(new MuestraAlarma(alarma.getHorarioFechaDisparo().format(formato), alarma.getTipo().toString()));
+                }
             }
         }
     }

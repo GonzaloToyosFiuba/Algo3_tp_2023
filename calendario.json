@@ -63,6 +63,27 @@
     "repeticionesMax" : 20,
     "contadorIdAlarmas" : 0,
     "tipoAgendable" : "Evento"
+  }, {
+    "tipoEvento" : "cantidadMax",
+    "id" : "4700f03e-69fe-49bb-8338-89457755300d",
+    "descripcion" : "Porque me obligan",
+    "titulo" : "Visitar al Abuelo",
+    "fechaInicio" : "20/06/2023 15:00:00",
+    "fechaFinal" : "20/06/2023 16:00:00",
+    "tipoFrecuencia" : {
+      "tipo" : "diaria",
+      "intervalo" : 5
+    },
+    "diaCompleto" : false,
+    "alarmas" : [ {
+      "horarioFechaDisparo" : "20/06/2023 14:30:00",
+      "repetible" : true,
+      "id" : 0,
+      "tipoAlarma" : "NOTIFICACION"
+    } ],
+    "repeticionesMax" : 10,
+    "contadorIdAlarmas" : 1,
+    "tipoAgendable" : "Evento"
   } ],
   "tareas" : [ {
     "id" : "88266b99-ceba-4163-8639-432ef26b0c49",

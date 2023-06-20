@@ -67,6 +67,7 @@ public class ControladorAgregarTarea implements Initializable {
                                          obtenerFecha(this.fechaVencimiento.getValue(), hora.getValue(), minutos.getValue()),
                                          diaCompleto.isSelected(), alarmasTarea);
 
+
             Stage stage = (Stage) botonAgregar.getScene().getWindow();
             stage.close();
         }

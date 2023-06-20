@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,16 +47,29 @@ public class Calendario {
         return id;
     }
 
-    public void agregarEventoCantMax(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, int repeticionesMax, TipoFrecuencia tipoFrecuencia, boolean diaCompleto) {
+    public void agregarEventoCantMax(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, int repeticionesMax, TipoFrecuencia tipoFrecuencia, boolean diaCompleto, ArrayList<Alarma> alarmas) {
         UUID id = generarIdUnica();
         Evento nuevoEvento = new CantidadMax(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, repeticionesMax, diaCompleto);
+       agregarAlarmas(nuevoEvento,alarmas,fechaInicio);
         eventos.put(id, nuevoEvento);
     }
 
-    public void agregarEventoFechaLimite(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, LocalDateTime fechaLimite, TipoFrecuencia tipoFrecuencia, boolean diaCompleto) {
+    public void agregarEventoFechaLimite(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, LocalDateTime fechaLimite, TipoFrecuencia tipoFrecuencia, boolean diaCompleto, ArrayList<Alarma> alarmas) {
         UUID id = generarIdUnica();
         Evento nuevoEvento = new FechaLimite(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, fechaLimite, diaCompleto);
+        agregarAlarmas(nuevoEvento,alarmas,fechaInicio);
         eventos.put(id, nuevoEvento);
+    }
+
+    private void agregarAlarmas(Evento nuevoEvento,ArrayList<Alarma> alarmas,LocalDateTime fechaInicio){
+        for (Alarma alarma : alarmas){
+            if (alarma.esRepetible()){
+                Duration duracion = Duration.between(alarma.getHorarioFechaDisparo(),fechaInicio);
+                nuevoEvento.agregarAlarmaRepetible((int)duracion.toMinutes(),alarma.getTipo());
+            }else {
+                nuevoEvento.agregarAlarmaUnica(alarma.getHorarioFechaDisparo(),alarma.getTipo());
+            }
+        }
     }
 
     public void agregarTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto, ArrayList<Alarma> alarmas) {
