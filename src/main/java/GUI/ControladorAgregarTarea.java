@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import Calendario.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class ControladorAgregarTarea implements Initializable {
     @FXML
     private Label mensajeError;
     @FXML
-    private Spinner<Integer> hora, minutos , horaAlarmaFija, minutosAlarmaFija, minutosAntes;
+    private Spinner<Integer> hora, minutos, horaAlarmaFija, minutosAlarmaFija, minutosAntes;
     @FXML
     private DatePicker fechaVencimiento, fechaAlarmaFija;
     @FXML
@@ -42,6 +43,8 @@ public class ControladorAgregarTarea implements Initializable {
     private TableView<MuestraAlarma> tablaAlarmas;
     @FXML
     private TableColumn<MuestraAlarma, String> columnaHorario, columnaTipo;
+    @FXML
+    private Button botonAgregar;
 
     public void setCalendario(Calendario calendario) {
         this.calendario = calendario;
@@ -52,12 +55,20 @@ public class ControladorAgregarTarea implements Initializable {
             ArrayList<Alarma> alarmasTarea = new ArrayList<>();
 
             for (MuestraAlarma alarma : alarmasTabla){
-                alarmasTarea.add(new Alarma(LocalDateTime.parse(alarma.getHorario(), formato), TipoAlarma.valueOf(alarma.getTipo())));
+                if(alarma.esMinutosAntes){
+                    LocalDateTime fecha = obtenerFecha(this.fechaVencimiento.getValue(), hora.getValue(), minutos.getValue()).minusMinutes(alarma.minutosAntes);
+                    alarmasTarea.add(new Alarma(fecha, TipoAlarma.valueOf(alarma.getTipo()), 0));
+                } else {
+                    alarmasTarea.add(new Alarma(LocalDateTime.parse(alarma.getHorario(), formato), TipoAlarma.valueOf(alarma.getTipo()), 0));
+                }
             }
 
             this.calendario.agregarTarea(titulo.getText(), descripcion.getText(),
                                          obtenerFecha(this.fechaVencimiento.getValue(), hora.getValue(), minutos.getValue()),
                                          diaCompleto.isSelected(), alarmasTarea);
+
+            Stage stage = (Stage) botonAgregar.getScene().getWindow();
+            stage.close();
         }
     }
 
@@ -83,8 +94,7 @@ public class ControladorAgregarTarea implements Initializable {
             LocalDateTime fecha = this.obtenerFecha(this.fechaAlarmaFija.getValue(), this.horaAlarmaFija.getValue(), this.minutosAlarmaFija.getValue());
             this.alarmasTabla.add(new MuestraAlarma(fecha.format(formato), TipoAlarma.NOTIFICACION.toString()));
         } else if (seleccionAlarmaMinutosAntes.isSelected()){
-            LocalDateTime fecha = this.obtenerFecha(this.fechaVencimiento.getValue(), this.horaAlarmaFija.getValue(), this.minutosAlarmaFija.getValue());
-            this.alarmasTabla.add(new MuestraAlarma(fecha.minusMinutes(this.minutosAntes.getValue()).format(formato), TipoAlarma.NOTIFICACION.toString()));
+            this.alarmasTabla.add(new MuestraAlarma(this.minutosAntes.getValue().toString() + " minutos antes", TipoAlarma.NOTIFICACION.toString(), this.minutosAntes.getValue()));
         }
         ObservableList<MuestraAlarma> data = FXCollections.observableArrayList();
         this.cargarAlarmas(data);
@@ -92,7 +102,7 @@ public class ControladorAgregarTarea implements Initializable {
     }
 
     private void cargarAlarmas(ObservableList<MuestraAlarma> data){
-        this.alarmasTabla.forEach(data::add);
+        data.addAll(this.alarmasTabla);
     }
 
     @Override

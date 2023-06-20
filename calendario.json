@@ -1,5 +1,37 @@
 {
   "eventos" : [ {
+    "tipoEvento" : "cantidadMax",
+    "id" : "e240ad73-2425-42d8-9c34-60ef4eb0cf17",
+    "descripcion" : "Clases de proba. Aula 302",
+    "titulo" : "Probabilidad ",
+    "fechaInicio" : "01/06/2023 15:00:00",
+    "fechaFinal" : "01/06/2023 17:00:00",
+    "tipoFrecuencia" : {
+      "tipo" : "diaria",
+      "intervalo" : 3
+    },
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "repeticionesMax" : 20,
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Evento"
+  }, {
+    "tipoEvento" : "fechaLimite",
+    "id" : "399a402a-a1c8-4d24-846e-d091e1c159c5",
+    "descripcion" : "Ver el paisaje",
+    "titulo" : "Contemplar",
+    "fechaInicio" : "01/07/2023 00:00:00",
+    "fechaFinal" : "01/07/2023 01:00:00",
+    "tipoFrecuencia" : {
+      "tipo" : "mensual",
+      "intervalo" : 1
+    },
+    "diaCompleto" : true,
+    "alarmas" : [ ],
+    "fechaLimite" : "31/12/+999999999 23:59:59",
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Evento"
+  }, {
     "tipoEvento" : "fechaLimite",
     "id" : "ddb7bae8-23d4-429b-839a-79e7997e6b3a",
     "descripcion" : "Sacar al perro por la tarde",
@@ -13,6 +45,22 @@
     "diaCompleto" : false,
     "alarmas" : [ ],
     "fechaLimite" : "04/07/2023 20:56:00",
+    "contadorIdAlarmas" : 0,
+    "tipoAgendable" : "Evento"
+  }, {
+    "tipoEvento" : "cantidadMax",
+    "id" : "c5aa42c8-7587-4a6e-bd20-8550ca6814ba",
+    "descripcion" : "Clase de inglés en Las Heras aula 14.",
+    "titulo" : "Inglés",
+    "fechaInicio" : "17/03/2023 08:00:00",
+    "fechaFinal" : "17/03/2023 10:30:00",
+    "tipoFrecuencia" : {
+      "tipo" : "diaria",
+      "intervalo" : 7
+    },
+    "diaCompleto" : false,
+    "alarmas" : [ ],
+    "repeticionesMax" : 20,
     "contadorIdAlarmas" : 0,
     "tipoAgendable" : "Evento"
   } ],
@@ -72,6 +120,21 @@
     "contadorIdAlarmas" : 1,
     "tipoAgendable" : "Tarea"
   }, {
+    "id" : "05a4e000-c4eb-4b63-b610-33a77d0e200f",
+    "descripcion" : "Ver la tele todo el día",
+    "titulo" : "Tele",
+    "fechaVencimiento" : "24/06/2023 15:00:00",
+    "diaCompleto" : false,
+    "alarmas" : [ {
+      "horarioFechaDisparo" : "24/06/2023 14:30:00",
+      "repetible" : false,
+      "id" : 0,
+      "tipoAlarma" : "NOTIFICACION"
+    } ],
+    "completada" : false,
+    "contadorIdAlarmas" : 1,
+    "tipoAgendable" : "Tarea"
+  }, {
     "id" : "d01eb695-0d1d-4e7c-86d1-4d2328ea0fa9",
     "descripcion" : "Hacer la tarea de matemática. Entregar antes del 10 de mayo. Caítulos del libro 1 a 3.\nEntregar impreso en A4",
     "titulo" : "Tarea matemática",
@@ -95,6 +158,46 @@
     } ],
     "completada" : false,
     "contadorIdAlarmas" : 1,
+    "tipoAgendable" : "Tarea"
+  }, {
+    "id" : "e4a9f108-a853-4ba5-9371-6d6aa73a027b",
+    "descripcion" : "Hacer algo todo el día",
+    "titulo" : "Hacer algo",
+    "fechaVencimiento" : "20/06/2023 00:00:00",
+    "diaCompleto" : true,
+    "alarmas" : [ {
+      "horarioFechaDisparo" : "20/06/2023 00:00:00",
+      "repetible" : false,
+      "id" : 0,
+      "tipoAlarma" : "NOTIFICACION"
+    }, {
+      "horarioFechaDisparo" : "19/06/2023 23:50:00",
+      "repetible" : false,
+      "id" : 1,
+      "tipoAlarma" : "NOTIFICACION"
+    } ],
+    "completada" : false,
+    "contadorIdAlarmas" : 2,
+    "tipoAgendable" : "Tarea"
+  }, {
+    "id" : "980a34e3-1368-4acd-bbf5-472298dd7568",
+    "descripcion" : "Saludar a mis amigos",
+    "titulo" : "Hola",
+    "fechaVencimiento" : "20/07/2023 10:20:00",
+    "diaCompleto" : false,
+    "alarmas" : [ {
+      "horarioFechaDisparo" : "20/06/2023 00:00:00",
+      "repetible" : false,
+      "id" : 0,
+      "tipoAlarma" : "NOTIFICACION"
+    }, {
+      "horarioFechaDisparo" : "20/07/2023 10:10:00",
+      "repetible" : false,
+      "id" : 1,
+      "tipoAlarma" : "NOTIFICACION"
+    } ],
+    "completada" : false,
+    "contadorIdAlarmas" : 2,
     "tipoAgendable" : "Tarea"
   } ]
 }

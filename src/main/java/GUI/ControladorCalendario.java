@@ -83,9 +83,9 @@ public class ControladorCalendario implements Initializable {
                 GridPane.setRowIndex(fechaFinal, rowIndex);
                 b1 = obtenerBotonVer(e, agendable);
                 GridPane.setColumnIndex(fondo,0);
-                GridPane.setColumnSpan(fondo,Integer.MAX_VALUE);
-                GridPane.setRowIndex(fondo,rowIndex);
-                fondo.setStyle("-fx-background-color: rgba(0,72,255,0.57);");
+                GridPane.setColumnSpan(fondo, Integer.MAX_VALUE);
+                GridPane.setRowIndex(fondo, rowIndex);
+                fondo.setStyle("-fx-background-color: rgba(0, 72, 255, 0.57);");
                 grillaTareas.getChildren().addAll(fondo,fechaFinal);
             } else {
                 Tarea e = calendario.buscarTarea(agendable.id());
@@ -101,10 +101,8 @@ public class ControladorCalendario implements Initializable {
                 GridPane.setColumnIndex(fondo,0);
                 GridPane.setColumnSpan(fondo,Integer.MAX_VALUE);
                 GridPane.setRowIndex(fondo,rowIndex);
-                fondo.setStyle("-fx-background-color: rgba(161,0,255,0.57);");
+                fondo.setStyle("-fx-background-color: rgba(185,97,250,0.57);");
                 b1 = obtenerBotonVer(e, agendable);
-                //titulo.setStyle("-fx-background-color: rgba(0,72,255,0.57); -fx-text-fill: rgba(255,0,98,0.59);");
-                //descripcion.setStyle("-fx-background-color: rgba(0,72,255,0.57); -fx-text-fill: rgba(255,0,98,0.59);");
 
                 grillaTareas.getChildren().add(fondo);
             }
@@ -206,7 +204,7 @@ public class ControladorCalendario implements Initializable {
         return b1;
     }
 
-    public void setIntervalo(ActionEvent event){
+    public void setIntervalo(){
         this.fechaBaseCalendario = LocalDateTime.now();
         if (botonDia.isSelected()){
             intervaloCalendario = Intervalo.DIA;
