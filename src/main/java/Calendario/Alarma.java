@@ -35,6 +35,12 @@ public class Alarma implements Comparable{
         this.id = id;
         this.repetible = false;
     }
+
+    public Alarma(LocalDateTime horarioFechaDisparo, TipoAlarma tipo) {
+        this.horarioFechaDisparo = horarioFechaDisparo;
+        this.tipoAlarma = tipo;
+    }
+
     @JsonCreator
     private static Alarma create(@JsonProperty("horarioFechaDisparo") LocalDateTime horarioFechaDisparo,
                                  @JsonProperty("tipo")TipoAlarma tipo,

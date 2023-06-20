@@ -33,7 +33,11 @@ import java.util.ResourceBundle;
 public class ControladorCalendario implements Initializable {
     @FXML
     private RadioButton botonDia, botonSemana, botonMes;
+    @FXML
+    private Label infoIntervaloMostrado;
 
+    private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
+    private static final DateTimeFormatter formatoLabelIntervalo = DateTimeFormatter.ofPattern("dd/MM/yy");
     private Calendario calendario;
 
     private enum Intervalo{
@@ -60,7 +64,6 @@ public class ControladorCalendario implements Initializable {
             row1.setPrefHeight(40);
             Label titulo, descripcion, fechaInicio, fechaFinal;
             Button b1;
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm d/M/yy");
 
             if (agendable.tipo().equals("Evento")){
                 Evento e = calendario.buscarEvento(agendable.id());
@@ -305,16 +308,19 @@ public class ControladorCalendario implements Initializable {
     }
 
     private  ArrayList<RepresentacionAgendable> obtenerAgendablesDia(LocalDateTime fecha){
+        this.infoIntervaloMostrado.setText("Viendo el " + fecha.truncatedTo(ChronoUnit.DAYS).format(formatoLabelIntervalo));
         return this.calendario.obtenerAgendables(fecha.truncatedTo(ChronoUnit.DAYS), fecha.truncatedTo(ChronoUnit.DAYS).plusDays(1).minusNanos(1));
     }
     private ArrayList<RepresentacionAgendable> obtenerAgendablesSemana(LocalDateTime fecha){
         LocalDateTime primerDiaSemana = fecha.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).truncatedTo(ChronoUnit.DAYS);
         LocalDateTime ultimoDiaSemana = fecha.with(TemporalAdjusters.next(DayOfWeek.SUNDAY)).truncatedTo(ChronoUnit.DAYS).plusDays(1).minusNanos(1);
+        this.infoIntervaloMostrado.setText("Viendo desde " + primerDiaSemana.format(formatoLabelIntervalo) + " hasta " + ultimoDiaSemana.format(formatoLabelIntervalo));
         return this.calendario.obtenerAgendables(primerDiaSemana, ultimoDiaSemana);
     }
     private ArrayList<RepresentacionAgendable> obtenerAgendablesMes(LocalDateTime fecha){
         LocalDateTime primerDiaMes = fecha.withDayOfMonth(1).truncatedTo(ChronoUnit.DAYS);
         LocalDateTime ultimoDiaMes = fecha.with(TemporalAdjusters.lastDayOfMonth()).truncatedTo(ChronoUnit.DAYS).plusDays(1).minusNanos(1);
+        this.infoIntervaloMostrado.setText("Viendo desde " + primerDiaMes.format(formatoLabelIntervalo) + " hasta " + ultimoDiaMes.format(formatoLabelIntervalo));
         return this.calendario.obtenerAgendables(primerDiaMes, ultimoDiaMes);
     }
 

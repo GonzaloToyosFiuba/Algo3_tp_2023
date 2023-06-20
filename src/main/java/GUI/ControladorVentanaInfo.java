@@ -94,21 +94,4 @@ public class ControladorVentanaInfo implements Initializable {
         columnaHorario.setCellValueFactory(new PropertyValueFactory<>("horario"));
         columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
     }
-
-    public static class MuestraAlarma {
-        public String horario;
-        public String tipo;
-
-        public MuestraAlarma(String horario, String tipo) {
-            this.horario = horario;
-            this.tipo = tipo;
-        }
-
-        public String getHorario() {
-            return horario;
-        }
-        public String getTipo() {
-            return tipo;
-        }
-    }
 }

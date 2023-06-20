@@ -11,14 +11,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="642.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControladorCalendario">
+<AnchorPane prefHeight="667.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ControladorCalendario">
    <children>
       <Label alignment="CENTER" layoutX="451.0" layoutY="23.0" prefHeight="39.0" prefWidth="199.0" text="Calendario">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
-      <ScrollPane layoutX="50.0" layoutY="80.0" prefHeight="450.0" prefWidth="1000.0">
+      <ScrollPane layoutX="50.0" layoutY="109.0" prefHeight="450.0" prefWidth="1000.0">
          <content>
             <VBox maxWidth="1100.0" prefHeight="445.0" prefWidth="995.0">
                <children>
@@ -60,5 +60,10 @@
          </font>
       </Button>
       <ChoiceBox fx:id="selectorAgregar" layoutX="50.0" layoutY="31.0" prefWidth="150.0" />
+      <Label fx:id="infoIntervaloMostrado" layoutX="50.0" layoutY="83.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

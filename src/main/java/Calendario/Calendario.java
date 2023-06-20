@@ -58,9 +58,12 @@ public class Calendario {
         eventos.put(id, nuevoEvento);
     }
 
-    public void agregarTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto) {
+    public void agregarTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto, ArrayList<Alarma> alarmas) {
         UUID id = generarIdUnica();
         Tarea nuevaTarea = new Tarea(id, titulo, descripcion, fechaVencimiento, diaCompleto);
+        for (Alarma alarma : alarmas){
+            nuevaTarea.agregarAlarma(alarma.getHorarioFechaDisparo(), alarma.getTipo());
+        }
         tareas.put(id, nuevaTarea);
     }
 
