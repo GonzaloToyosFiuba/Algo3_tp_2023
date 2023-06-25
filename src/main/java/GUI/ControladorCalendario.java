@@ -66,7 +66,7 @@ public class ControladorCalendario implements Initializable {
             Button b1;
             Pane fondo = new Pane();
 
-            if (agendable.tipo().equals("Evento")){
+            if (agendable.esEvento()){
                 Evento e = calendario.buscarEvento(agendable.id());
                 Duration duracion = e.duracionEvento();
                 titulo = new Label(e.getTitulo());
@@ -150,15 +150,22 @@ public class ControladorCalendario implements Initializable {
 
                 ControladorVentanaInfo controladorVerInfo = loader.getController();
                 controladorVerInfo.setAgendable(agendable);
-                if (repre.tipo().equals("Tarea")){
-                    controladorVerInfo.mostrarInformacionTarea(repre.fecha());
-                } else if (repre.tipo().equals("Evento")) {
+                if (repre.esEvento()){
                     controladorVerInfo.mostrarInformacionEvento(repre.fecha());
+                } else{
+                    controladorVerInfo.mostrarInformacionTarea(repre.fecha());
                 }
-
                 this.abrirNuevaVentana(root);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IllegalStateException e) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setTitle("Error de Archivo");
+                alerta.setHeaderText("No se encontro ventanaInfo.fxml");
+                alerta.showAndWait();
+            } catch (IOException e){
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setTitle("Error de Archivo");
+                alerta.setHeaderText("Error al cargar el archivo");
+                alerta.showAndWait();
             }
         });
         return b1;
@@ -176,7 +183,7 @@ public class ControladorCalendario implements Initializable {
         b1.setGraphic(imageView);
 
 
-        if(agendable.tipo().equals("Evento")){
+        if(agendable.esEvento()){
             b1.setOnAction(event -> {
                 c.eliminarEvento(agendable.id());
                 this.mostrarInfo();
@@ -289,8 +296,16 @@ public class ControladorCalendario implements Initializable {
             controladorAgregarTarea.setCalendario(this.calendario);
             this.abrirNuevaVentana(root);
             this.mostrarInfo();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error de Archivo");
+            alerta.setHeaderText("No se encontro agregarTarea.fxml");
+            alerta.showAndWait();
+        } catch (IOException e){
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error de Archivo");
+            alerta.setHeaderText("Error al cargar el archivo");
+            alerta.showAndWait();
         }
     }
 
@@ -303,8 +318,16 @@ public class ControladorCalendario implements Initializable {
             controladorAgregarEvento.setCalendario(this.calendario);
             this.abrirNuevaVentana(root);
             this.mostrarInfo();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error de Archivo");
+            alerta.setHeaderText("No se encontro agregarEvento.fxml");
+            alerta.showAndWait();
+        } catch (IOException e){
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error de Archivo");
+            alerta.setHeaderText("Error al cargar el archivo");
+            alerta.showAndWait();
         }
     }
 
@@ -346,13 +369,15 @@ public class ControladorCalendario implements Initializable {
     }
 
     private void escribirEnArchivo(Calendario miCalendario) {
-        String actual = new File("").getAbsolutePath();
-        String dir = actual + "\\calendario.json";
         AdministradorJSON admin = new AdministradorJSON();
-        try (Writer writer = new FileWriter(dir)) {
+        try (Writer writer = new FileWriter(admin.obtenerDireccion("calendario.json"))) {
             admin.serializar(miCalendario, writer);
+
         } catch (IOException e) {
-            e.printStackTrace();
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error de Archivo");
+            alerta.setHeaderText("No se encontro el archivo calendario.json \nNo se lo pudo guardar en el calendario");
+            alerta.showAndWait();
         }
     }
 }

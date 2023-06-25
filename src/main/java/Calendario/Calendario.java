@@ -18,6 +18,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 
+
 public class Calendario {
     @JsonSerialize(using = HashMapSerializer.class)
     @JsonDeserialize(using = HashMapDeserializer.class)
@@ -85,7 +86,7 @@ public class Calendario {
         ArrayList<RepresentacionAgendable> listaAgendables = new ArrayList<>();
 
         eventos.forEach( (key, value) -> value.obtenerRepeticionesEntre(fechaInicio, fechaFinal)
-                                              .forEach(fecha -> listaAgendables.add(new RepresentacionAgendable(key, fecha, "Evento"))));
+                                              .forEach(fecha -> listaAgendables.add(new RepresentacionAgendable(key, fecha, TipoAgendable.EVENTO))));
 
         tareas.forEach( (key, value) -> {
                   LocalDateTime fechaTarea = value.getFechaVencimiento();
@@ -93,7 +94,7 @@ public class Calendario {
                       listaAgendables.add(new RepresentacionAgendable(key, value.getFechaVencimiento(), "Tarea"));
                   }*/
                     if (fechaInicio.compareTo(fechaTarea) <= 0 && fechaFinal.compareTo(fechaTarea) >= 0){
-                        listaAgendables.add(new RepresentacionAgendable(key, value.getFechaVencimiento(), "Tarea"));
+                        listaAgendables.add(new RepresentacionAgendable(key, value.getFechaVencimiento(), TipoAgendable.TAREA));
                     }
         } );
 

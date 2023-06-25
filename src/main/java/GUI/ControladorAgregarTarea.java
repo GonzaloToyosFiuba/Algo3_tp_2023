@@ -91,20 +91,11 @@ public class ControladorAgregarTarea implements Initializable {
     }
 
     public void agregarAlarma(){
-        if (seleccionAlarmaFija.isSelected()){
-            LocalDateTime fecha = this.obtenerFecha(this.fechaAlarmaFija.getValue(), this.horaAlarmaFija.getValue(), this.minutosAlarmaFija.getValue());
-            this.alarmasTabla.add(new MuestraAlarma(fecha.format(formato), TipoAlarma.NOTIFICACION.toString()));
-        } else if (seleccionAlarmaMinutosAntes.isSelected()){
-            this.alarmasTabla.add(new MuestraAlarma(this.minutosAntes.getValue().toString() + " minutos antes", TipoAlarma.NOTIFICACION.toString(), this.minutosAntes.getValue()));
-        }
-        ObservableList<MuestraAlarma> data = FXCollections.observableArrayList();
-        this.cargarAlarmas(data);
-        tablaAlarmas.setItems(data);
+        AdministradorAlarmas admin = new AdministradorAlarmas();
+        LocalDateTime fecha = this.obtenerFecha(this.fechaAlarmaFija.getValue(), this.horaAlarmaFija.getValue(), this.minutosAlarmaFija.getValue());
+        admin.agregarAlarmaTabla(seleccionAlarmaFija.isSelected(), this.alarmasTabla, this.tablaAlarmas, fecha, this.minutosAntes.getValue());
     }
 
-    private void cargarAlarmas(ObservableList<MuestraAlarma> data){
-        data.addAll(this.alarmasTabla);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

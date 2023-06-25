@@ -126,23 +126,13 @@ public class ControladorAgregarEvento implements Initializable {
             return new Anual(intervalo.getValue());
         }
     }
-    // CODIGO REPETIDO
+
     public void agregarAlarma(){
-        if (seleccionAlarmaFija.isSelected()){
-            LocalDateTime fecha = this.obtenerFecha(this.fechaAlarmaFija.getValue(), this.horaAlarmaFija.getValue(), this.minutosAlarmaFija.getValue());
-            this.alarmasTabla.add(new MuestraAlarma(fecha.format(formato), TipoAlarma.NOTIFICACION.toString()));
-        } else if (seleccionAlarmaMinutosAntes.isSelected()){
-            this.alarmasTabla.add(new MuestraAlarma(this.minutosAntes.getValue().toString() + " minutos antes", TipoAlarma.NOTIFICACION.toString(), this.minutosAntes.getValue()));
-        }
-        ObservableList<MuestraAlarma> data = FXCollections.observableArrayList();
-        this.cargarAlarmas(data);
-        tablaAlarmas.setItems(data);
+        AdministradorAlarmas admin = new AdministradorAlarmas();
+        LocalDateTime fecha = this.obtenerFecha(this.fechaAlarmaFija.getValue(), this.horaAlarmaFija.getValue(), this.minutosAlarmaFija.getValue());
+        admin.agregarAlarmaTabla(seleccionAlarmaFija.isSelected(), this.alarmasTabla, this.tablaAlarmas, fecha, this.minutosAntes.getValue());
     }
 
-    private void cargarAlarmas(ObservableList<MuestraAlarma> data){
-        data.addAll(this.alarmasTabla);
-    }
-    // CODIGO REPETIDO
     private LocalDateTime obtenerFecha(LocalDate fecha, int hora, int minutos){
         LocalTime tiempo = LocalTime.of(hora, minutos);
         return LocalDateTime.of(fecha, tiempo);
