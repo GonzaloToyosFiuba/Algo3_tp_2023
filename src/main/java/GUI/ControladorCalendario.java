@@ -88,23 +88,36 @@ public class ControladorCalendario implements Initializable {
                 fondo.setStyle("-fx-background-color: rgba(0, 72, 255, 0.57);");
                 grillaTareas.getChildren().addAll(fondo,fechaFinal);
             } else {
-                Tarea e = calendario.buscarTarea(agendable.id());
-                titulo = new Label(e.getTitulo());
+                Tarea tarea = calendario.buscarTarea(agendable.id());
+                titulo = new Label(tarea.getTitulo());
                 GridPane.setColumnIndex(titulo, 0);
                 GridPane.setRowIndex(titulo, rowIndex);
                 fechaInicio = new Label(agendable.fecha().format(formato));
                 GridPane.setColumnIndex(fechaInicio, 2);
-                descripcion = new Label(e.getDescripcion());
+                descripcion = new Label(tarea.getDescripcion());
                 GridPane.setColumnIndex(descripcion, 1);
                 GridPane.setRowIndex(descripcion, rowIndex);
                 GridPane.setRowIndex(fechaInicio, rowIndex);
                 GridPane.setColumnIndex(fondo,0);
-                GridPane.setColumnSpan(fondo,Integer.MAX_VALUE);
-                GridPane.setRowIndex(fondo,rowIndex);
+                if (tarea.esDiaCompleto()){
+                    fechaFinal = new Label("Día completo");
+                    GridPane.setColumnIndex(fechaFinal, 3);
+                    GridPane.setRowIndex(fechaFinal, rowIndex);
+                    grillaTareas.getChildren().addAll(fechaFinal);
+                }
+                GridPane.setColumnSpan(fondo, Integer.MAX_VALUE);
+                GridPane.setRowIndex(fondo, rowIndex);
                 fondo.setStyle("-fx-background-color: rgba(185,97,250,0.57);");
-                b1 = obtenerBotonVer(e, agendable);
-
-                grillaTareas.getChildren().add(fondo);
+                b1 = obtenerBotonVer(tarea, agendable);
+                CheckBox completada = new CheckBox();
+                completada.setSelected(tarea.estaCompleta());
+                completada.setOnAction(event -> {
+                    tarea.setCompletada(completada.isSelected());
+                    this.escribirEnArchivo(this.calendario);
+                });
+                GridPane.setColumnIndex(completada, 5);
+                GridPane.setRowIndex(completada, rowIndex);
+                grillaTareas.getChildren().addAll(fondo, completada);
             }
 
             GridPane.setColumnIndex(b1, 4);

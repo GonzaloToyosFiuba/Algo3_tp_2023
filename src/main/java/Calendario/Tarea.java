@@ -67,8 +67,12 @@ public class Tarea implements Agendable{
         this.contadorIdAlarmas = contadorIdAlarmas;
     }
 
-    public void completar(){
-        this.completada = true;
+    public void setCompletada(Boolean completada){
+        this.completada = completada;
+    }
+
+    public Boolean estaCompleta(){
+        return this.completada;
     }
 
     @JsonIgnore
