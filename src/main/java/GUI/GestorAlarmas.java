@@ -12,7 +12,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GestorAlarmas {
-    private ArrayList<Alarma> alarmas;
     private Calendario calendario;
 
     GestorAlarmas (Calendario calendario){
@@ -43,8 +42,5 @@ public class GestorAlarmas {
 
         long delay = 60_000 - System.currentTimeMillis() % 60_000;
         timer.schedule(task, delay, 60 * 1000);
-    }
-    public void setAlarmas(ArrayList<Alarma> alarmas){
-        this.alarmas = alarmas;
     }
 }
