@@ -35,7 +35,7 @@ public class ControladorCalendario implements Initializable {
     private RadioButton botonDia, botonSemana, botonMes;
     @FXML
     private Label infoIntervaloMostrado;
-
+    private GestorAlarmas gestorAlarmas;
     private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
     private static final DateTimeFormatter formatoLabelIntervalo = DateTimeFormatter.ofPattern("dd/MM/yy");
     private Calendario calendario;
@@ -52,6 +52,16 @@ public class ControladorCalendario implements Initializable {
 
     public void setCalendario(Calendario calendario) {
         this.calendario = calendario;
+        this.gestorAlarmas = new GestorAlarmas(this.calendario);
+
+        ArrayList<Alarma> alarmas = this.calendario.obtenerAlarmas(LocalDateTime.now());
+        /*System.out.println(alarmas.size());
+        for (Alarma a : alarmas){
+            System.out.println("Alarma: " + a.getHorarioFechaDisparo());
+        }*/
+        //this.gestorAlarmas.setAlarmas(alarmas);
+
+        this.gestorAlarmas.inicializar();
     }
 
     public void mostrarInfo(){
@@ -99,12 +109,6 @@ public class ControladorCalendario implements Initializable {
                 GridPane.setRowIndex(descripcion, rowIndex);
                 GridPane.setRowIndex(fechaInicio, rowIndex);
                 GridPane.setColumnIndex(fondo,0);
-                if (tarea.esDiaCompleto()){
-                    fechaFinal = new Label("Día completo");
-                    GridPane.setColumnIndex(fechaFinal, 3);
-                    GridPane.setRowIndex(fechaFinal, rowIndex);
-                    grillaTareas.getChildren().addAll(fechaFinal);
-                }
                 GridPane.setColumnSpan(fondo, Integer.MAX_VALUE);
                 GridPane.setRowIndex(fondo, rowIndex);
                 fondo.setStyle("-fx-background-color: rgba(185,97,250,0.57);");
@@ -118,6 +122,12 @@ public class ControladorCalendario implements Initializable {
                 GridPane.setColumnIndex(completada, 5);
                 GridPane.setRowIndex(completada, rowIndex);
                 grillaTareas.getChildren().addAll(fondo, completada);
+                if (tarea.esDiaCompleto()){
+                    fechaFinal = new Label("Día completo");
+                    GridPane.setColumnIndex(fechaFinal, 3);
+                    GridPane.setRowIndex(fechaFinal, rowIndex);
+                    grillaTareas.getChildren().addAll(fechaFinal);
+                }
             }
 
             GridPane.setColumnIndex(b1, 4);

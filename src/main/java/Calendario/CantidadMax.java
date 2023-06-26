@@ -84,8 +84,9 @@ public class CantidadMax extends Evento{
 
         if(!alarmasAux.isEmpty()){
             Alarma alarmaMinima = Collections.min(alarmasAux);
-            for (Alarma a:alarmasAux) {
+            for (Alarma a : alarmasAux) {
                 if(a.compareTo(alarmaMinima) == 0){
+                    a.setMensaje(this.descripcion);
                     alarmasRetorno.add(a);
                 }
             }

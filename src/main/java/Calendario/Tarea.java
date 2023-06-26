@@ -98,8 +98,9 @@ public class Tarea implements Agendable{
         if (!alarmasAux.isEmpty()){
             Alarma alarmaMinima = Collections.min(alarmasAux);
 
-            for (Alarma alarma:alarmasAux) { // si hay alarmas repetidas
+            for (Alarma alarma : alarmasAux) { // si hay alarmas repetidas
                 if(alarma.compareTo(alarmaMinima) == 0){
+                    alarma.setMensaje(this.descripcion);
                     alarmasRetorno.add(alarma);
                 }
             }

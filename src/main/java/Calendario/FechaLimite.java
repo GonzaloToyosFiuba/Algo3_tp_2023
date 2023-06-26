@@ -71,7 +71,6 @@ public class FechaLimite extends Evento implements Comparable{
 
                     if (i > 0){
                         aux_fAlarma = tipoFrecuencia.obtenerProximoDia(aux_fAlarma);
-                        //aux_fAlarma = fechaInicio.plusMonths(intervalo * i).withHour(alarma.getHorarioFechaDisparo().getHour()).withMinute(alarma.getHorarioFechaDisparo().getMinute());
                     }
 
                     if (horarioActual.compareTo(aux_fAlarma) <= 0 && fechaLimite.compareTo(aux_fAlarma) >= 0){
@@ -92,8 +91,9 @@ public class FechaLimite extends Evento implements Comparable{
 
         if(!alarmasAux.isEmpty()){
             Alarma alarmaMinima = Collections.min(alarmasAux);
-            for (Alarma a:alarmasAux) {
+            for (Alarma a : alarmasAux) {
                 if(a.compareTo(alarmaMinima) == 0){
+                    a.setMensaje(this.descripcion);
                     alarmasRetorno.add(a);
                 }
             }
