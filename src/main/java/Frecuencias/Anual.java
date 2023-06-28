@@ -30,4 +30,8 @@ public class Anual implements TipoFrecuencia {
         Anual anual = (Anual) o;
         return intervalo == anual.intervalo;
     }
+    @Override
+    public String toString() {
+        return "Anual";
+    }
 }

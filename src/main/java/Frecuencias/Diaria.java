@@ -31,4 +31,8 @@ public class Diaria implements TipoFrecuencia {
         Diaria diaria = (Diaria) o;
         return intervalo == diaria.intervalo;
     }
+    @Override
+    public String toString() {
+        return "Diaria";
+    }
 }

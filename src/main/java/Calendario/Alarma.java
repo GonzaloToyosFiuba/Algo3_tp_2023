@@ -22,6 +22,8 @@ public class Alarma implements Comparable{
     private int id;
     @JsonProperty("repetible")
     private boolean repetible;
+    @JsonIgnore
+    private String mensaje;
     public Alarma(LocalDateTime horarioFechaDisparo, TipoAlarma tipo, boolean repetible, int id) {
         this.horarioFechaDisparo = horarioFechaDisparo;
         this.tipoAlarma = tipo;
@@ -33,7 +35,9 @@ public class Alarma implements Comparable{
         this.horarioFechaDisparo = horarioFechaDisparo;
         this.tipoAlarma = tipo;
         this.id = id;
+        this.repetible = false;
     }
+
     @JsonCreator
     private static Alarma create(@JsonProperty("horarioFechaDisparo") LocalDateTime horarioFechaDisparo,
                                  @JsonProperty("tipo")TipoAlarma tipo,
@@ -45,7 +49,7 @@ public class Alarma implements Comparable{
     public String disparar(LocalDateTime fechaActual){
         String seDispara = "No se disparo";
         if (this.horarioFechaDisparo.compareTo(fechaActual.truncatedTo(ChronoUnit.MINUTES)) == 0){
-            seDispara = tipoAlarma.dipararAlarma();;
+            seDispara = tipoAlarma.dipararAlarma();
         }
         return seDispara;
     }
@@ -59,6 +63,14 @@ public class Alarma implements Comparable{
         return tipoAlarma;
     }
 
+    @JsonIgnore
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+    @JsonIgnore
+    public String getMensaje() {
+        return this.mensaje;
+    }
     public boolean esRepetible(){
         return this.repetible;
     }
@@ -92,4 +104,5 @@ public class Alarma implements Comparable{
     public int hashCode() {
         return Objects.hash(horarioFechaDisparo, tipoAlarma, id, repetible);
     }
+
 }

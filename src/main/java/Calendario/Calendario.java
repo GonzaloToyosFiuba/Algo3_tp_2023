@@ -2,16 +2,21 @@ package Calendario;
 
 import CustomDeserializers.HashMapDeserializer;
 import CustomSerializers.HashMapSerializer;
+import Frecuencias.Diaria;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 
 public class Calendario {
@@ -43,22 +48,61 @@ public class Calendario {
         return id;
     }
 
-    public void agregarEventoCantMax(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, int repeticionesMax, TipoFrecuencia tipoFrecuencia, boolean diaCompleto) {
+    public void agregarEventoCantMax(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, int repeticionesMax, TipoFrecuencia tipoFrecuencia, boolean diaCompleto, ArrayList<Alarma> alarmas) {
         UUID id = generarIdUnica();
         Evento nuevoEvento = new CantidadMax(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, repeticionesMax, diaCompleto);
+       agregarAlarmas(nuevoEvento,alarmas,fechaInicio);
         eventos.put(id, nuevoEvento);
     }
 
-    public void agregarEventoFechaLimite(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, LocalDateTime fechaLimite, TipoFrecuencia tipoFrecuencia, boolean diaCompleto) {
+    public void agregarEventoFechaLimite(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, LocalDateTime fechaLimite, TipoFrecuencia tipoFrecuencia, boolean diaCompleto, ArrayList<Alarma> alarmas) {
         UUID id = generarIdUnica();
         Evento nuevoEvento = new FechaLimite(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, fechaLimite, diaCompleto);
+        agregarAlarmas(nuevoEvento,alarmas,fechaInicio);
         eventos.put(id, nuevoEvento);
     }
 
-    public void agregarTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto) {
+    private void agregarAlarmas(Evento nuevoEvento,ArrayList<Alarma> alarmas,LocalDateTime fechaInicio){
+        for (Alarma alarma : alarmas){
+            if (alarma.esRepetible()){
+                Duration duracion = Duration.between(alarma.getHorarioFechaDisparo(),fechaInicio);
+                nuevoEvento.agregarAlarmaRepetible((int)duracion.toMinutes(),alarma.getTipo());
+            }else {
+                nuevoEvento.agregarAlarmaUnica(alarma.getHorarioFechaDisparo(),alarma.getTipo());
+            }
+        }
+    }
+
+    public void agregarTarea(String titulo, String descripcion, LocalDateTime fechaVencimiento, boolean diaCompleto, ArrayList<Alarma> alarmas) {
         UUID id = generarIdUnica();
         Tarea nuevaTarea = new Tarea(id, titulo, descripcion, fechaVencimiento, diaCompleto);
+        for (Alarma alarma : alarmas){
+            nuevaTarea.agregarAlarma(alarma.getHorarioFechaDisparo(), alarma.getTipo());
+        }
         tareas.put(id, nuevaTarea);
+    }
+
+    public ArrayList<RepresentacionAgendable> obtenerAgendables(LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+        ArrayList<RepresentacionAgendable> listaAgendables = new ArrayList<>();
+
+        eventos.forEach( (key, value) -> value.obtenerRepeticionesEntre(fechaInicio, fechaFinal)
+                                              .forEach(fecha -> listaAgendables.add(new RepresentacionAgendable(key, fecha, TipoAgendable.EVENTO))));
+
+        tareas.forEach( (key, value) -> {
+                  LocalDateTime fechaTarea = value.getFechaVencimiento();
+                    if (fechaInicio.compareTo(fechaTarea) <= 0 && fechaFinal.compareTo(fechaTarea) >= 0){
+                        listaAgendables.add(new RepresentacionAgendable(key, value.getFechaVencimiento(), TipoAgendable.TAREA));
+                    }
+        } );
+
+        return listaAgendables.stream().sorted((r1, r2) -> r1.fecha().compareTo(r2.fecha())).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<Alarma> obtenerAlarmas(LocalDateTime horaActual){
+        ArrayList<Alarma> listaAlarmas = new ArrayList<>();
+        eventos.forEach( (key, value) -> value.obtenerProximaAlarma(horaActual).forEach(alarma -> listaAlarmas.add(alarma)));
+        tareas.forEach( (key, value) -> value.obtenerProximaAlarma(horaActual).forEach(alarma -> listaAlarmas.add(alarma)));
+        return listaAlarmas;
     }
 
     public Evento buscarEvento(UUID id) {

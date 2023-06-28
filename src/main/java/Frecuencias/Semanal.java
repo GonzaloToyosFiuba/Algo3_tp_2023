@@ -55,4 +55,9 @@ public class Semanal implements TipoFrecuencia {
         Semanal semanal = (Semanal) o;
         return intervalo == semanal.intervalo && Arrays.equals(dias, semanal.dias);
     }
+
+    @Override
+    public String toString() {
+        return "Semanal";
+    }
 }

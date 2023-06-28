@@ -3,15 +3,19 @@ package Calendario;
 import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
 import Frecuencias.TipoFrecuencia;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -56,11 +60,36 @@ public abstract class Evento implements Agendable {
         this.tipoFrecuencia = tipoFrecuencia;
         this.diaCompleto = diaCompleto;
     }
+    public ArrayList<Alarma> obtenerAlarmasOrdenadas(){
+        return alarmas.stream()
+                .sorted(Comparator.comparing(Alarma::getHorarioFechaDisparo))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+    @JsonIgnore
     public UUID getId(){
         return this.id;
     }
-
-    public void  agregarAlarmaRepetible(int minutosAntes, TipoAlarma tipo){
+    @JsonIgnore
+    public TipoFrecuencia getTipoFrecuencia(){
+        return tipoFrecuencia;
+    }
+    @JsonIgnore
+    public LocalDateTime getFechaInicio(){
+        return this.fechaInicio;
+    }
+    @JsonIgnore
+    public String getTitulo(){
+        return this.titulo;
+    }
+    @JsonIgnore
+    public String getDescripcion(){
+        return this.descripcion;
+    }
+    @JsonIgnore
+    public Duration duracionEvento(){
+        return Duration.between(fechaInicio,fechaFinal);
+    }
+    public void agregarAlarmaRepetible(int minutosAntes, TipoAlarma tipo){
         // crea una alarma mandando la fecha original del eveto menos los minutos antes y con el tipo , en la parte repetible es true
         LocalDateTime fechaDisparo = fechaInicio.minusMinutes(minutosAntes);
         Alarma nuevaAlarma = new Alarma(fechaDisparo, tipo, true, this.contadorIdAlarmas);

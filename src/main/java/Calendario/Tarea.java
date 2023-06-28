@@ -7,10 +7,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tarea implements Agendable{
@@ -42,6 +40,16 @@ public class Tarea implements Agendable{
         this.contadorIdAlarmas = 0;
     }
 
+    public ArrayList<Alarma> obtenerAlarmasOrdenadas(){
+        return alarmas.stream()
+                .sorted(Comparator.comparing(Alarma::getHorarioFechaDisparo))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public LocalDateTime getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
     @JsonCreator
     private  Tarea (@JsonProperty("id") UUID id,
                     @JsonProperty("descripcion") String descripcion,
@@ -59,8 +67,21 @@ public class Tarea implements Agendable{
         this.contadorIdAlarmas = contadorIdAlarmas;
     }
 
-    public void completar(){
-        this.completada = true;
+    public void setCompletada(Boolean completada){
+        this.completada = completada;
+    }
+
+    public Boolean estaCompleta(){
+        return this.completada;
+    }
+
+    @JsonIgnore
+    public String getTitulo(){
+        return this.titulo;
+    }
+    @JsonIgnore
+    public String getDescripcion(){
+        return this.descripcion;
     }
 
     public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
@@ -77,8 +98,9 @@ public class Tarea implements Agendable{
         if (!alarmasAux.isEmpty()){
             Alarma alarmaMinima = Collections.min(alarmasAux);
 
-            for (Alarma alarma:alarmasAux) { // si hay alarmas repetidas
+            for (Alarma alarma : alarmasAux) { // si hay alarmas repetidas
                 if(alarma.compareTo(alarmaMinima) == 0){
+                    alarma.setMensaje(this.descripcion);
                     alarmasRetorno.add(alarma);
                 }
             }
