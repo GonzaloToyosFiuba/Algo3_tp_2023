@@ -41,7 +41,6 @@ public abstract class Evento implements Agendable {
     protected LocalDateTime fechaFinal;
     @JsonProperty("alarmas")
     protected ArrayList<Alarma> alarmas;
-    //@JsonDeserialize(using = TipoFrecuenciaDeserializer.class)
     @JsonProperty("tipoFrecuencia")
     protected TipoFrecuencia tipoFrecuencia;
     @JsonProperty("diaCompleto")
@@ -137,6 +136,11 @@ public abstract class Evento implements Agendable {
     @JsonProperty("tipoAgendable")
     private String getTipoAgendable() {
         return Evento.class.getSimpleName();
+    }
+
+    @Override
+    public void aceptar(VisitorAgendable visitor) {
+        visitor.visitarEvento(this);
     }
 
 }

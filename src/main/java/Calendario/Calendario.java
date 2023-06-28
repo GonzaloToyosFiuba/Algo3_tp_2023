@@ -51,7 +51,7 @@ public class Calendario {
     public void agregarEventoCantMax(String descripcion, String titulo, LocalDateTime fechaInicio, LocalDateTime fechaFinal, int repeticionesMax, TipoFrecuencia tipoFrecuencia, boolean diaCompleto, ArrayList<Alarma> alarmas) {
         UUID id = generarIdUnica();
         Evento nuevoEvento = new CantidadMax(id, descripcion, titulo, fechaInicio, fechaFinal, tipoFrecuencia, repeticionesMax, diaCompleto);
-       agregarAlarmas(nuevoEvento,alarmas,fechaInicio);
+        agregarAlarmas(nuevoEvento,alarmas,fechaInicio);
         eventos.put(id, nuevoEvento);
     }
 
@@ -62,12 +62,12 @@ public class Calendario {
         eventos.put(id, nuevoEvento);
     }
 
-    private void agregarAlarmas(Evento nuevoEvento,ArrayList<Alarma> alarmas,LocalDateTime fechaInicio){
+    private void agregarAlarmas(Evento nuevoEvento, ArrayList<Alarma> alarmas, LocalDateTime fechaInicio){
         for (Alarma alarma : alarmas){
             if (alarma.esRepetible()){
                 Duration duracion = Duration.between(alarma.getHorarioFechaDisparo(),fechaInicio);
                 nuevoEvento.agregarAlarmaRepetible((int)duracion.toMinutes(),alarma.getTipo());
-            }else {
+            } else {
                 nuevoEvento.agregarAlarmaUnica(alarma.getHorarioFechaDisparo(),alarma.getTipo());
             }
         }
@@ -86,13 +86,13 @@ public class Calendario {
         ArrayList<RepresentacionAgendable> listaAgendables = new ArrayList<>();
 
         eventos.forEach( (key, value) -> value.obtenerRepeticionesEntre(fechaInicio, fechaFinal)
-                                              .forEach(fecha -> listaAgendables.add(new RepresentacionAgendable(key, fecha, TipoAgendable.EVENTO))));
+                .forEach(fecha -> listaAgendables.add(new RepresentacionAgendable(fecha, value))));
 
         tareas.forEach( (key, value) -> {
-                  LocalDateTime fechaTarea = value.getFechaVencimiento();
-                    if (fechaInicio.compareTo(fechaTarea) <= 0 && fechaFinal.compareTo(fechaTarea) >= 0){
-                        listaAgendables.add(new RepresentacionAgendable(key, value.getFechaVencimiento(), TipoAgendable.TAREA));
-                    }
+            LocalDateTime fechaTarea = value.getFechaVencimiento();
+            if (fechaInicio.compareTo(fechaTarea) <= 0 && fechaFinal.compareTo(fechaTarea) >= 0){
+                listaAgendables.add(new RepresentacionAgendable(value.getFechaVencimiento(), value));
+            }
         } );
 
         return listaAgendables.stream().sorted((r1, r2) -> r1.fecha().compareTo(r2.fecha())).collect(Collectors.toCollection(ArrayList::new));

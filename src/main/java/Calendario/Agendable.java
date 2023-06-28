@@ -1,5 +1,9 @@
 package Calendario;
 
-public interface Agendable {
+import java.util.UUID;
 
+public interface Agendable {
+    void aceptar(VisitorAgendable visitor);
+
+    UUID getId();
 }

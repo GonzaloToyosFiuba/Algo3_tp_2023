@@ -20,9 +20,4 @@ public class AdministradorJSON {
     public Calendario deserializar(Reader r) throws IOException {
         return mapper.readValue(r, Calendario.class);
     }
-
-    public String obtenerDireccion(String nombreArchivo){
-        String ruta = System.getProperty("user.dir");
-        return Path.of(ruta,"calendario.json").toString();
-    }
 }

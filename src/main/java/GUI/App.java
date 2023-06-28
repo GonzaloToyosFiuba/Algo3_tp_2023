@@ -1,6 +1,5 @@
 package GUI;
 
-import Control.AdministradorJSON;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,13 +10,12 @@ import javafx.stage.Stage;
 import Calendario.*;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.util.ArrayList;
-
 public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    private final ControlArchivoCalendario controlArchivo = new ControlArchivoCalendario();
 
     @Override
     public void start(Stage stage) {
@@ -27,7 +25,7 @@ public class App extends Application {
         try {
             loader = new FXMLLoader(getClass().getResource("/inicio.fxml"));
             root = loader.load();
-            c = recibirInformacion();
+            c = controlArchivo.leerArchivo();
         } catch (IllegalStateException e){
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Error de Archivo");
@@ -54,19 +52,5 @@ public class App extends Application {
         stage.setTitle("Calendario");
         stage.setScene(scene);
         stage.show();
-
-    }
-
-    private Calendario recibirInformacion() throws IOException{
-        AdministradorJSON admin = new AdministradorJSON();
-        File file = new File(admin.obtenerDireccion("calendario.json"));
-        if (!file.exists()) {
-            file.createNewFile();
-        } else {
-            FileReader reader = new FileReader(file);
-            BufferedReader br = new BufferedReader(reader);
-            return admin.deserializar(br);
-        }
-        return new Calendario();
     }
 }

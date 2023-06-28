@@ -1,5 +1,6 @@
 package GUI;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,21 +9,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import Calendario.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import Control.AdministradorJSON;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -36,9 +30,9 @@ public class ControladorCalendario implements Initializable {
     @FXML
     private Label infoIntervaloMostrado;
     private GestorAlarmas gestorAlarmas;
-    private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
     private static final DateTimeFormatter formatoLabelIntervalo = DateTimeFormatter.ofPattern("dd/MM/yy");
     private Calendario calendario;
+    private final ControlArchivoCalendario escritura = new ControlArchivoCalendario();
 
     private enum Intervalo{
       DIA,
@@ -53,14 +47,6 @@ public class ControladorCalendario implements Initializable {
     public void setCalendario(Calendario calendario) {
         this.calendario = calendario;
         this.gestorAlarmas = new GestorAlarmas(this.calendario);
-
-        ArrayList<Alarma> alarmas = this.calendario.obtenerAlarmas(LocalDateTime.now());
-        /*System.out.println(alarmas.size());
-        for (Alarma a : alarmas){
-            System.out.println("Alarma: " + a.getHorarioFechaDisparo());
-        }*/
-        //this.gestorAlarmas.setAlarmas(alarmas);
-
         this.gestorAlarmas.inicializar();
     }
 
@@ -72,168 +58,16 @@ public class ControladorCalendario implements Initializable {
         for (RepresentacionAgendable agendable : agendables){
             RowConstraints row1 = new RowConstraints();
             row1.setPrefHeight(40);
-            Label titulo, descripcion, fechaInicio, fechaFinal;
-            Button b1;
-            Pane fondo = new Pane();
 
-            if (agendable.esEvento()){
-                Evento e = calendario.buscarEvento(agendable.id());
-                Duration duracion = e.duracionEvento();
-                titulo = new Label(e.getTitulo());
-                GridPane.setColumnIndex(titulo, 0);
-                GridPane.setRowIndex(titulo, rowIndex);
-                descripcion = new Label(e.getDescripcion());
-                fechaInicio = new Label(agendable.fecha().format(formato));
-                fechaFinal = new Label(agendable.fecha().plus(duracion).format(formato));
-                GridPane.setColumnIndex(descripcion, 1);
-                GridPane.setColumnIndex(fechaInicio, 2);
-                GridPane.setColumnIndex(fechaFinal, 3);
-                GridPane.setRowIndex(descripcion, rowIndex);
-                GridPane.setRowIndex(fechaInicio, rowIndex);
-                GridPane.setRowIndex(fechaFinal, rowIndex);
-                b1 = obtenerBotonVer(e, agendable);
-                GridPane.setColumnIndex(fondo,0);
-                GridPane.setColumnSpan(fondo, Integer.MAX_VALUE);
-                GridPane.setRowIndex(fondo, rowIndex);
-                fondo.setStyle("-fx-background-color: rgba(0, 72, 255, 0.57);");
-                grillaTareas.getChildren().addAll(fondo,fechaFinal);
-            } else {
-                Tarea tarea = calendario.buscarTarea(agendable.id());
-                titulo = new Label(tarea.getTitulo());
-                GridPane.setColumnIndex(titulo, 0);
-                GridPane.setRowIndex(titulo, rowIndex);
-                fechaInicio = new Label(agendable.fecha().format(formato));
-                GridPane.setColumnIndex(fechaInicio, 2);
-                descripcion = new Label(tarea.getDescripcion());
-                GridPane.setColumnIndex(descripcion, 1);
-                GridPane.setRowIndex(descripcion, rowIndex);
-                GridPane.setRowIndex(fechaInicio, rowIndex);
-                GridPane.setColumnIndex(fondo,0);
-                GridPane.setColumnSpan(fondo, Integer.MAX_VALUE);
-                GridPane.setRowIndex(fondo, rowIndex);
-                fondo.setStyle("-fx-background-color: rgba(185,97,250,0.57);");
-                b1 = obtenerBotonVer(tarea, agendable);
-                CheckBox completada = new CheckBox();
-                completada.setSelected(tarea.estaCompleta());
-                completada.setOnAction(event -> {
-                    tarea.setCompletada(completada.isSelected());
-                    this.escribirEnArchivo(this.calendario);
-                });
-                GridPane.setColumnIndex(completada, 5);
-                GridPane.setRowIndex(completada, rowIndex);
-                grillaTareas.getChildren().addAll(fondo, completada);
-                if (tarea.esDiaCompleto()){
-                    fechaFinal = new Label("Día completo");
-                    GridPane.setColumnIndex(fechaFinal, 3);
-                    GridPane.setRowIndex(fechaFinal, rowIndex);
-                    grillaTareas.getChildren().addAll(fechaFinal);
-                }
-            }
-
-            GridPane.setColumnIndex(b1, 4);
-            GridPane.setRowIndex(b1, rowIndex);
-
-            Button b2 = obtenerBotonEliminar(agendable, this.calendario);
-            GridPane.setColumnIndex(b2, 4);
-            GridPane.setRowIndex(b2, rowIndex);
-            Insets margin = new Insets(0, 0, 0, 60);
-            GridPane.setMargin(b2, margin);
-
-            Button b3 = obtenerBotonEditar();
-            GridPane.setColumnIndex(b3, 4);
-            GridPane.setRowIndex(b3, rowIndex);
-            Insets margin2 = new Insets(0, 0, 0, 120);
-            GridPane.setMargin(b3, margin2);
-
-            grillaTareas.getChildren().addAll(titulo, descripcion, fechaInicio, b1, b2, b3);
+            VisitorMostrarCalendario visitor = new VisitorMostrarCalendario(this.calendario, this.grillaTareas, rowIndex, agendable.fecha(), this);
+            agendable.agendable().aceptar(visitor);
 
             grillaTareas.getRowConstraints().add(row1);
             rowIndex++;
         }
 
-        this.escribirEnArchivo(this.calendario);
+        this.escritura.escribirEnArchivo(this.calendario);
     }
-
-    Button obtenerBotonVer(Agendable agendable, RepresentacionAgendable repre){
-        Image image = new Image("/ver.png");
-
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-
-        Button b1 = new Button();
-        b1.getStyleClass().add("boton-accion-lista");
-        b1.setGraphic(imageView);
-        b1.setOnAction(event ->{
-            try {
-                // Cargar el archivo FXML de la nueva ventana
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanaInfo.fxml"));
-                Parent root = loader.load();
-                //Controlador
-
-                ControladorVentanaInfo controladorVerInfo = loader.getController();
-                controladorVerInfo.setAgendable(agendable);
-                if (repre.esEvento()){
-                    controladorVerInfo.mostrarInformacionEvento(repre.fecha());
-                } else{
-                    controladorVerInfo.mostrarInformacionTarea(repre.fecha());
-                }
-                this.abrirNuevaVentana(root);
-            } catch (IllegalStateException e) {
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("Error de Archivo");
-                alerta.setHeaderText("No se encontro ventanaInfo.fxml");
-                alerta.showAndWait();
-            } catch (IOException e){
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("Error de Archivo");
-                alerta.setHeaderText("Error al cargar el archivo");
-                alerta.showAndWait();
-            }
-        });
-        return b1;
-    }
-
-    Button obtenerBotonEliminar(RepresentacionAgendable agendable, Calendario c){
-        Image image = new Image("/tacho.png");
-
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-
-        Button b1 = new Button();
-        b1.getStyleClass().add("boton-accion-lista");
-        b1.setGraphic(imageView);
-
-
-        if(agendable.esEvento()){
-            b1.setOnAction(event -> {
-                c.eliminarEvento(agendable.id());
-                this.mostrarInfo();
-            });
-        } else {
-            b1.setOnAction(event -> {
-                c.eliminarTarea(agendable.id());
-                this.mostrarInfo();
-            });
-        }
-
-        return b1;
-    }
-
-    Button obtenerBotonEditar(){
-        Image image = new Image("/editar.png");
-
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
-
-        Button b1 = new Button();
-        b1.getStyleClass().add("boton-accion-lista");
-        b1.setGraphic(imageView);
-        return b1;
-    }
-
     public void setIntervalo(){
         this.fechaBaseCalendario = LocalDateTime.now();
         if (botonDia.isSelected()){
@@ -296,6 +130,8 @@ public class ControladorCalendario implements Initializable {
         this.selectorAgregar.setOnAction(this::agregarNuevoAgendable);
 
         this.selectorAgregar.setValue("Agregar");
+
+        Platform.runLater( () -> grillaTareas.getScene().getWindow().setOnCloseRequest(windowEvent -> this.gestorAlarmas.detener()) );
     }
 
     private void agregarNuevoAgendable(ActionEvent event){
@@ -364,7 +200,7 @@ public class ControladorCalendario implements Initializable {
         stage.showAndWait();
     }
 
-    private  ArrayList<RepresentacionAgendable> obtenerAgendablesDia(LocalDateTime fecha){
+    private ArrayList<RepresentacionAgendable> obtenerAgendablesDia(LocalDateTime fecha){
         this.infoIntervaloMostrado.setText("Viendo el " + fecha.truncatedTo(ChronoUnit.DAYS).format(formatoLabelIntervalo));
         return this.calendario.obtenerAgendables(fecha.truncatedTo(ChronoUnit.DAYS), fecha.truncatedTo(ChronoUnit.DAYS).plusDays(1).minusNanos(1));
     }
@@ -389,18 +225,5 @@ public class ControladorCalendario implements Initializable {
             case MENSUAL -> intervalo = obtenerAgendablesMes(fecha);
         }
         return intervalo;
-    }
-
-    private void escribirEnArchivo(Calendario miCalendario) {
-        AdministradorJSON admin = new AdministradorJSON();
-        try (Writer writer = new FileWriter(admin.obtenerDireccion("calendario.json"))) {
-            admin.serializar(miCalendario, writer);
-
-        } catch (IOException e) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Error de Archivo");
-            alerta.setHeaderText("No se encontro el archivo calendario.json \nNo se lo pudo guardar en el calendario");
-            alerta.showAndWait();
-        }
     }
 }
