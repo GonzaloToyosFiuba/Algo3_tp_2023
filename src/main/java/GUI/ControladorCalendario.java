@@ -193,7 +193,15 @@ public class ControladorCalendario implements Initializable {
     private void abrirNuevaVentana(Parent root){
         Scene scene = new Scene(root);
         Stage stage = new Stage();
-        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+        try {
+            scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Hubo un error en carga de la aplicación.");
+            alert.show();
+            return;
+        }
         stage.setScene(scene);
 
         stage.initModality(Modality.APPLICATION_MODAL);

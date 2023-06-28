@@ -19,23 +19,17 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        FXMLLoader loader = null;
-        Parent root = null;
-        Calendario c = null;
+        FXMLLoader loader;
+        Parent root;
+        Calendario c;
+        loader = new FXMLLoader(getClass().getResource("/inicio.fxml"));
         try {
-            loader = new FXMLLoader(getClass().getResource("/inicio.fxml"));
             root = loader.load();
             c = controlArchivo.leerArchivo();
-        } catch (IllegalStateException e){
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Error de Archivo");
-            alerta.setHeaderText("No se pudo encontrar inicio.fxml");
-            alerta.showAndWait();
-            return;
         } catch (IOException e){
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Error de Archivo");
-            alerta.setHeaderText("No se pudo cargar el Calendario");
+            alerta.setHeaderText("No se pudo leer el archivo calendario.json");
             alerta.showAndWait();
             return;
         }
@@ -43,7 +37,6 @@ public class App extends Application {
 
         Image icon = new Image("icono_calendario.png");
         stage.getIcons().add(icon);
-
 
         controller.setCalendario(c);
 

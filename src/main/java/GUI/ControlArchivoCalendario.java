@@ -30,12 +30,14 @@ public class ControlArchivoCalendario {
     public Calendario leerArchivo() throws IOException {
         File file = new File(this.obtenerDireccion());
         if (!file.exists()) {
+            Calendario c = new Calendario();
             file.createNewFile();
+            this.escribirEnArchivo(new Calendario());
+            return c;
         } else {
             FileReader reader = new FileReader(file);
             BufferedReader br = new BufferedReader(reader);
             return admin.deserializar(br);
         }
-        return new Calendario();
     }
 }

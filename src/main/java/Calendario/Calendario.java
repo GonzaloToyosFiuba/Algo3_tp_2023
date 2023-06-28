@@ -2,7 +2,6 @@ package Calendario;
 
 import CustomDeserializers.HashMapDeserializer;
 import CustomSerializers.HashMapSerializer;
-import Frecuencias.Diaria;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +12,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
