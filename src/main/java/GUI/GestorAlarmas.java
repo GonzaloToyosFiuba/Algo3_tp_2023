@@ -12,8 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GestorAlarmas {
-    private Calendario calendario;
-
+    private final Calendario calendario;
     private Timer timer;
 
     GestorAlarmas (Calendario calendario){

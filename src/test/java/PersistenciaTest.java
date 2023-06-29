@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.io.*;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.UUID;
 
@@ -147,10 +148,10 @@ public class PersistenciaTest {
         dias.add(DayOfWeek.MONDAY);
         TipoFrecuencia tipo2 = new Semanal(1, dias);
 
-        c1.agregarTarea("Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32) , true);
-        c1.agregarTarea("Perro", "Pasear a Lio", LocalDateTime.of(2024, 5, 1, 18, 32) , false);
-        c1.agregarEventoFechaLimite("Sacar al perro por la mañana", "Perro", fInicio, fFinal, fLimite, tipo,false);
-        c1.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 3, tipo2,false);
+        c1.agregarTarea("Basura", "Sacar basura", LocalDateTime.of(2023, 5, 21, 18, 32) , true, new ArrayList<Alarma>());
+        c1.agregarTarea("Perro", "Pasear a Lio", LocalDateTime.of(2024, 5, 1, 18, 32) , false, new ArrayList<Alarma>());
+        c1.agregarEventoFechaLimite("Sacar al perro por la mañana", "Perro", fInicio, fFinal, fLimite, tipo,false, new ArrayList<Alarma>());
+        c1.agregarEventoCantMax("Sacar al perro por la mañana", "Perro", fInicio, fFinal, 3, tipo2,false, new ArrayList<Alarma>());
 
         AdministradorJSON admin = new AdministradorJSON();
 

@@ -6,7 +6,7 @@ import Calendario.Tarea;
 import Calendario.VisitorAgendable;
 
 public class VisitorEliminarAgendable implements VisitorAgendable {
-    private Calendario calendario;
+    private final Calendario calendario;
 
     public VisitorEliminarAgendable(Calendario calendario) {
         this.calendario = calendario;

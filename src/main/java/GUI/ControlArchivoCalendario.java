@@ -32,7 +32,7 @@ public class ControlArchivoCalendario {
         if (!file.exists()) {
             Calendario c = new Calendario();
             file.createNewFile();
-            this.escribirEnArchivo(new Calendario());
+            this.escribirEnArchivo(c);
             return c;
         } else {
             FileReader reader = new FileReader(file);

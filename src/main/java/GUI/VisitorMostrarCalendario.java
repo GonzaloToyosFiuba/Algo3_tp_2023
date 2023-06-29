@@ -103,16 +103,14 @@ public class VisitorMostrarCalendario implements VisitorAgendable {
         fondo.setStyle(estiloCss);
         this.agregarEnGrilla(grilla, fila, columna, fondo);
     }
-    Button obtenerBotonVer(Agendable agendable){
+    Button obtenerBotonVer (Agendable agendable) {
         Button b1 = obtenerBotonConImagen(new Image("/ver.png"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanaInfo.fxml"));
 
         b1.setOnAction(event -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ventanaInfo.fxml"));
                 Parent root = loader.load();
-
                 agendable.aceptar(new VisitorVerAgendable(loader.getController(), this.fecha));
-
                 this.abrirNuevaVentana(root);
             } catch (IOException e){
                 Alert alerta = new Alert(Alert.AlertType.ERROR);

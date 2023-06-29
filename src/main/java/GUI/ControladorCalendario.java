@@ -143,7 +143,6 @@ public class ControladorCalendario implements Initializable {
             this.abrirVentanaAgregarEvento();
         }
         this.selectorAgregar.setValue("Agregar");
-
     }
 
     private void abrirVentanaAgregarTarea(){
@@ -155,11 +154,6 @@ public class ControladorCalendario implements Initializable {
             controladorAgregarTarea.setCalendario(this.calendario);
             this.abrirNuevaVentana(root);
             this.mostrarInfo();
-        } catch (IllegalStateException e) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Error de Archivo");
-            alerta.setHeaderText("No se encontro agregarTarea.fxml");
-            alerta.showAndWait();
         } catch (IOException e){
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Error de Archivo");
@@ -177,11 +171,6 @@ public class ControladorCalendario implements Initializable {
             controladorAgregarEvento.setCalendario(this.calendario);
             this.abrirNuevaVentana(root);
             this.mostrarInfo();
-        } catch (IllegalStateException e) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Error de Archivo");
-            alerta.setHeaderText("No se encontro agregarEvento.fxml");
-            alerta.showAndWait();
         } catch (IOException e){
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Error de Archivo");
@@ -193,15 +182,7 @@ public class ControladorCalendario implements Initializable {
     private void abrirNuevaVentana(Parent root){
         Scene scene = new Scene(root);
         Stage stage = new Stage();
-        try {
-            scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
-        } catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Hubo un error en carga de la aplicación.");
-            alert.show();
-            return;
-        }
+        scene.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
         stage.setScene(scene);
 
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -226,12 +207,12 @@ public class ControladorCalendario implements Initializable {
     }
 
     private ArrayList<RepresentacionAgendable> obtenerAgendables(LocalDateTime fecha){
-        ArrayList<RepresentacionAgendable> intervalo = null;
+        ArrayList<RepresentacionAgendable> agendables = null;
         switch (this.intervaloCalendario){
-            case DIA -> intervalo = obtenerAgendablesDia(fecha);
-            case SEMANAL -> intervalo = obtenerAgendablesSemana(fecha);
-            case MENSUAL -> intervalo = obtenerAgendablesMes(fecha);
+            case DIA -> agendables = obtenerAgendablesDia(fecha);
+            case SEMANAL -> agendables = obtenerAgendablesSemana(fecha);
+            case MENSUAL -> agendables = obtenerAgendablesMes(fecha);
         }
-        return intervalo;
+        return agendables;
     }
 }

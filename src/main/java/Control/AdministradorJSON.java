@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.*;
-import java.nio.file.Path;
 
 public class AdministradorJSON {
     private static final ObjectMapper mapper = new ObjectMapper();
