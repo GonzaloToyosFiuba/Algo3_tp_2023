@@ -2,6 +2,7 @@ package Calendario;
 
 import CustomDeserializers.LocalDateTimeDeserializer;
 import CustomSerializers.LocalDateTimeSerializer;
+import Frecuencias.Anual;
 import Frecuencias.TipoFrecuencia;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -41,7 +43,6 @@ public abstract class Evento implements Agendable {
     protected LocalDateTime fechaFinal;
     @JsonProperty("alarmas")
     protected ArrayList<Alarma> alarmas;
-    //@JsonDeserialize(using = TipoFrecuenciaDeserializer.class)
     @JsonProperty("tipoFrecuencia")
     protected TipoFrecuencia tipoFrecuencia;
     @JsonProperty("diaCompleto")
@@ -108,7 +109,34 @@ public abstract class Evento implements Agendable {
         return diaCompleto;
     }
 
-    public abstract ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual);
+    public final ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
+        ArrayList<Alarma> alarmasAux = new ArrayList<>();
+
+        for (Alarma alarma:this.alarmas) {
+            if (alarma.esRepetible()){
+                this.procesarAlarmaRepetible(alarma.getHorarioFechaDisparo(), horarioActual, alarmasAux, alarma);
+            } else if (horarioActual.compareTo(alarma.getHorarioFechaDisparo()) <= 0){
+                Alarma alarmaEnvio = new Alarma(alarma.getHorarioFechaDisparo(), alarma.getTipo(), false, alarma.getId());
+                alarmasAux.add(alarmaEnvio);
+            }
+        }
+
+        ArrayList<Alarma> alarmasRetorno = new ArrayList<>();
+
+        if(!alarmasAux.isEmpty()){
+            Alarma alarmaMinima = Collections.min(alarmasAux);
+            for (Alarma a : alarmasAux) {
+                if(a.compareTo(alarmaMinima) == 0){
+                    a.setMensaje(this.descripcion);
+                    alarmasRetorno.add(a);
+                }
+            }
+        }
+
+        return alarmasRetorno;
+    }
+
+    protected abstract void procesarAlarmaRepetible(LocalDateTime aux_fAlarma, LocalDateTime horarioActual, ArrayList<Alarma> alarmasAux, Alarma alarma);
 
     public abstract ArrayList<LocalDateTime> obtenerRepeticionesEntre(LocalDateTime f1, LocalDateTime f2);
     public void eliminarAlarma(int id){
@@ -137,6 +165,11 @@ public abstract class Evento implements Agendable {
     @JsonProperty("tipoAgendable")
     private String getTipoAgendable() {
         return Evento.class.getSimpleName();
+    }
+
+    @Override
+    public void aceptar(VisitorAgendable visitor) {
+        visitor.visitarEvento(this);
     }
 
 }

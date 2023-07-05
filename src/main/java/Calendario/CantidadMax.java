@@ -53,46 +53,18 @@ public class CantidadMax extends Evento{
     }
 
     @Override
-    public ArrayList<Alarma> obtenerProximaAlarma(LocalDateTime horarioActual){
-        ArrayList<Alarma> alarmasAux = new ArrayList<>();
-        LocalDateTime aux_fAlarma = fechaInicio;
+    protected void procesarAlarmaRepetible(LocalDateTime aux_fAlarma, LocalDateTime horarioActual, ArrayList<Alarma> alarmasAux, Alarma alarma) {
+        for (int i = 0; i < repeticionesMax ; i++){
+            if (i > 0){
+                aux_fAlarma = tipoFrecuencia.obtenerProximoDia(aux_fAlarma);
+            }
 
-        for (Alarma alarma:this.alarmas) {
-            if (alarma.esRepetible()){
-                aux_fAlarma = alarma.getHorarioFechaDisparo();
-                for (int i = 0; i < repeticionesMax ; i++){
-
-                    if (i > 0){
-                        aux_fAlarma = tipoFrecuencia.obtenerProximoDia(aux_fAlarma);
-                    }
-
-                    if (horarioActual.compareTo(aux_fAlarma) <= 0){
-                        Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(), true, alarma.getId()); // VER COMO HACER EN PROTOTYPE
-                        alarmasAux.add(alarmaEnvio);
-                        break;
-                    }
-
-                }
-            } else if (horarioActual.compareTo(alarma.getHorarioFechaDisparo()) <= 0){
-                Alarma alarmaEnvio = new Alarma(alarma.getHorarioFechaDisparo(), alarma.getTipo(), false, alarma.getId());
+            if (horarioActual.compareTo(aux_fAlarma) <= 0){
+                Alarma alarmaEnvio = new Alarma(aux_fAlarma, alarma.getTipo(), true, alarma.getId());
                 alarmasAux.add(alarmaEnvio);
-            }
-
-        }
-
-        ArrayList<Alarma> alarmasRetorno = new ArrayList<>();
-
-        if(!alarmasAux.isEmpty()){
-            Alarma alarmaMinima = Collections.min(alarmasAux);
-            for (Alarma a : alarmasAux) {
-                if(a.compareTo(alarmaMinima) == 0){
-                    a.setMensaje(this.descripcion);
-                    alarmasRetorno.add(a);
-                }
+                break;
             }
         }
-
-        return alarmasRetorno;
     }
 
     @Override

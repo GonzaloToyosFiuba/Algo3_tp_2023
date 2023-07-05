@@ -170,5 +170,8 @@ public class Tarea implements Agendable{
                Objects.equals(fechaVencimiento, tarea.fechaVencimiento) &&
                alarmas.containsAll(tarea.alarmas);
     }
-
+    @Override
+    public void aceptar(VisitorAgendable visitor) {
+        visitor.visitarTarea(this);
+    }
 }

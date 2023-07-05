@@ -12,14 +12,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GestorAlarmas {
-    private Calendario calendario;
+    private final Calendario calendario;
+    private Timer timer;
 
     GestorAlarmas (Calendario calendario){
         this.calendario = calendario;
     }
 
     public void inicializar() {
-        Timer timer = new Timer();
+        timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -42,5 +43,12 @@ public class GestorAlarmas {
 
         long delay = 60_000 - System.currentTimeMillis() % 60_000;
         timer.schedule(task, delay, 60 * 1000);
+    }
+
+    public void detener() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
     }
 }

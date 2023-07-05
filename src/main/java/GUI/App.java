@@ -1,6 +1,5 @@
 package GUI;
 
-import Control.AdministradorJSON;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,33 +10,26 @@ import javafx.stage.Stage;
 import Calendario.*;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.util.ArrayList;
-
 public class App extends Application {
     public static void main(String[] args) {
         launch(args);
     }
 
+    private final ControlArchivoCalendario controlArchivo = new ControlArchivoCalendario();
+
     @Override
     public void start(Stage stage) {
-        FXMLLoader loader = null;
-        Parent root = null;
-        Calendario c = null;
+        FXMLLoader loader;
+        Parent root;
+        Calendario c;
+        loader = new FXMLLoader(getClass().getResource("/inicio.fxml"));
         try {
-            loader = new FXMLLoader(getClass().getResource("/inicio.fxml"));
             root = loader.load();
-            c = recibirInformacion();
-        } catch (IllegalStateException e){
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Error de Archivo");
-            alerta.setHeaderText("No se pudo encontrar inicio.fxml");
-            alerta.showAndWait();
-            return;
+            c = controlArchivo.leerArchivo();
         } catch (IOException e){
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Error de Archivo");
-            alerta.setHeaderText("No se pudo cargar el Calendario");
+            alerta.setHeaderText("No se pudo leer el archivo calendario.json");
             alerta.showAndWait();
             return;
         }
@@ -46,7 +38,6 @@ public class App extends Application {
         Image icon = new Image("icono_calendario.png");
         stage.getIcons().add(icon);
 
-
         controller.setCalendario(c);
 
         Scene scene = new Scene(root);
@@ -54,19 +45,5 @@ public class App extends Application {
         stage.setTitle("Calendario");
         stage.setScene(scene);
         stage.show();
-
-    }
-
-    private Calendario recibirInformacion() throws IOException{
-        AdministradorJSON admin = new AdministradorJSON();
-        File file = new File(admin.obtenerDireccion("calendario.json"));
-        if (!file.exists()) {
-            file.createNewFile();
-        } else {
-            FileReader reader = new FileReader(file);
-            BufferedReader br = new BufferedReader(reader);
-            return admin.deserializar(br);
-        }
-        return new Calendario();
     }
 }

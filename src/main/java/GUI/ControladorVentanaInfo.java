@@ -19,10 +19,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControladorVentanaInfo implements Initializable {
-    Agendable agendable;
     @FXML
     VBox contenedorInfo;
-
     @FXML
     private TableView<MuestraAlarma> tablaAlarmas;
     @FXML
@@ -32,12 +30,7 @@ public class ControladorVentanaInfo implements Initializable {
 
     private static final DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm dd/MM/yy");
 
-    public void setAgendable(Agendable agendable){
-        this.agendable = agendable;
-    }
-
-    public void mostrarInformacionTarea(LocalDateTime fechaRecord){
-        Tarea tarea = (Tarea) this.agendable;
+    public void mostrarInformacionTarea(Tarea tarea, LocalDateTime fechaRecord){
         contenedorInfo.setSpacing(10);
         agregarLabel("Título: " + tarea.getTitulo(), "estilo-vacio");
         agregarLabel("Descripción: " + tarea.getDescripcion(), "label-descripcion");
@@ -59,16 +52,12 @@ public class ControladorVentanaInfo implements Initializable {
         contenedorInfo.getChildren().add(label);
     }
 
-    public void mostrarInformacionEvento(LocalDateTime fechaRecord){
-        Evento evento = (Evento) this.agendable;
-
-        Duration duracion = evento.duracionEvento();
-
+    public void mostrarInformacionEvento(Evento evento, LocalDateTime fechaRecord){
         contenedorInfo.setSpacing(10);
         agregarLabel("Título: " + evento.getTitulo(), "estilo-vacio");
         agregarLabel("Descripción: " + evento.getDescripcion(), "estilo-vacio");
         agregarLabel("Fecha inicio: " + fechaRecord.format(formato), "estilo-vacio");
-        agregarLabel("Fecha final: " + fechaRecord.plus(duracion).format(formato), "estilo-vacio");
+        agregarLabel("Fecha final: " + fechaRecord.plus(evento.duracionEvento()).format(formato), "estilo-vacio");
         agregarLabel("Repeticion: " + evento.getTipoFrecuencia().toString(), "estilo-vacio");
 
         ArrayList<Alarma> alarmas = evento.obtenerAlarmasOrdenadas();
@@ -83,7 +72,6 @@ public class ControladorVentanaInfo implements Initializable {
             if (alarma.esRepetible()){
                 Duration retroceso = Duration.between(alarma.getHorarioFechaDisparo(),fechaOriginal);
                 data.add(new MuestraAlarma(fechaRecord.minus(retroceso).format(formato), alarma.getTipo().toString()));
-                System.out.println(fechaRecord);
             } else {
                 if(fechaOriginal.compareTo(fechaRecord) == 0) {
                     data.add(new MuestraAlarma(alarma.getHorarioFechaDisparo().format(formato), alarma.getTipo().toString()));

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.*;
-import java.nio.file.Path;
 
 public class AdministradorJSON {
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -19,10 +18,5 @@ public class AdministradorJSON {
 
     public Calendario deserializar(Reader r) throws IOException {
         return mapper.readValue(r, Calendario.class);
-    }
-
-    public String obtenerDireccion(String nombreArchivo){
-        String ruta = System.getProperty("user.dir");
-        return Path.of(ruta,"calendario.json").toString();
     }
 }
